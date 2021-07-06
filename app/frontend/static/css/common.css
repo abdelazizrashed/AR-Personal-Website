@@ -1,0 +1,35 @@
+/*******************Whole page styles************************/
+
+body {
+  background-color: #edf6e5;
+  font-family: "Cairo", sans-serif;
+}
+
+/*******************General************************/
+
+.padding-5-lr {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+/*******************Navbar************************/
+
+.navbar-n-footer-color {
+  background-color: #b5eaea;
+}
+
+.navbar {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.navbar-brand {
+  font-family: "Dancing Script", cursive;
+  font-size: 2.5rem;
+}
+
+/*******************Footer************************/
+
+.fab {
+  font-size: 2rem;
+}
