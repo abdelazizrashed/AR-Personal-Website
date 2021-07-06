@@ -30,6 +30,17 @@ body {
 
 /*******************Footer************************/
 
-.fab {
+.footer {
+  text-align: center;
+  padding: 2%;
+}
+
+.footer-icons {
   font-size: 2rem;
+  color: black;
+  margin: 1%;
+}
+
+.icons-container {
+  text-align: center;
 }
