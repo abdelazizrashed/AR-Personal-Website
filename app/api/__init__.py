@@ -1,4 +1,3 @@
-import pyrebase
 from flask import Flask
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
@@ -68,11 +67,3 @@ def create_app():
         )
 
     return app
-
-
-def create_firebase_app(app=None):
-    if app:
-        return pyrebase.initialize_app(app.config["FIREBASE_CONFIG"])
-    else:
-        app = create_app()
-        return pyrebase.initialize_app(app.config["FIREBASE_CONFIG"])
