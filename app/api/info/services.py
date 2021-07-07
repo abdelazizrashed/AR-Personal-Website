@@ -82,3 +82,7 @@ class NavbarPageServices:
             "certificates": json.certificates,
             "about": json.about,
         }
+
+        pages = NavbarPagesModel()
+        pages.update(attrs)
+        return pages
