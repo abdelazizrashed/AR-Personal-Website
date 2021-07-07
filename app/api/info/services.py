@@ -31,7 +31,7 @@ class InfoServices:
     def from_json(json: dict) -> InfoModel:
         info_attr = dict(
             navbar_pages=json.get("navbarPages"),
-            home_page_intro=json.get("homePageInfo"),
+            home_page_intro=json.get("homePageIntro"),
             home_laptop_img_cloud_path=json.get("homeLaptopImgCloudPath"),
             home_tablet_img_cloud_path=json.get("homeTabletImgCloudPath"),
             home_phone_img_cloud_path=json.get("homePhoneImgCloudPath"),
@@ -46,16 +46,25 @@ class InfoServices:
         return new_info
 
     @staticmethod
-    def retrieve() -> dict:
-        return db.child("Info").get()
+    def retrieve() -> InfoModel:
+        attrs = db.child("Info").get()
+        info = InfoModel()
+        info.update(attrs)
+        return info
 
     @staticmethod
-    def update(updates: dict) -> dict:
-        return db.child("Info").update(updates)
+    def update(updates: dict) -> InfoModel:
+        attrs = db.child("Info").update(updates)
+        info = InfoModel()
+        info.update(attrs)
+        return info
 
     @staticmethod
-    def create(attrs: dict) -> dict:
-        return db.child("Info").set(attrs)
+    def create(attrs: dict) -> InfoModel:
+        attrs = db.child("Info").set(attrs)
+        info = InfoModel()
+        info.update(attrs)
+        return info
 
 
 class NavbarPageServices:

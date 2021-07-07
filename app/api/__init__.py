@@ -14,8 +14,6 @@ def create_app():
     app.config.from_pyfile("/config/dev.config")
     app.config.from_envvar("APPLICATION_CONFIG_FILE")
 
-    api = Api(app)
-
     jwt = JWTManager(app)
 
     db.app = app
