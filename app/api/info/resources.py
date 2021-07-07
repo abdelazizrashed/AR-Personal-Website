@@ -1,5 +1,8 @@
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import jwt_required
+from .interfaces import InfoInterface, NavbarPagesInterface
+from .models import InfoModel, NavbarPagesModel
+from .services import InfoServices, NavbarPageServices
 
 
 class InfoResource(Resource):
@@ -58,11 +61,29 @@ class InfoResource(Resource):
     @jwt_required(fresh=True)
     def post(self):
         data = _info_parser.parse_args()
-        
+
+        attrs = dict(data)
+
+        info_object = InfoServices.create(attrs)
+        if info_object:
+            return {
+                "message": "Data created successfully",
+                "Info": InfoServices.json(info_object),
+            }, 201
 
     @jwt_required(fresh=True)
     def put(self):
-        pass
+        data = _info_parser.parse_args()
+
+        attrs = dict(data)
+
+        info_object = InfoServices.update(attrs)
+        if info_object:
+            return {
+                "message": "Data created successfully",
+                "Info": InfoServices.json(info_object),
+            }, 200
 
     def get(self):
-        pass
+        info = InfoServices.get()
+        return InfoServices.json(info)

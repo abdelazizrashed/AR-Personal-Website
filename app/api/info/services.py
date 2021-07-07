@@ -1,6 +1,6 @@
 from .models import InfoModel, NavbarPagesModel
 from app.api.shared.helpers.services import HelperServices
-from . import storage, db
+from .controller import storage, db
 
 
 class InfoServices:
@@ -54,14 +54,14 @@ class InfoServices:
 
     @staticmethod
     def update(updates: dict) -> InfoModel:
-        attrs = db.child("Info").update(updates)
+        attrs = db.child("Info").update(dict(updates))
         info = InfoModel()
         info.update(attrs)
         return info
 
     @staticmethod
     def create(attrs: dict) -> InfoModel:
-        attrs = db.child("Info").set(attrs)
+        attrs = db.child("Info").set(dict(attrs))
         info = InfoModel()
         info.update(attrs)
         return info
