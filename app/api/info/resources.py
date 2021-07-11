@@ -1,3 +1,4 @@
+from flask import current_app as app
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import jwt_required
 from .interfaces import InfoInterface, NavbarPagesInterface
@@ -60,30 +61,47 @@ class InfoResource(Resource):
 
     @jwt_required(fresh=True)
     def post(self):
-        data = _info_parser.parse_args()
+        data = self._info_parser.parse_args()
 
-        attrs = dict(data)
-
-        info_object = InfoServices.create(attrs)
-        if info_object:
+        try:
+            attrs = dict(data)
+            info_object = InfoServices.create(attrs, app)
+            if info_object:
+                return {
+                    "message": "Data created successfully",
+                    "Info": InfoServices.json(info_object, app),
+                }, 201
+        except:
             return {
-                "message": "Data created successfully",
-                "Info": InfoServices.json(info_object),
-            }, 201
+                "description": "Internal server error",
+                "error": "internal_server_error",
+            }, 500
 
     @jwt_required(fresh=True)
     def put(self):
-        data = _info_parser.parse_args()
+        data = self._info_parser.parse_args()
 
         attrs = dict(data)
 
-        info_object = InfoServices.update(attrs)
-        if info_object:
+        try:
+            info_object = InfoServices.update(attrs, app)
+            if info_object:
+                return {
+                    "message": "Data updated successfully",
+                    "Info": InfoServices.json(info_object, app),
+                }, 200
+        except:
             return {
-                "message": "Data created successfully",
-                "Info": InfoServices.json(info_object),
-            }, 200
+                "description": "Internal server error",
+                "error": "internal_server_error",
+            }, 500
 
     def get(self):
-        info = InfoServices.get()
-        return InfoServices.json(info)
+        try:
+            info = InfoServices.retrieve(app)
+            return InfoServices.json(info, app)
+        except:
+            return {
+                "description": "Internal server error",
+                "error": "internal_server_error",
+            }, 500

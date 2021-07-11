@@ -4,15 +4,25 @@ from flask_jwt_extended import JWTManager
 from flask.json import jsonify
 from app.api.shared.db_man.services import db
 from app.api.shared.jwt.models import TokenBlocklistModel
+from .auth.models import UserModel
+from .auth.services import UserServices
+import os
 
 
-def create_app():
+def create_app(domain=""):
 
     from .blueprints import attach_blueprints
 
     app = Flask(__name__)
-    app.config.from_pyfile("/config/dev.config")
-    app.config.from_envvar("APPLICATION_CONFIG_FILE")
+    app.config.from_pyfile(os.path.join(os.path.dirname(__file__), "config/dev.config"))
+    try:
+        app.config.from_envvar("APPLICATION_CONFIG_FILE")
+    except:
+        pass
+        # if domain == "localhost":
+        #     app.config["DOMAIN"] = domain + ":5000"
+        # else:
+    app.config["DOMAIN"] = domain
 
     jwt = JWTManager(app)
 
@@ -21,6 +31,20 @@ def create_app():
     db.create_all()
 
     attach_blueprints(app)
+
+    @jwt.additional_claims_loader
+    def add_claims_to_jwt(identity):
+        """
+        This method is used to attach the information of the user to the JWT access token.
+        """
+        user = UserServices.retrieve_by_user_id(identity, app)
+        if user:
+            return {
+                "user_id": user.user_id,
+                "username": user.username,
+                "email": user.email,
+            }
+        return {"description": "User is not logged in", "error": "not_logged_in"}, 401
 
     @jwt.token_in_blocklist_loader  # callback to chick if the jwt exists in the jwt blocklist database
     def check_if_token_revoked(jwt_header, jwt_payload):

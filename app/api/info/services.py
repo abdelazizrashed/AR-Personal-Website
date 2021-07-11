@@ -1,11 +1,15 @@
+import pyrebase
+from flask import Flask
 from .models import InfoModel, NavbarPagesModel
+from .interfaces import InfoInterface
 from app.api.shared.helpers.services import HelperServices
-from .controller import storage, db
 
 
 class InfoServices:
     @staticmethod
-    def json(info: InfoModel) -> dict:
+    def json(info: InfoModel, app: Flask) -> dict:
+        storage = HelperServices.get_firebase_storage(app)
+        print(info.navbar_pages)
         return {
             "navbarPages": NavbarPageServices.json(info.navbar_pages),
             "homePageIntro": info.home_page_intro,
@@ -46,24 +50,25 @@ class InfoServices:
         return new_info
 
     @staticmethod
-    def retrieve() -> InfoModel:
-        attrs = db.child("Info").get()
-        info = InfoModel()
-        info.update(attrs)
+    def retrieve(app: Flask) -> InfoModel:
+        db = HelperServices.get_firebase_database(app)
+        results = db.child("Info").get()
+        attrs = dict(results.val())
+        info = InfoServices.from_json(attrs)
         return info
 
     @staticmethod
-    def update(updates: dict) -> InfoModel:
+    def update(updates: dict, app: Flask) -> InfoModel:
+        db = HelperServices.get_firebase_database(app)
         attrs = db.child("Info").update(dict(updates))
-        info = InfoModel()
-        info.update(attrs)
+        info = InfoServices.from_json(attrs)
         return info
 
     @staticmethod
-    def create(attrs: dict) -> InfoModel:
+    def create(attrs: dict, app: Flask) -> InfoModel:
+        db = HelperServices.get_firebase_database(app)
         attrs = db.child("Info").set(dict(attrs))
-        info = InfoModel()
-        info.update(attrs)
+        info = InfoServices.from_json(attrs)
         return info
 
 

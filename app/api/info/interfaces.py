@@ -1,7 +1,18 @@
 from mypy_extensions import TypedDict
 
 
-class InfoInterface(TypedDict, total=false):
+class NavbarPagesInterface(TypedDict, total=False):
+
+    home: bool
+    projects: bool
+    services: bool
+    contact: bool
+    resume: bool
+    certificates: bool
+    about: bool
+
+
+class InfoInterface(TypedDict, total=False):
 
     navbar_pages: NavbarPagesInterface
     home_page_intro: str
@@ -13,14 +24,3 @@ class InfoInterface(TypedDict, total=false):
     ar_about_short_parag: str
     ar_email: str
     ar_phone_no: str
-
-
-class NavbarPagesInterface(TypedDict, total=false):
-
-    home: bool
-    projects: bool
-    services: bool
-    contact: bool
-    resume: bool
-    certificates: bool
-    about: bool

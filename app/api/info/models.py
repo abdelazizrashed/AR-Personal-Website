@@ -1,6 +1,25 @@
 from .interfaces import InfoInterface, NavbarPagesInterface
 
 
+class NavbarPagesModel:
+
+    home: bool = True
+    projects: bool = True
+    services: bool = True
+    contact: bool
+    resume: bool
+    certificates: bool
+    about: bool
+
+    def update(self, changes: NavbarPagesInterface):
+        for key, value in changes.items():
+            if key == "home" or key == "projects" or key == "services":
+                setattr(self, key, True)
+            else:
+                setattr(self, key, value)
+        return self
+
+
 class InfoModel:
 
     navbar_pages: NavbarPagesModel
@@ -20,25 +39,6 @@ class InfoModel:
                 pages = NavbarPagesModel()
                 pages.update(value)
                 setattr(self, key, pages)
-            else:
-                setattr(self, key, value)
-        return self
-
-
-class NavbarPagesModel:
-
-    home: bool = True
-    projects: bool = True
-    services: bool = True
-    contact: bool
-    resume: bool
-    certificates: bool
-    about: bool
-
-    def update(self, changes: NavbarPagesInterface):
-        for key, value in changes.items():
-            if key == "home" or key == "projects" or key == "services":
-                setattr(self, key, True)
             else:
                 setattr(self, key, value)
         return self
