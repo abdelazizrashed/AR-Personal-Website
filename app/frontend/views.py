@@ -58,6 +58,10 @@ def home():
         title="Abdelaziz Rashed Personal Website",
         url="/",
         description="Abdelaziz Rashed is a software developer with wide skill set and experience in Web Development, Cross-platform App Development and Game Development.",
+        homeIntro=info.get("homePageIntro"),
+        homeLaptopImgUrl=info.get("homeLaptopImgUrl"),
+        homeTabletImgUrl=info.get("homeTabletImgUrl"),
+        homePhoneImgUrl=info.get("homePhoneImgUrl"),
     )
 
 

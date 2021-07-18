@@ -1,16 +1,27 @@
-{%extends 'layouts/page_layout.html' %}
-
-{%block css%}
+{%extends 'layouts/page_layout.html' %} {%block css%}
 <link
   rel="stylesheet"
   href="{{url_for('static', filename = 'css/index.css')}}"
 />
-{%endblock%} 
-
-{%block content%}
-<h1>home page</h1>
-{%endblock%} 
-
-{%block js%}
+{%endblock%} {%block content%}
+<!-- Home page small intro (top section)-->
+<div class="home-top-section padding-5-lr">
+  <p class="home-intro">
+    {% autoescape false %} {{ homeIntro | replace("|", "<br />") }}
+    {%endautoescape %}
+  </p>
+</div>
+<hr />
+<div class="container">
+  <div class="row">
+    <div class="col-md-8" style="background-color: red">
+      One of three columns
+    </div>
+    <div class="col-md-4" style="background-color: blue">
+      One of three columns
+    </div>
+  </div>
+</div>
+{%endblock%} {%block js%}
 <script src="{{url_for('static', filename = 'js/index.js')}}"></script>
 {%endblock%}

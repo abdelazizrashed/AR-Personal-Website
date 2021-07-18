@@ -12,6 +12,22 @@ body {
   padding-right: 5%;
 }
 
+.container {
+  width: auto;
+  /* max-width: 680px; */
+  /* padding: 0 15px; */
+}
+
+hr {
+  border-style: none;
+  border-top-style: dotted;
+  border-color: grey;
+  border-width: 7px;
+  width: 63px;
+  color: #edf6e5;
+  margin: auto;
+}
+
 /*******************Navbar************************/
 
 .navbar-n-footer-color {
@@ -33,6 +49,9 @@ body {
 .footer {
   text-align: center;
   padding: 2%;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
 
 .footer-icons {
