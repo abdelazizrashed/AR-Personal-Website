@@ -1,0 +1,55 @@
+.img-div {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+}
+
+.macbook-img {
+  width: 38%;
+  height: inherit;
+  position: absolute;
+  bottom: 15%;
+  left: 20.5%;
+  display: block;
+}
+
+.website-inside-mac {
+  width: 30%;
+  /* height: 30%; */
+  position: absolute;
+  /* z-index: 1; */
+  bottom: 23%;
+  left: 25%;
+}
+
+.ipad-img {
+  width: 15%;
+  height: inherit;
+  position: absolute;
+  bottom: 10%;
+  left: 9.5%;
+}
+
+.website-inside-ipad {
+  width: 12%;
+  /* height: 30%; */
+  position: absolute;
+  bottom: 12%;
+  left: 11%;
+}
+
+.phone-img {
+  width: 30%;
+  height: inherit;
+  position: absolute;
+  bottom: 10%;
+  right: 26%;
+}
+
+.website-inside-phone {
+  width: 12%;
+  /* height: 30%; */
+  position: absolute;
+  bottom: 12%;
+  left: 11%;
+}

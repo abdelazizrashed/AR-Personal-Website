@@ -13,4 +13,4 @@ class CustomBlueprint(Blueprint):
 
         firebase = pyrebase.initialize_app(firebase_config)
 
-        super(CustomBlueprint, self).register(app, options, first_registration)
+        super(CustomBlueprint, self).register(app, options)

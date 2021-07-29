@@ -1,0 +1,42 @@
+.home-intro {
+  font-size: 1.5rem;
+  text-align: center;
+  white-space: pre-line;
+  margin: 20px;
+}
+
+.home-centeral-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.home-centeral-info-row {
+  background-color: #dddddd;
+  min-height: 400px;
+  /* min-height: 80%; */
+  text-align: center;
+  border-radius: 5px;
+  border-color: grey;
+  border-width: 2px;
+}
+
+.home-centeral-info-col {
+  text-align: center;
+  margin: auto;
+}
+
+.home-central-text {
+  text-align: start;
+  color: #63707e;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.fa-chevron-right {
+  margin-left: 5px;
+}
+
+.view-projects-btn {
+  /* width: 270px; */
+  width: 100%;
+}
