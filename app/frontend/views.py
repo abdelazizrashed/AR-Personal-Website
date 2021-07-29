@@ -53,15 +53,12 @@ def home():
 
     nav = generate_nav(info.get("navbarPages"))
     return render_template(
-        "pages/index.html",
+        "./index.html",
         nav=nav,
         title="Abdelaziz Rashed Personal Website",
-        url="/",
+        current_url="/",
         description="Abdelaziz Rashed is a software developer with wide skill set and experience in Web Development, Cross-platform App Development and Game Development.",
-        homeIntro=info.get("homePageIntro"),
-        homeLaptopImgUrl=info.get("homeLaptopImgUrl"),
-        homeTabletImgUrl=info.get("homeTabletImgUrl"),
-        homePhoneImgUrl=info.get("homePhoneImgUrl"),
+        info=info,
     )
 
 
@@ -73,10 +70,10 @@ def projects():
 
     nav = generate_nav(info.get("navbarPages"))
     return render_template(
-        "pages/projects.html",
+        "index.html",
         nav=nav,
         title="Projects",
-        url="/projects",
+        current_url="/projects",
         description="Projects that Abdelaziz Rashed worked on in the past.",
     )
 
@@ -89,10 +86,10 @@ def services():
 
     nav = generate_nav(info.get("navbarPages"))
     return render_template(
-        "pages/services.html",
+        "index.html",
         nav=nav,
         title="Services",
-        url="/services",
+        current_url="/services",
         description="Services that Abdelaziz Rashed provide.",
     )
 
@@ -105,10 +102,10 @@ def contact():
 
     nav = generate_nav(info.get("navbarPages"))
     return render_template(
-        "pages/contact.html",
+        "index.html",
         nav=nav,
         title="Contact Abdelaziz Rashed",
-        url="/contact",
+        current_url="/contact",
         description="Ways you can contact Abdelaziz Rashed for future work.",
     )
 
@@ -121,10 +118,10 @@ def resume():
 
     nav = generate_nav(info.get("navbarPages"))
     return render_template(
-        "pages/resume.html",
+        "index.html",
         nav=nav,
         title="Abdelaziz Rashed's resume",
-        url="/resume",
+        current_url="/resume",
         description="The resume of Abdelaziz Rashed",
     )
 
@@ -137,10 +134,10 @@ def certificates():
 
     nav = generate_nav(info.get("navbarPages"))
     return render_template(
-        "pages/certificates.html",
+        "index.html",
         nav=nav,
         title="Abdelaziz Rashed's certificates",
-        url="/certificates",
+        current_url="/certificates",
         description="Certificates that Abdelaziz Rashed acquired through his career.",
     )
 
@@ -153,10 +150,10 @@ def about():
 
     nav = generate_nav(info.get("navbarPages"))
     return render_template(
-        "pages/about.html",
+        "index.html",
         nav=nav,
         title="About Abdelaziz Rashed",
-        url="/about",
+        current_url="/about",
         description="Learn more about Abdelaziz Rashed and know who he is.",
     )
 
@@ -174,10 +171,10 @@ def project():
     project_id = request.args.get("id", default=1, type=int)
     project_name = request.args.get("name", default="", type=str)
     return render_template(
-        "pages/project.html",
+        "index.html",
         nav=nav,
         title=project_name,
-        url="/project",
+        current_url="/project",
         description="Information about the project "
         + project_name
         + " that Abdelziz Rashed worked on.",
@@ -197,10 +194,10 @@ def service():
     service_id = request.args.get("id", default=1, type=int)
     service_name = request.args.get("name", default="", type=str)
     return render_template(
-        "pages/service.html",
+        "index.html",
         nav=nav,
         title=service_name,
-        url="/service",
+        current_url="/service",
         description="Information about the service "
         + service_name
         + " that Abdelziz Rashed provide.",
@@ -220,10 +217,10 @@ def certificate():
     certificate_id = request.args.get("id", default=1, type=int)
     certificate_name = request.args.get("name", default="", type=str)
     return render_template(
-        "pages/certificate.html",
+        "index.html",
         nav=nav,
         title=certificate_name,
-        url="/certificate",
+        current_url="/certificate",
         description="Information about the certificate "
         + certificate_name
         + " that Abdelziz acquired.",

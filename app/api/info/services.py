@@ -1,6 +1,6 @@
 import pyrebase
 from flask import Flask
-from .models import InfoModel, NavbarPagesModel
+from .models import InfoModel, NavbarPagesModel, IMGInfoModel
 from .interfaces import InfoInterface
 from app.api.shared.helpers.services import HelperServices
 
@@ -13,15 +13,9 @@ class InfoServices:
         return {
             "navbarPages": NavbarPageServices.json(info.navbar_pages),
             "homePageIntro": info.home_page_intro,
-            "homeLaptopImgUrl": HelperServices.get_url_from_cloud_path(
-                info.home_laptop_img_cloud_path, storage
-            ),
-            "homeTabletImgUrl": HelperServices.get_url_from_cloud_path(
-                info.home_tablet_img_cloud_path, storage
-            ),
-            "homePhoneImgUrl": HelperServices.get_url_from_cloud_path(
-                info.home_phone_img_cloud_path, storage
-            ),
+            "homeLaptopImgInfo": IMGInfoServices.json(info.home_laptop_img_info),
+            "homeTabletImgInfo": IMGInfoServices.json(info.home_tablet_img_info),
+            "homePhoneImgInfo": IMGInfoServices.json(info.home_phone_img_info),
             "A_RashedAboutPicUrl": HelperServices.get_url_from_cloud_path(
                 info.ar_about_pic_cloud_path, storage
             ),
@@ -36,9 +30,15 @@ class InfoServices:
         info_attr = dict(
             navbar_pages=json.get("navbarPages"),
             home_page_intro=json.get("homePageIntro"),
-            home_laptop_img_cloud_path=json.get("homeLaptopImgCloudPath"),
-            home_tablet_img_cloud_path=json.get("homeTabletImgCloudPath"),
-            home_phone_img_cloud_path=json.get("homePhoneImgCloudPath"),
+            home_laptop_img_info=IMGInfoServices.from_json(
+                json.get("homeLaptopImgInfo")
+            ),
+            home_tablet_img_info=IMGInfoServices.from_json(
+                json.get("homeTabletImgInfo")
+            ),
+            home_phone_img_info=IMGInfoServices.from_json(
+                json.get("homePhoneImgInfo")
+            ),
             ar_about_pic_cloud_path=json.get("A_RashedAboutPicCloudPath"),
             ar_about_long_parag=json.get("A_RashedAboutLongParag"),
             ar_about_short_parag=json.get("A_RashedAboutShortParag"),
@@ -100,3 +100,23 @@ class NavbarPageServices:
         pages = NavbarPagesModel()
         pages.update(attrs)
         return pages
+
+
+class IMGInfoServices:
+    @staticmethod
+    def json(img_info: IMGInfoModel, app: Flask) -> dict:
+        storage = HelperServices.get_firebase_storage(app)
+        return {
+            "url": HelperServices.get_url_from_cloud_path(
+                img_info.cloud_path, storage
+            ),
+            "alt": img_info.alt,
+        }
+
+    @staticmethod
+    def from_json(json: dict) -> IMGInfoModel:
+        attrs = {"cloud_path": json.get("cloudPath"), "alt": json.get("alt")}
+
+        img_info = IMGInfoModel()
+        img_info.update(attrs)
+        return img_info

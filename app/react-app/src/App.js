@@ -63,7 +63,14 @@ function App() {
   ];
 
   const renderSwitch = () => {
-    switch (window.location.pathname) {
+    var url;
+    if (!window.currentURL || window.currentURL === "") {
+      url = window.location.pathname;
+    } else {
+      url = window.currentURL;
+    }
+    console.log(url);
+    switch (url) {
       case "/":
         return <Home homeIntro={homeIntro} websiteIMGs={websiteIMGs} />;
 
@@ -75,7 +82,7 @@ function App() {
         return <Certificates />;
       case "/resume":
         return <Resume />;
-      case "/conact":
+      case "/contact":
         return <Contact />;
       case "/about":
         return <About />;

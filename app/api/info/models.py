@@ -1,4 +1,14 @@
-from .interfaces import InfoInterface, NavbarPagesInterface
+from .interfaces import InfoInterface, NavbarPagesInterface, IMGInfoInterface
+
+
+class IMGInfoModel:
+    cloud_path: str
+    alt: str
+
+    def update(self, changes: IMGInfoInterface) -> IMGInfoModel:
+        for key, value in changes.items():
+            setattr(self, key, value)
+            return self
 
 
 class NavbarPagesModel:
@@ -24,9 +34,9 @@ class InfoModel:
 
     navbar_pages: NavbarPagesModel
     home_page_intro: str
-    home_laptop_img_cloud_path: str
-    home_tablet_img_cloud_path: str
-    home_phone_img_cloud_path: str
+    home_laptop_img_info: IMGInfoModel
+    home_tablet_img_info: IMGInfoModel
+    home_phone_img_info: IMGInfoModel
     ar_about_pic_cloud_path: str
     ar_about_long_parag: str
     ar_about_short_parag: str
