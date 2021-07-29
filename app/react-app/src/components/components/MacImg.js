@@ -1,15 +1,14 @@
 import React from "react";
 import macbook from "../../img/macbook.png";
-import psPC from "../../img/ps-pc.png";
 import "../../styles/HomeImgs.css";
 
-const MacImg = () => {
+const MacImg = ({ websiteIMG }) => {
   return (
     <div>
       <div>
         <img
-          src={psPC}
-          alt="Website laptop screenshot"
+          src={websiteIMG.url}
+          alt={websiteIMG.alt}
           className="website-inside-mac"
         />
       </div>

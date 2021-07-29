@@ -47,9 +47,9 @@
 }
 
 .website-inside-phone {
-  width: 12%;
+  width: 8%;
   /* height: 30%; */
   position: absolute;
-  bottom: 12%;
-  left: 11%;
+  bottom: 14%;
+  right: 37%;
 }
