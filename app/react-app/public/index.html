@@ -40,8 +40,9 @@
 
     <!--Back end variables-->
     <script>
-      window.currentURL = {{current_url}};
-      window.navItems = {{nav}};
+      window.currentURL = "{{current_url | safe}}";
+      window.navItems = {{nav | safe}};
+      window.info = {{info | safe}};
     </script>
   </head>
   <body>

@@ -13,54 +13,23 @@ import psPC from "./img/ps-pc.png";
 import psIpad from "./img/ps-phone.png";
 
 function App() {
+  // UseState hook variables
   const [websiteIMGs, setWebsiteIMGs] = useState({
-    mac: {
-      url: psPC,
-      alt: "Abdelaziz Rashed Personal website screenshot in laptop resolution",
-    },
-    ipad: {
-      url: psIpad,
-      alt: "Abdelaziz Rashed Personal website screenshot in tablet resolution",
-    },
-    phone: {
-      url: null,
-      alt: "Abdelaziz Rashed Personal website screenshot in phone resolution",
-    },
+    mac: window.info.homeLaptopImgInfo,
+    ipad: window.info.homeTabletImgInfo,
+    phone: window.info.homePhoneImgInfo,
   });
+  var isFalse = false === true;
+  const [navItems, setNavItems] = useState(window.navItems);
+
   const [homeIntro, setHomeIntro] = useState(
     "Freelance Software Developer from Egypt. \nHighly experienced in Full-Stack Web Development, Game Development, and Cross-Platform App Development."
   );
 
+  //Function variables
   const onNavLinkClicked = (navItem) => {
     console.log(navItem.name + ": " + navItem.url);
   };
-  const navItems = [
-    { name: "Home", url: "/" },
-    {
-      name: "Projects",
-      url: "/projects",
-    },
-    {
-      name: "Services",
-      url: "/services",
-    },
-    {
-      name: "Certificates",
-      url: "/certificates",
-    },
-    {
-      name: "Resume",
-      url: "/resume",
-    },
-    {
-      name: "Contact",
-      url: "/contact",
-    },
-    {
-      name: "About",
-      url: "/about",
-    },
-  ];
 
   const renderSwitch = () => {
     var url;

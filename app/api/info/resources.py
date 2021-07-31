@@ -21,23 +21,23 @@ class InfoResource(Resource):
         help="A string that will be displayed under the navbar in the home page",
     )
     _info_parser.add_argument(
-        "homeLaptopImgCloudPath",
-        type=str,
+        "homeLaptopImgInfo",
+        type=dict,
         help="An image that will be displayed inside the laptop screen on the home page",
     )
     _info_parser.add_argument(
-        "homeTabletImgCloudPath",
-        type=str,
+        "homeTabletImgInfo",
+        type=dict,
         help="An image that will be displayed inside the tablet screen on the home page",
     )
     _info_parser.add_argument(
-        "homePhoneImgCloudPath",
-        type=str,
+        "homePhoneImgInfo",
+        type=dict,
         help="An image that will be displayed inside the phone screen on the home page",
     )
     _info_parser.add_argument(
-        "A_RashedAboutPicCloudPath",
-        type=str,
+        "A_RashedAboutPicInfo",
+        type=dict,
         help="Personal picture of Abdelaziz Rashed",
     )
     _info_parser.add_argument(
@@ -63,19 +63,19 @@ class InfoResource(Resource):
     def post(self):
         data = self._info_parser.parse_args()
 
-        try:
-            attrs = dict(data)
-            info_object = InfoServices.create(attrs, app)
-            if info_object:
-                return {
-                    "message": "Data created successfully",
-                    "Info": InfoServices.json(info_object, app),
-                }, 201
-        except:
+        attrs = dict(data)
+        info_object = InfoServices.create(attrs, app)
+        if info_object:
             return {
-                "description": "Internal server error",
-                "error": "internal_server_error",
-            }, 500
+                "message": "Data created successfully",
+                "Info": InfoServices.json(info_object, app),
+            }, 201
+        # try:
+        # except:
+        #     return {
+        #         "description": "Internal server error",
+        #         "error": "internal_server_error",
+        #     }, 500
 
     @jwt_required(fresh=True)
     def put(self):
@@ -97,11 +97,12 @@ class InfoResource(Resource):
             }, 500
 
     def get(self):
-        try:
-            info = InfoServices.retrieve(app)
-            return InfoServices.json(info, app)
-        except:
-            return {
-                "description": "Internal server error",
-                "error": "internal_server_error",
-            }, 500
+        info = InfoServices.retrieve(app)
+        return InfoServices.json(info, app)
+
+    # try:
+    # except:
+    #     return {
+    #         "description": "Internal server error",
+    #         "error": "internal_server_error",
+    #     }, 500

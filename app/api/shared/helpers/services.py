@@ -5,7 +5,9 @@ from flask import Flask
 class HelperServices:
     @staticmethod
     def get_url_from_cloud_path(cloud_path: str, firebase_storage):
-        return firebase_storage.child(cloud_path).get_url(None)
+        if cloud_path:
+            return firebase_storage.child(cloud_path).get_url(None)
+        return None
 
     @staticmethod
     def get_firebase_object(app: Flask) -> pyrebase.pyrebase.Firebase:

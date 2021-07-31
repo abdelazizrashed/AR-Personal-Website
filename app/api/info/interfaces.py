@@ -24,7 +24,7 @@ class InfoInterface(TypedDict, total=False):
     home_laptop_img_info: IMGInfoInterface
     home_tablet_img_info: IMGInfoInterface
     home_phone_img_info: IMGInfoInterface
-    ar_about_pic_cloud_path: str
+    ar_about_pic_info: IMGInfoInterface
     ar_about_long_parag: str
     ar_about_short_parag: str
     ar_email: str

@@ -2,6 +2,7 @@ import requests
 import jinja2
 import os
 from flask import render_template, Blueprint, request, current_app as app, request
+import json
 
 main = Blueprint("main", __name__)
 
@@ -50,15 +51,17 @@ def home():
     info_url = request.url.removesuffix(request.path) + "/api/info"
     response = requests.get(info_url)
     info = response.json()
-
+    # print(info)
+    print(json.dumps(info))
+    # print(info.get("navbarPages"))
     nav = generate_nav(info.get("navbarPages"))
     return render_template(
         "./index.html",
-        nav=nav,
+        nav=json.dumps(nav),
         title="Abdelaziz Rashed Personal Website",
         current_url="/",
         description="Abdelaziz Rashed is a software developer with wide skill set and experience in Web Development, Cross-platform App Development and Game Development.",
-        info=info,
+        info=json.dumps(info),
     )
 
 
@@ -71,10 +74,11 @@ def projects():
     nav = generate_nav(info.get("navbarPages"))
     return render_template(
         "index.html",
-        nav=nav,
+        nav=json.dumps(nav),
         title="Projects",
         current_url="/projects",
         description="Projects that Abdelaziz Rashed worked on in the past.",
+        info=json.dumps(info),
     )
 
 
@@ -87,10 +91,11 @@ def services():
     nav = generate_nav(info.get("navbarPages"))
     return render_template(
         "index.html",
-        nav=nav,
+        nav=json.dumps(nav),
         title="Services",
         current_url="/services",
         description="Services that Abdelaziz Rashed provide.",
+        info=json.dumps(info),
     )
 
 
@@ -103,10 +108,11 @@ def contact():
     nav = generate_nav(info.get("navbarPages"))
     return render_template(
         "index.html",
-        nav=nav,
+        nav=json.dumps(nav),
         title="Contact Abdelaziz Rashed",
         current_url="/contact",
         description="Ways you can contact Abdelaziz Rashed for future work.",
+        info=json.dumps(info),
     )
 
 
@@ -119,10 +125,11 @@ def resume():
     nav = generate_nav(info.get("navbarPages"))
     return render_template(
         "index.html",
-        nav=nav,
+        nav=json.dumps(nav),
         title="Abdelaziz Rashed's resume",
         current_url="/resume",
         description="The resume of Abdelaziz Rashed",
+        info=json.dumps(info),
     )
 
 
@@ -135,10 +142,11 @@ def certificates():
     nav = generate_nav(info.get("navbarPages"))
     return render_template(
         "index.html",
-        nav=nav,
+        nav=json.dumps(nav),
         title="Abdelaziz Rashed's certificates",
         current_url="/certificates",
         description="Certificates that Abdelaziz Rashed acquired through his career.",
+        info=json.dumps(info),
     )
 
 
@@ -151,10 +159,11 @@ def about():
     nav = generate_nav(info.get("navbarPages"))
     return render_template(
         "index.html",
-        nav=nav,
+        nav=json.dumps(nav),
         title="About Abdelaziz Rashed",
         current_url="/about",
         description="Learn more about Abdelaziz Rashed and know who he is.",
+        info=json.dumps(info),
     )
 
 
@@ -172,12 +181,13 @@ def project():
     project_name = request.args.get("name", default="", type=str)
     return render_template(
         "index.html",
-        nav=nav,
+        nav=json.dumps(nav),
         title=project_name,
         current_url="/project",
         description="Information about the project "
         + project_name
         + " that Abdelziz Rashed worked on.",
+        info=json.dumps(info),
     )
 
 
@@ -195,12 +205,13 @@ def service():
     service_name = request.args.get("name", default="", type=str)
     return render_template(
         "index.html",
-        nav=nav,
+        nav=json.dumps(nav),
         title=service_name,
         current_url="/service",
         description="Information about the service "
         + service_name
         + " that Abdelziz Rashed provide.",
+        info=json.dumps(info),
     )
 
 
@@ -218,10 +229,11 @@ def certificate():
     certificate_name = request.args.get("name", default="", type=str)
     return render_template(
         "index.html",
-        nav=nav,
+        nav=json.dumps(nav),
         title=certificate_name,
         current_url="/certificate",
         description="Information about the certificate "
         + certificate_name
         + " that Abdelziz acquired.",
+        info=json.dumps(info),
     )
