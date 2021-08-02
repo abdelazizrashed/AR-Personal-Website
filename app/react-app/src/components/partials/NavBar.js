@@ -10,22 +10,20 @@ const NavBar = ({ navItems, onNavLinkClicked }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            {navItems.map((item) => {
-              return (
-                <Nav.Link
-                  eventKey={item.url}
-                  onClick={() => {
-                    onNavLinkClicked(item, item.url);
-                  }}
-                  href={item.url}
-                  className={`${
-                    item.url === window.location.pathname ? "active" : ""
-                  }`}
-                >
-                  {item.name}
-                </Nav.Link>
-              );
-            })}
+            {navItems.map((item) => (
+              <Nav.Link
+                eventKey={item.url}
+                onClick={() => {
+                  onNavLinkClicked(item, item.url);
+                }}
+                href={item.url}
+                className={`${
+                  item.url === window.location.pathname ? "active" : ""
+                }`}
+              >
+                {item.name}
+              </Nav.Link>
+            ))}
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -11,14 +11,14 @@ const Home = ({ homeIntro, websiteIMGs }) => {
         <p class="home-intro">{homeIntro}</p>
       </div>
       <hr />
-      <Container className="home-centeral-container">
-        <Row className="home-centeral-info-row">
-          <Col lg={9} className="home-centeral-info-col">
+      <Container className="home-central-container">
+        <Row className="home-central-info-row">
+          <Col lg={9} className="home-central-info-col">
             <MacImg websiteIMG={websiteIMGs.mac} />
             <IpadImg websiteIMG={websiteIMGs.ipad} />
             <PhoneImg websiteIMG={websiteIMGs.phone} />
           </Col>
-          <Col lg={3} className="home-centeral-info-col">
+          <Col lg={3} className="home-central-info-col">
             <p className="home-central-text">
               High performance and fully responsive apps and websites.
             </p>

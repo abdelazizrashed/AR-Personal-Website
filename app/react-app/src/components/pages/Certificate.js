@@ -1,9 +1,9 @@
 import React from "react";
 
-const Certificate = () => {
+const Certificate = ({ name }) => {
   return (
     <div>
-      <h1>Certificate</h1>
+      <h1>Certificate: {name}</h1>
     </div>
   );
 };

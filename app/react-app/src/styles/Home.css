@@ -5,14 +5,14 @@
   margin: 20px;
 }
 
-.home-centeral-container {
+.home-central-container {
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
-.home-centeral-info-row {
+.home-central-info-row {
   background-color: #dddddd;
-  min-height: 400px;
+  min-height: 350px;
   /* min-height: 80%; */
   text-align: center;
   border-radius: 5px;
@@ -20,7 +20,7 @@
   border-width: 2px;
 }
 
-.home-centeral-info-col {
+.home-central-info-col {
   text-align: center;
   margin: auto;
 }
@@ -39,4 +39,10 @@
 .view-projects-btn {
   /* width: 270px; */
   width: 100%;
+  text-align: left;
+}
+
+.fa-chevron-right {
+  float: right;
+  margin-top: 0.25rem;
 }

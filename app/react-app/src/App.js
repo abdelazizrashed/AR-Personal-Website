@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 import "./styles/App.css";
 import { useState } from "react";
+//* Components import
 import NavBar from "./components/partials/NavBar";
 import Footer from "./components/partials/Footer";
 import Home from "./components/pages/Home";
@@ -9,18 +11,75 @@ import Services from "./components/pages/Services";
 import Certificates from "./components/pages/Certificates";
 import Contact from "./components/pages/Contact";
 import Resume from "./components/pages/Resume";
+import Project from "./components/pages/Project";
+import Service from "./components/pages/Service";
+import Certificate from "./components/pages/Certificate";
 import psPC from "./img/ps-pc.png";
 import psIpad from "./img/ps-phone.png";
 
 function App() {
   // UseState hook variables
-  const [websiteIMGs, setWebsiteIMGs] = useState({
-    mac: window.info.homeLaptopImgInfo,
-    ipad: window.info.homeTabletImgInfo,
-    phone: window.info.homePhoneImgInfo,
-  });
-  var isFalse = false === true;
-  const [navItems, setNavItems] = useState(window.navItems);
+  var imgsInfo;
+  if (!window.info || window.info === "") {
+    imgsInfo = {
+      mac: {
+        url: psPC,
+        alt: "Abdelaziz Rashed Personal website screenshot in laptop resolution",
+      },
+      ipad: {
+        url: psIpad,
+        alt: "Abdelaziz Rashed Personal website screenshot in tablet resolution",
+      },
+      phone: {
+        url: null,
+        alt: "Abdelaziz Rashed Personal website screenshot in phone resolution",
+      },
+    };
+  } else {
+    imgsInfo = {
+      mac: window.info.homeLaptopImgInfo,
+      ipad: window.info.homeTabletImgInfo,
+      phone: window.info.homePhoneImgInfo,
+    };
+  }
+  const [websiteIMGs, setWebsiteIMGs] = useState(imgsInfo);
+
+  var nav;
+  if (!window.navItems || window.navItems === "") {
+    nav = [
+      {
+        name: "Home",
+        url: "/",
+      },
+      {
+        name: "Projects",
+        url: "/projects",
+      },
+      {
+        name: "Services",
+        url: "/services",
+      },
+      {
+        name: "Contact",
+        url: "/contact",
+      },
+      {
+        name: "Resume",
+        url: "/resume",
+      },
+      {
+        name: "Certificates",
+        url: "/certificates",
+      },
+      {
+        name: "About",
+        url: "/about",
+      },
+    ];
+  } else {
+    nav = window.navItems;
+  }
+  const [navItems, setNavItems] = useState(nav);
 
   const [homeIntro, setHomeIntro] = useState(
     "Freelance Software Developer from Egypt. \nHighly experienced in Full-Stack Web Development, Game Development, and Cross-Platform App Development."
@@ -34,11 +93,10 @@ function App() {
   const renderSwitch = () => {
     var url;
     if (!window.currentURL || window.currentURL === "") {
-      url = window.location.pathname;
+      url = window.location.href.split(window.location.host).pop();
     } else {
       url = window.currentURL;
     }
-    console.log(url);
     switch (url) {
       case "/":
         return <Home homeIntro={homeIntro} websiteIMGs={websiteIMGs} />;
@@ -59,11 +117,23 @@ function App() {
       default:
         break;
     }
+    if (url.includes("/project?")) {
+      return <Project name={url.split("name=").pop().replace(/%20/g, " ")} />;
+    }
+    if (url.includes("/service?")) {
+      return <Service name={url.split("name=").pop().replace(/%20/g, " ")} />;
+    }
+    if (url.includes("/certificate?")) {
+      return (
+        <Certificate name={url.split("name=").pop().replace(/%20/g, " ")} />
+      );
+    }
   };
   return (
     <div>
       <NavBar navItems={navItems} onNavLinkClicked={onNavLinkClicked} />
-      {renderSwitch()}
+      <div className="page-content">{renderSwitch()}</div>
+
       <Footer />
     </div>
   );

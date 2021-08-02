@@ -83,3 +83,9 @@ hr {
 .icons-container {
   text-align: center;
 }
+
+/*******************Page Content************************/
+.page-content {
+  padding-left: 5%;
+  padding-right: 5%;
+}

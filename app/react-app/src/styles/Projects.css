@@ -1,0 +1,93 @@
+/**************Main page classes****************************/
+.projects-row {
+  margin-bottom: 2rem;
+}
+
+/*************Filter bar classes****************************/
+
+.filter-bar {
+  margin: 15px 0;
+  padding: 10px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-color: lightgray;
+  text-align: left;
+}
+
+#dropdown-variants-Service,
+#dropdown-variants-Platform,
+#dropdown-variants-Technology {
+  border: 1px solid;
+  margin: 5px;
+  width: 200px;
+  height: 38px;
+  text-align: left;
+}
+
+#dropdown-variants-Service p,
+#dropdown-variants-Platform p,
+#dropdown-variants-Technology p {
+  display: inline-block;
+  white-space: nowrap;
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  padding: 0;
+}
+
+/* #dropdown-variants-Service:hover,
+#dropdown-variants-Platform:hover,
+#dropdown-variants-Technology:hover {
+  border-color: lightgray;
+  color: grey;
+} */
+
+.dropdown-toggle::after {
+  float: right;
+  margin-top: 0.75rem;
+}
+
+.dropdown-menu {
+  overflow-y: auto;
+  max-height: 500px;
+  width: 200px;
+}
+
+.filter-submit-btn {
+  margin: auto 15px auto 15px;
+}
+
+.form-control {
+  display: inline-block;
+  width: auto;
+  margin-left: 12%;
+  vertical-align: middle;
+}
+
+/*************Filter bar classes****************************/
+.project-card {
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  text-align: left;
+  margin: 5px;
+}
+
+.project-ul {
+  margin-left: 5px;
+  font-size: 0.9rem;
+}
+
+.go-to-project-btn {
+  width: 90%;
+  text-align: left;
+  position: absolute;
+  bottom: 1%;
+  left: 5%;
+}
+
+.project-img {
+  height: 200px;
+  overflow: hidden;
+}
