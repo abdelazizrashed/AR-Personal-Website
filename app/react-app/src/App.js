@@ -85,10 +85,22 @@ function App() {
     "Freelance Software Developer from Egypt. \nHighly experienced in Full-Stack Web Development, Game Development, and Cross-Platform App Development."
   );
 
-  const [heights, setHeights] = useState({});
+  const [fillerStyle, setFillerStyle] = useState({});
 
   //Function variables
-  useEffect(() => {});
+  useEffect(() => {
+    var height =
+      window.innerHeight -
+      (document.getElementById("1").clientHeight +
+        document.getElementById("2").clientHeight +
+        document.getElementById("4").clientHeight);
+    if (height < 0) {
+      height = 0;
+    }
+    setFillerStyle({
+      height: height,
+    });
+  }, []);
 
   const onNavLinkClicked = (navItem) => {
     console.log(navItem.name + ": " + navItem.url);
@@ -136,17 +148,10 @@ function App() {
   return (
     <div>
       <NavBar navItems={navItems} onNavLinkClicked={onNavLinkClicked} />
-      <main className="page-content" id="2">
+      <div className="page-content" id="2">
         {renderSwitch()}
-      </main>
-      {/* <main
-        role="main"
-        id="3"
-        style={{
-          width: "100%",
-          backgroundColor: "#00FF00",
-        }}
-      ></main> */}
+      </div>
+      <div id="3" style={fillerStyle}></div>
       <Footer />
     </div>
   );

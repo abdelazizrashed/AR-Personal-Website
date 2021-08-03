@@ -9,10 +9,6 @@ body {
   background-color: #f6f5f1;
   font-family: "Cairo", sans-serif;
   text-align: center;
-
-  display: flex;
-  height: 100%;
-  flex-direction: column;
 }
 
 code {
@@ -52,6 +48,8 @@ hr {
 .navbar {
   padding-left: 5%;
   padding-right: 5%;
+
+  flex: none; /* 2 */
 }
 
 .navbar-brand {
@@ -75,8 +73,9 @@ hr {
   text-align: center;
   padding: 2%;
   width: 100%;
-  /* position: absolute; */
-  /* left: 0;
+
+  /* position: absolute;
+  left: 0;
   bottom: 0;
   right: 0; */
 }
@@ -96,6 +95,4 @@ hr {
   margin: auto;
   padding-left: 5%;
   padding-right: 5%;
-  flex: 1;
-  /* min-height: 80vh; */
 }
