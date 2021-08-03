@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import "./styles/App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 //* Components import
 import NavBar from "./components/partials/NavBar";
 import Footer from "./components/partials/Footer";
@@ -85,7 +85,11 @@ function App() {
     "Freelance Software Developer from Egypt. \nHighly experienced in Full-Stack Web Development, Game Development, and Cross-Platform App Development."
   );
 
+  const [heights, setHeights] = useState({});
+
   //Function variables
+  useEffect(() => {});
+
   const onNavLinkClicked = (navItem) => {
     console.log(navItem.name + ": " + navItem.url);
   };
@@ -132,8 +136,17 @@ function App() {
   return (
     <div>
       <NavBar navItems={navItems} onNavLinkClicked={onNavLinkClicked} />
-      <div className="page-content">{renderSwitch()}</div>
-
+      <main className="page-content" id="2">
+        {renderSwitch()}
+      </main>
+      {/* <main
+        role="main"
+        id="3"
+        style={{
+          width: "100%",
+          backgroundColor: "#00FF00",
+        }}
+      ></main> */}
       <Footer />
     </div>
   );

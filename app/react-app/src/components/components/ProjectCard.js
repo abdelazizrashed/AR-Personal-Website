@@ -7,7 +7,7 @@ const ProjectCard = ({ project, onGoToProjectClicked }) => {
         <Card.Img variant="top" src={project.imgURL} />
       </div>
       <Card.Body>
-        <Card.Title>{project.name}</Card.Title>
+        <Card.Title className="project-title">{project.name}</Card.Title>
         <h6>Platforms:</h6>
         <ul className="project-ul">
           {project.platforms.slice(0, 3).map((platform) => {

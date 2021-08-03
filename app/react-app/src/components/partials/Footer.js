@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer class="navbar-n-footer-color padding-5-lr footer">
+    <footer class="navbar-n-footer-color padding-5-lr footer" id="4">
       <div class="container">
         <a href="https://wa.me/message/JQC5TF6DHOB6B1">
           <i class="fab fa-whatsapp footer-icons"></i>

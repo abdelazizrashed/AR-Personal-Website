@@ -1,0 +1,41 @@
+/******************Page Content**********************/
+.services-row {
+  margin-bottom: 2rem;
+}
+
+/******************Service Card**********************/
+
+.service-card {
+  width: 100%;
+  height: 90%;
+  padding: 5px;
+  text-align: center;
+  /* margin: 20px auto; */
+}
+
+.service-card-logo {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: solid black;
+  border-width: 1px;
+  margin: auto;
+}
+
+.go-to-service-btn {
+  width: 100%;
+  margin-top: 15px;
+  text-align: left;
+  /* text-align: left;
+  position: absolute;
+  bottom: 2%;
+  left: 5%; */
+}
+
+.service-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
