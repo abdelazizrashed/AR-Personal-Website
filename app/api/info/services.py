@@ -4,6 +4,7 @@ from flask import Flask
 from .models import InfoModel, NavbarPagesModel, IMGInfoModel
 from .interfaces import InfoInterface
 from app.api.shared.helpers.services import HelperServices
+from app.api.shared.services import IMGInfoServices
 
 
 class InfoServices:
@@ -118,24 +119,3 @@ class NavbarPageServices:
         pages = NavbarPagesModel()
         pages.update(attrs)
         return pages
-
-
-class IMGInfoServices:
-    @staticmethod
-    def json(img_info: IMGInfoModel, app: Flask) -> dict:
-        storage = HelperServices.get_firebase_storage(app)
-        # print(img_info)
-
-        return {
-            "url": HelperServices.get_url_from_cloud_path(img_info.cloud_path, storage),
-            "alt": img_info.alt,
-        }
-        # if img_info:
-        # return None
-
-    @staticmethod
-    def from_json(json: dict) -> IMGInfoModel:
-        img_info = IMGInfoModel()
-        img_info.cloud_path = json.get("cloudPath")
-        img_info.alt = json.get("alt")
-        return img_info

@@ -4,13 +4,16 @@ const ServiceCard = ({ service, onGoToServiceClicked }) => {
   return (
     <Card className="service-card">
       <Image
-        src={service.logoURL}
+        src={service.logo.src}
+        alt={service.logo.alt}
         roundedCircle
         className="service-card-logo"
       />
       <Card.Body>
         <Card.Title className="project-title">{service.name}</Card.Title>
-        <Card.Text className="service-description">{service.description}</Card.Text>
+        <Card.Text className="service-description">
+          {service.description}
+        </Card.Text>
         <Button
           variant="outline-dark"
           className="go-to-service-btn"

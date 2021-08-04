@@ -1,12 +1,10 @@
 from mypy_extensions import TypedDict
+from app.api.shared.interfaces import IMGInfoInterface
+
+# Todo: check the inheretance on dict
 
 
-class IMGInfoInterface(TypedDict, total=False):
-    cloud_path: str
-    alt: str
-
-
-class NavbarPagesInterface(TypedDict, total=False):
+class NavbarPagesInterface(dict, total=False):
 
     home: bool
     projects: bool
@@ -17,7 +15,7 @@ class NavbarPagesInterface(TypedDict, total=False):
     about: bool
 
 
-class InfoInterface(TypedDict, total=False):
+class InfoInterface(dict, total=False):
 
     navbar_pages: NavbarPagesInterface
     home_page_intro: str

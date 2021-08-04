@@ -1,14 +1,5 @@
 from .interfaces import InfoInterface, NavbarPagesInterface, IMGInfoInterface
-
-
-class IMGInfoModel:
-    cloud_path: str
-    alt: str
-
-    def update(self, changes: IMGInfoInterface):
-        for key, value in changes.items():
-            setattr(self, key, value)
-            return self
+from app.api.shared.models import IMGInfoModel
 
 
 class NavbarPagesModel:

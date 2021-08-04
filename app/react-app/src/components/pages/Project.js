@@ -12,6 +12,10 @@ const Project = ({ name }) => {
     appStoreURL: null,
     googlePlayStoreURL: null,
     websiteURL: "http://localhost:3000/",
+    youtubeVid: {
+      src: "https://www.youtube.com/embed/SSbnEWqDfQI",
+      title: "YouTube video player",
+    },
     services: [
       {
         name: "UI design",
@@ -147,8 +151,8 @@ const Project = ({ name }) => {
           <iframe
             width="853"
             height="480"
-            src="https://www.youtube.com/embed/SSbnEWqDfQI"
-            title="YouTube video player"
+            src={project.youtubeVid.src}
+            title={project.youtubeVid.title}
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
