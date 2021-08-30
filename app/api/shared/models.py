@@ -14,6 +14,7 @@ class IMGInfoModel:
 class TechnologyModel:
     name: str
     description: str
+    id_: str
 
     def update(self, changes: TechnologyInterface):
         for key, value in changes.items():
@@ -24,6 +25,7 @@ class TechnologyModel:
 class PlatformModel:
     name: str
     description: str
+    id_: str
 
     def update(self, changes: TechnologyInterface):
         for key, value in changes.items():

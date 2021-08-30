@@ -83,18 +83,24 @@ class InfoResource(Resource):
 
         attrs = dict(data)
 
-        try:
-            info_object = InfoServices.update(attrs, app)
-            if info_object:
-                return {
-                    "message": "Data updated successfully",
-                    "Info": InfoServices.json(info_object, app),
-                }, 200
-        except:
+        info_object = InfoServices.update(attrs, app)
+        if info_object:
             return {
-                "description": "Internal server error",
+                "message": "Data updated successfully",
+                "Info": InfoServices.json(info_object, app),
+            }, 200
+        else:
+            return {
+                "description": "Error in updating info",
                 "error": "internal_server_error",
             }, 500
+
+        # try:
+        # except:
+        #     return {
+        #         "description": "Internal server error",
+        #         "error": "internal_server_error",
+        #     }, 500
 
     def get(self):
         info = InfoServices.retrieve(app)

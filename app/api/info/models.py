@@ -23,16 +23,16 @@ class NavbarPagesModel:
 
 class InfoModel:
 
-    navbar_pages: NavbarPagesModel
-    home_page_intro: str
-    home_laptop_img_info: IMGInfoModel
-    home_tablet_img_info: IMGInfoModel
-    home_phone_img_info: IMGInfoModel
-    ar_about_pic_cloud_path: IMGInfoModel
-    ar_about_long_parag: str
-    ar_about_short_parag: str
-    ar_email: str
-    ar_phone_no: str
+    navbar_pages: NavbarPagesModel = None
+    home_page_intro: str = None
+    home_laptop_img_info: IMGInfoModel = None
+    home_tablet_img_info: IMGInfoModel = None
+    home_phone_img_info: IMGInfoModel = None
+    ar_about_pic_info: IMGInfoModel = None
+    ar_about_long_parag: str = None
+    ar_about_short_parag: str = None
+    ar_email: str = None
+    ar_phone_no: str = None
 
     def update(self, changes: InfoInterface):
         for key, value in changes.items():
