@@ -43,11 +43,8 @@ class TechnologiesResource(Resource):
                 "description": "You should include a list of technologies id's to delete",
                 "error": "missing_info"
             }, 400
-        TechnologiesServices.delete(ids, app)
-        return {
-            "message": "Deleted successfully",
-            "ids": ids
-        }, 200
+        res = TechnologiesServices.delete(ids, app)
+        return res
 
     def get(self):
         ids = request
@@ -79,11 +76,17 @@ class TechnologyResource(Resource):
     @jwt_required()
     def delete(self):
         id_ = request.args.get("id", type=str)
-        TechnologyServices.delete(id_, app)
-        return{
-            "message": "Deleted technology object successfully",
-            "id": id_
-        }, 200
+        status_code = TechnologyServices.delete(id_, app)
+        if status_code == 200:
+            return{
+                "message": "Succeeded",
+                "id": id_
+            }, 200
+        else:
+            return {
+                "message": "Failed",
+                "id": id_
+            }, status_code
 
     def get(self):
         id_ = request.args.get("id", type=str)
@@ -108,18 +111,6 @@ class PlatformsResource(Resource):
 
     @jwt_required()
     def put(self):
-        raise NotImplementedError
-
-    @jwt_required()
-    def delete(self):
-        raise NotImplementedError
-
-    def get(self):
-        partial = request.args.get("partial", type=bool)
-        raise NotImplementedError
-
-    @jwt_required()
-    def put(self):
         data = request.get_json()
         platforms = PlatformsServices.update(data, app)
         return{
@@ -134,11 +125,8 @@ class PlatformsResource(Resource):
                 "description": "You should include a list of platforms' id's to delete",
                 "error": "missing_info"
             }, 400
-        PlatformsServices.delete(ids, app)
-        return {
-            "message": "Deleted successfully",
-            "ids": ids
-        }, 200
+        res = PlatformsServices.delete(ids, app)
+        return res
 
     def get(self):
         ids = request
@@ -169,11 +157,17 @@ class PlatformResource(Resource):
     @jwt_required()
     def delete(self):
         id_ = request.args.get("id", type=str)
-        PlatformServices.delete(id_, app)
-        return{
-            "message": "Deleted platform object successfully",
-            "id": id_
-        }, 200
+        status_code = PlatformServices.delete(id_, app)
+        if status_code == 200:
+            return{
+                "message": "Deleted platform object successfully",
+                "id": id_
+            }, 200
+        else:
+            return {
+                "message": "Failed",
+                "id": id_
+            }, status_code
 
     def get(self):
         id_ = request.args.get("id", type=str)

@@ -1,8 +1,8 @@
-
 from typing import List
 from flask import Flask
 from app.api.shared.helpers.services import HelperServices
 from app.api.shared.models import IMGInfoModel, TechnologyModel, PlatformModel
+from app.api.shared.helpers.services import HelperServices
 
 
 class IMGInfoServices:
@@ -48,22 +48,37 @@ class TechnologyServices:
 
         return technology
 
-    # Todo: impelement the CRUD methods
     @staticmethod
     def create(attrs: dict, app: Flask) -> TechnologyModel:
-        raise NotImplementedError
+        db = HelperServices.get_firebase_database(app)
+        id_ = db.child("technologies").push(attrs)["name"]
+        attrs["id"] = id_
+        platform = TechnologyServices.from_json(attrs)
+        return platform
 
     @staticmethod
     def update(updates: dict, id_: str, app: Flask) -> TechnologyModel:
-        raise NotImplementedError
+        db = HelperServices.get_firebase_database(app)
+        attrs = db.child("technologies").child(id_).update(updates)
+        if attrs == None:
+            return None
+        return TechnologyServices.from_json(attrs)
+
 
     @staticmethod
     def retrieve(id_: str, app: Flask) -> TechnologyModel:
-        raise NotImplementedError
+        db = HelperServices.get_firebase_database(app)
+        attrs = db.child("technologies").child(id_).get()
+        if attrs == None:
+            return None
+        return TechnologyServices.from_json(attrs)
+
 
     @staticmethod
-    def delete(id_: str, app: Flask):
-        raise NotImplementedError
+    def delete(id_: str, app: Flask) -> int:
+        db = HelperServices.get_firebase_database(app)
+        res = db.child("technologies").child(id_).remove()
+        return res.status_code
 
 class PlatformServices:
     @staticmethod
@@ -90,22 +105,37 @@ class PlatformServices:
 
         return platform
 
-    # Todo: impelement the CRUD methods
     @staticmethod
     def create(attrs: dict, app: Flask) -> PlatformModel:
-        raise NotImplementedError
+        db = HelperServices.get_firebase_database(app)
+        id_ = db.child("platforms").push(attrs)["name"]
+        attrs["id"] = id_
+        platform = PlatformServices.from_json(attrs)
+        return platform
 
     @staticmethod
-    def update(updates: dict, app: Flask) -> PlatformModel:
-        raise NotImplementedError
+    def update(updates: dict, id_: str, app: Flask) -> PlatformModel:
+        db = HelperServices.get_firebase_database(app)
+        attrs = db.child("platforms").child(id_).update(updates)
+        if attrs == None:
+            return None
+        return PlatformServices.from_json(attrs)
+
 
     @staticmethod
     def retrieve(id_: str, app: Flask) -> PlatformModel:
-        raise NotImplementedError
+        db = HelperServices.get_firebase_database(app)
+        attrs = db.child("platforms").child(id_).get()
+        if attrs == None:
+            return None
+        return PlatformServices.from_json(attrs)
+
 
     @staticmethod
-    def delete(id_: str, app: Flask):
-        raise NotImplementedError
+    def delete(id_: str, app: Flask) -> int:
+        db = HelperServices.get_firebase_database(app)
+        res = db.child("platforms").child(id_).remove()
+        return res.status_code
 
 
 class TechnologiesServices:
@@ -134,22 +164,43 @@ class TechnologiesServices:
 
         return techs
 
-    # Todo: impelement the CRUD methods
     @staticmethod
     def create(attrs: dict, app: Flask) -> List[TechnologyModel]:
-        raise NotImplementedError
+        techs = []
+        for tech in attrs["technologies"]:
+            techs.append(TechnologyServices.create(tech, app))
+        return techs
 
     @staticmethod
     def update(updates: dict, app: Flask) -> List[TechnologyModel]:
-        raise NotImplementedError
+        techs = []
+        for tech in updates["technologies"]:
+            id_ = tech.pop("id")
+            techs.append(TechnologyServices.update(tech, id_, app))
+
+        return techs
+
 
     @staticmethod
     def retrieve(app: Flask, ids: List[str] = None) -> List[TechnologyModel]:
-        raise NotImplementedError
+        techs = []
+        for id_ in ids:
+            techs.append(TechnologyServices.retrieve(id_, app))
+        return techs
 
     @staticmethod
-    def delete(ids: List[str], app: Flask):
-        raise NotImplementedError
+    def delete(ids: List[str], app: Flask) -> dict:
+        res = {"result": []}
+        is_success = False
+        for id_ in ids:
+            status_code = TechnologyServices.delete(id_, app)
+            if status_code == 200:
+                res["result"].append({"message": "Succeeded", "id": id_})
+                is_success = True
+            else:
+                res["result"].append({"message": "Failed", "id": id_})
+        sc = 200 if is_success else status_code
+        return res, sc
 
 
 class PlatformsServices:
@@ -192,5 +243,43 @@ class PlatformsServices:
         raise NotImplementedError
 
     @staticmethod
-    def delete(ids: List[str], app: Flask):
+    def delete(ids: List[str], app: Flask) -> dict:
         raise NotImplementedError
+
+    @staticmethod
+    def create(attrs: dict, app: Flask) -> List[PlatformModel]:
+        platforms = []
+        for platform in attrs["platforms"]:
+            platforms.append(PlatformServices.create(platform, app))
+        return platforms
+
+    @staticmethod
+    def update(updates: dict, app: Flask) -> List[PlatformModel]:
+        platforms = []
+        for platform in updates["platforms"]:
+            id_ = platform.pop("id")
+            platforms.append(PlatformServices.update(platform, id_, app))
+
+        return platforms
+
+
+    @staticmethod
+    def retrieve(app: Flask, ids: List[str] = None) -> List[PlatformModel]:
+        platforms = []
+        for id_ in ids:
+            platforms.append(PlatformServices.retrieve(id_, app))
+        return platforms
+
+    @staticmethod
+    def delete(ids: List[str], app: Flask) -> dict:
+        res = {"result": []}
+        is_success = False
+        for id_ in ids:
+            status_code = PlatformServices.delete(id_, app)
+            if status_code == 200:
+                res["result"].append({"message": "Succeeded", "id": id_})
+                is_success = True
+            else:
+                res["result"].append({"message": "Failed", "id": id_})
+        sc = 200 if is_success else status_code
+        return res, sc
