@@ -25,7 +25,7 @@ class IMGInfoServices:
 
 class TechnologyServices:
     @staticmethod
-    def json_all(technology: TechnologyModel, app: Flask) -> dict:
+    def json_all(technology: TechnologyModel) -> dict:
         return {
             "name": technology.name,
             "description": technology.description,
@@ -33,7 +33,7 @@ class TechnologyServices:
         }
 
     @staticmethod
-    def json_partial(technology: TechnologyModel, app: Flask) -> dict:
+    def json_partial(technology: TechnologyModel) -> dict:
         return {
             "name": technology.name,
             "id": technology.id_,
@@ -50,19 +50,19 @@ class TechnologyServices:
 
     # Todo: impelement the CRUD methods
     @staticmethod
-    def create(attrs: dict, app: Flask):
+    def create(attrs: dict, app: Flask) -> TechnologyModel:
         raise NotImplementedError
 
     @staticmethod
-    def update(updates: dict, app: Flask):
+    def update(updates: dict, id_: str, app: Flask) -> TechnologyModel:
         raise NotImplementedError
 
     @staticmethod
-    def retrieve(updates: dict, app: Flask):
+    def retrieve(id_: str, app: Flask) -> TechnologyModel:
         raise NotImplementedError
 
     @staticmethod
-    def delete(updates: dict, app: Flask):
+    def delete(id_: str, app: Flask):
         raise NotImplementedError
 
 class PlatformServices:
@@ -92,38 +92,38 @@ class PlatformServices:
 
     # Todo: impelement the CRUD methods
     @staticmethod
-    def create(attrs: dict, app: Flask):
+    def create(attrs: dict, app: Flask) -> PlatformModel:
         raise NotImplementedError
 
     @staticmethod
-    def update(updates: dict, app: Flask):
+    def update(updates: dict, app: Flask) -> PlatformModel:
         raise NotImplementedError
 
     @staticmethod
-    def retrieve(updates: dict, app: Flask):
+    def retrieve(id_: str, app: Flask) -> PlatformModel:
         raise NotImplementedError
 
     @staticmethod
-    def delete(updates: dict, app: Flask):
+    def delete(id_: str, app: Flask):
         raise NotImplementedError
 
 
 class TechnologiesServices:
 
     @staticmethod
-    def json_all(technologies: List[TechnologyModel], app: Flask) -> dict:
+    def json_all(technologies: List[TechnologyModel]) -> dict:
         techs_key = "technologies"
         technologies_dict = {techs_key: []}
         for tech in technologies:
-            technologies_dict[techs_key].append(TechnologyServices.json_all(tech, app))
+            technologies_dict[techs_key].append(TechnologyServices.json_all(tech))
         return technologies_dict
 
     @staticmethod
-    def json_partial(technologies: List[TechnologyModel], app: Flask) -> dict:
+    def json_partial(technologies: List[TechnologyModel]) -> dict:
         techs_key = "technologies"
         technologies_dict = {techs_key: []}
         for tech in technologies:
-            technologies_dict[techs_key].append(TechnologyServices.json_partial(tech, app))
+            technologies_dict[techs_key].append(TechnologyServices.json_partial(tech))
         return technologies_dict
 
     @staticmethod
@@ -136,38 +136,38 @@ class TechnologiesServices:
 
     # Todo: impelement the CRUD methods
     @staticmethod
-    def create(attrs: dict, app: Flask):
+    def create(attrs: dict, app: Flask) -> List[TechnologyModel]:
         raise NotImplementedError
 
     @staticmethod
-    def update(updates: dict, app: Flask):
+    def update(updates: dict, app: Flask) -> List[TechnologyModel]:
         raise NotImplementedError
 
     @staticmethod
-    def retrieve(updates: dict, app: Flask):
+    def retrieve(app: Flask, ids: List[str] = None) -> List[TechnologyModel]:
         raise NotImplementedError
 
     @staticmethod
-    def delete(updates: dict, app: Flask):
+    def delete(ids: List[str], app: Flask):
         raise NotImplementedError
 
 
 class PlatformsServices:
 
     @staticmethod
-    def json_all(platforms: List[PlatformModel], app: Flask) -> dict:
+    def json_all(platforms: List[PlatformModel]) -> dict:
         plat_key = "platforms"
         plat_dict = {plat_key: []}
         for platform in platforms:
-            plat_dict[plat_key].append(PlatformServices.json_all(platform, app))
+            plat_dict[plat_key].append(PlatformServices.json_all(platform))
         return plat_dict
 
     @staticmethod
-    def json_partial(platforms: List[PlatformModel], app: Flask) -> dict:
+    def json_partial(platforms: List[PlatformModel]) -> dict:
         plat_key = "platforms"
         plat_dict = {plat_key: []}
         for platform in platforms:
-            plat_dict[plat_key].append(PlatformServices.json_partial(platform, app))
+            plat_dict[plat_key].append(PlatformServices.json_partial(platform))
         return plat_dict
 
     @staticmethod
@@ -180,17 +180,17 @@ class PlatformsServices:
 
     # Todo: impelement the CRUD methods
     @staticmethod
-    def create(attrs: dict, app: Flask):
+    def create(attrs: dict, app: Flask) -> List[PlatformModel]:
         raise NotImplementedError
 
     @staticmethod
-    def update(updates: dict, app: Flask):
+    def update(updates: dict, ids:List[str], app: Flask) -> List[PlatformModel]:
         raise NotImplementedError
 
     @staticmethod
-    def retrieve(updates: dict, app: Flask):
+    def retrieve(app: Flask, ids: List[str] = None) -> List[PlatformModel]:
         raise NotImplementedError
 
     @staticmethod
-    def delete(updates: dict, app: Flask):
+    def delete(ids: List[str], app: Flask):
         raise NotImplementedError
