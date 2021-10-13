@@ -67,14 +67,14 @@ class TechnologyResource(Resource):
     def post(self):
         data = _tech_parser.parse_args()
         technology = TechnologyServices.create(data, app)
-        return TechnologyServices.json_all(technology)
+        return TechnologyServices.json_all(technology), 200
 
     @jwt_required()
     def put(self):
         id_ = request.args.get("id", type=str)
         data = _tech_parser.parse_args()
         technology = TechnologyServices.update(data, id_, app)
-        return TechnologyServices.json_all(technology)
+        return TechnologyServices.json_all(technology), 200
 
     @jwt_required()
     def delete(self):
@@ -83,17 +83,17 @@ class TechnologyResource(Resource):
         return{
             "message": "Deleted technology object successfully",
             "id": id_
-        }
+        }, 200
 
     def get(self):
         id_ = request.args.get("id", type=str)
         partial = request.args.get("partial", type=bool)
         tech = TechnologyServices.retrieve(id_, app)
         if partial:
-            return TechnologyServices.json_partial(tech)
+            return TechnologyServices.json_partial(tech), 200
 
         else:
-            return TechnologyServices.json_all(tech)
+            return TechnologyServices.json_all(tech), 200
 
 
 class PlatformsResource(Resource):
@@ -157,14 +157,14 @@ class PlatformResource(Resource):
     def post(self):
         data = _platform_parser.parse_args()
         platform = PlatformServices.create(data, app)
-        return PlatformServices.json_all(platform)
+        return PlatformServices.json_all(platform), 200
 
     @jwt_required()
     def put(self):
         id_ = request.args.get("id", type=str)
         data = _platform_parser.parse_args()
         platform = PlatformServices.update(data, id_, app)
-        return PlatformServices.json_all(platform)
+        return PlatformServices.json_all(platform), 200
 
     @jwt_required()
     def delete(self):
@@ -173,13 +173,13 @@ class PlatformResource(Resource):
         return{
             "message": "Deleted platform object successfully",
             "id": id_
-        }
+        }, 200
 
     def get(self):
         id_ = request.args.get("id", type=str)
         partial = request.args.get("partial", type=bool)
         platform = PlatformServices.retrieve(id_, app)
         if partial:
-            return PlatformServices.json_partial(platform)
+            return PlatformServices.json_partial(platform), 200
         else:
-            return PlatformServices.json_all(platform)
+            return PlatformServices.json_all(platform), 200
