@@ -1,3 +1,5 @@
+
+from typing import List
 from flask import Flask
 from app.api.shared.helpers.services import HelperServices
 from app.api.shared.models import IMGInfoModel, TechnologyModel, PlatformModel
@@ -47,7 +49,21 @@ class TechnologyServices:
         return technology
 
     # Todo: impelement the CRUD methods
+    @staticmethod
+    def create(attrs: dict, app: Flask):
+        raise NotImplementedError
 
+    @staticmethod
+    def update(updates: dict, app: Flask):
+        raise NotImplementedError
+
+    @staticmethod
+    def retrieve(updates: dict, app: Flask):
+        raise NotImplementedError
+
+    @staticmethod
+    def delete(updates: dict, app: Flask):
+        raise NotImplementedError
 
 class PlatformServices:
     @staticmethod
@@ -75,3 +91,106 @@ class PlatformServices:
         return platform
 
     # Todo: impelement the CRUD methods
+    @staticmethod
+    def create(attrs: dict, app: Flask):
+        raise NotImplementedError
+
+    @staticmethod
+    def update(updates: dict, app: Flask):
+        raise NotImplementedError
+
+    @staticmethod
+    def retrieve(updates: dict, app: Flask):
+        raise NotImplementedError
+
+    @staticmethod
+    def delete(updates: dict, app: Flask):
+        raise NotImplementedError
+
+
+class TechnologiesServices:
+
+    @staticmethod
+    def json_all(technologies: List[TechnologyModel], app: Flask) -> dict:
+        techs_key = "technologies"
+        technologies_dict = {techs_key: []}
+        for tech in technologies:
+            technologies_dict[techs_key].append(TechnologyServices.json_all(tech, app))
+        return technologies_dict
+
+    @staticmethod
+    def json_partial(technologies: List[TechnologyModel], app: Flask) -> dict:
+        techs_key = "technologies"
+        technologies_dict = {techs_key: []}
+        for tech in technologies:
+            technologies_dict[techs_key].append(TechnologyServices.json_partial(tech, app))
+        return technologies_dict
+
+    @staticmethod
+    def from_json(json: dict) -> List[TechnologyModel]:
+        techs = []
+        for json_dict in json["technologies"]:
+            techs.append(TechnologyServices.from_json(json_dict))
+
+        return techs
+
+    # Todo: impelement the CRUD methods
+    @staticmethod
+    def create(attrs: dict, app: Flask):
+        raise NotImplementedError
+
+    @staticmethod
+    def update(updates: dict, app: Flask):
+        raise NotImplementedError
+
+    @staticmethod
+    def retrieve(updates: dict, app: Flask):
+        raise NotImplementedError
+
+    @staticmethod
+    def delete(updates: dict, app: Flask):
+        raise NotImplementedError
+
+
+class PlatformsServices:
+
+    @staticmethod
+    def json_all(platforms: List[PlatformModel], app: Flask) -> dict:
+        plat_key = "platforms"
+        plat_dict = {plat_key: []}
+        for platform in platforms:
+            plat_dict[plat_key].append(PlatformServices.json_all(platform, app))
+        return plat_dict
+
+    @staticmethod
+    def json_partial(platforms: List[PlatformModel], app: Flask) -> dict:
+        plat_key = "platforms"
+        plat_dict = {plat_key: []}
+        for platform in platforms:
+            plat_dict[plat_key].append(PlatformServices.json_partial(platform, app))
+        return plat_dict
+
+    @staticmethod
+    def from_json(json: dict) -> List[PlatformModel]:
+        plats = []
+        for plat_json in json["platforms"]:
+            plats.append(PlatformServices.from_json(plat_json))
+
+        return plats
+
+    # Todo: impelement the CRUD methods
+    @staticmethod
+    def create(attrs: dict, app: Flask):
+        raise NotImplementedError
+
+    @staticmethod
+    def update(updates: dict, app: Flask):
+        raise NotImplementedError
+
+    @staticmethod
+    def retrieve(updates: dict, app: Flask):
+        raise NotImplementedError
+
+    @staticmethod
+    def delete(updates: dict, app: Flask):
+        raise NotImplementedError

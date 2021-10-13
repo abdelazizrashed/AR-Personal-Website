@@ -5,3 +5,4 @@ flask-sqlalchemy
 flask-jwt-extended
 firebase-admin
 pyrebase4
+mypy_extensions
