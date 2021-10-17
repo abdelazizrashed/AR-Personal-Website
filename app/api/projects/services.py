@@ -1,4 +1,6 @@
 from typing import List
+
+from flask.app import Flask
 from .models import YouTubeVidModel, DetailModel, ProjectModel
 
 
@@ -40,7 +42,7 @@ class YouTubeVidsServices:
 class DetailsServices:
 
     @staticmethod
-    def json(detail: List[DetailModel]) -> dict:
+    def json(details: List[DetailModel]) -> dict:
         
         raise NotImplementedError
 
@@ -51,9 +53,63 @@ class DetailsServices:
 
 class ProjectServices:
 
-    pass
+    @staticmethod 
+    def json(project: ProjectModel) -> dict:
+        raise NotImplementedError
+
+    @staticmethod
+    def json_partial(project: ProjectModel) -> dict:
+        raise NotImplementedError
+
+    @staticmethod
+    def from_json(json: dict) -> ProjectModel:
+        raise NotImplementedError
+
+    #CRUD methods
+    @staticmethod
+    def create(attr: dict, app: Flask) -> ProjectModel:
+        raise NotImplementedError
+
+    @staticmethod
+    def retrieve(id: dict, app: Flask) -> ProjectModel:
+        raise NotImplementedError
+
+    @staticmethod
+    def update(updates: dict, app: Flask) -> ProjectModel:
+        raise NotImplementedError
+
+    @staticmethod
+    def delete(id: str, app: Flask) -> str:
+        raise NotImplementedError
 
 
 class ProjectsServices:
 
-    pass
+    @staticmethod 
+    def json(projects: List[ProjectModel]) -> dict:
+        raise NotImplementedError
+
+    @staticmethod
+    def json_partial(projects: List[ProjectModel]) -> dict:
+        raise NotImplementedError
+
+    @staticmethod
+    def from_json(json: dict) -> List[ProjectModel]:
+        raise NotImplementedError
+
+    #CRUD methods
+    @staticmethod
+    def create(attr: dict, app: Flask) -> List[ProjectModel]:
+        raise NotImplementedError
+
+    @staticmethod
+    def retrieve(ids: List[str], app: Flask) -> List[ProjectModel]:
+        raise NotImplementedError
+
+    @staticmethod
+    def update(updates: dict, app: Flask) -> List[ProjectModel]:
+        raise NotImplementedError
+
+    @staticmethod
+    def delete(ids: List[str], app: Flask) -> List[str]:
+        raise NotImplementedError
