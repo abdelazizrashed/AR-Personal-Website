@@ -13,6 +13,7 @@ class IMGInfoServices:
         return {
             "src": HelperServices.get_url_from_cloud_path(img_info.cloud_path, storage),
             "alt": img_info.alt,
+            "caption": img_info.caption
         }
 
     @staticmethod
@@ -20,6 +21,7 @@ class IMGInfoServices:
         img_info = IMGInfoModel()
         img_info.cloud_path = json.get("cloudPath")
         img_info.alt = json.get("alt")
+        img_info.caption = json.get("caption")
         return img_info
 
 

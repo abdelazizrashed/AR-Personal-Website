@@ -46,6 +46,7 @@ const Project = ({ name }) => {
       {
         src: psPC,
         caption: "Home page",
+        alt: "Website home page"
       },
       {
         src: psPC,

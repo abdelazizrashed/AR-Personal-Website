@@ -229,7 +229,10 @@ const ProjectsFilterBar = ({
           Apply Filter
         </Button>
 
-        <FormControl
+{
+  //Todo: implement the search functionality later
+}
+        {/* <FormControl
           type="search"
           placeholder="Search"
           className="mr-2"
@@ -237,7 +240,7 @@ const ProjectsFilterBar = ({
           onChange={(e) => {
             setSearchInputValue(e.target.value);
           }}
-        />
+        /> */}
         <Button variant="outline-dark" onClick={onSearchBtnClicked}>
           <i class="fas fa-search"></i>
         </Button>
