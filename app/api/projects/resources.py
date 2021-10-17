@@ -1,3 +1,4 @@
+from functools import partial
 from flask import current_app as app
 from flask_restful import Resource, reqparse, request
 from flask_jwt_extended import jwt_required
@@ -85,11 +86,23 @@ class ProjectResources(Resource):
 class ProjectsResources(Resource):
     
     def get(self):
-        raise NotImplementedError
+        ids = request.args.getlist("id")
+        partial = request.args.get("partial", type=bool)
+        service = request.args.get("service", type=str)
+        platform = request.args.get("platform", type=str)
+        technology = request.args.get("technology", type=str)
+
+        projects = ProjectsServices.retrieve(app, ids, service, platform, technology)
+
+        return ProjectsServices.json_partial(projects), 200 if partial else ProjectsServices.json(projects), 200
 
     @jwt_required()
     def post(self):
-        raise NotImplementedError
+        #Todo: Check if you can make this request work
+        return{
+            "description": "You are not allowed to create multiple technologies at once. Create them one by one",
+            "error": "invalid_operation"
+        }, 409
 
     @jwt_required()
     def put(self):

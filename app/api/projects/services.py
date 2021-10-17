@@ -103,7 +103,7 @@ class ProjectsServices:
         raise NotImplementedError
 
     @staticmethod
-    def retrieve(ids: List[str], app: Flask) -> List[ProjectModel]:
+    def retrieve(app: Flask, ids: List[str] = None, service_id: str = None, platform_id: str = None, technology_id: str = None) -> List[ProjectModel]:
         raise NotImplementedError
 
     @staticmethod
