@@ -22,7 +22,7 @@ class ProjectModel:
     technologies_ids: List[str]
     img_url: str
     description: str
-    github_link: str
+    github_url: str
     app_store_url: str
     google_play_store_url: str
     website_url: str
