@@ -78,9 +78,7 @@ class ProjectResources(Resource):
                 "description": "Faced unknown error while deleting the project",
                 "error": "unknown_error"
             }, 520
-        return {
-            "id": del_id
-        }, 200
+        return 200
 
 
 class ProjectsResources(Resource):
@@ -118,6 +116,4 @@ class ProjectsResources(Resource):
 
         ids = ProjectsServices.delete(ids, app)
 
-        return {
-            "id": ids
-        }, 200
+        return 200
