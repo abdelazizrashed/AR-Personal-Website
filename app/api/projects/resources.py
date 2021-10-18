@@ -106,8 +106,18 @@ class ProjectsResources(Resource):
 
     @jwt_required()
     def put(self):
-        raise NotImplementedError
+        data = _project_parser.parse_args()
+
+        projects = ProjectsServices.update(data, app)
+
+        return ProjectsServices.json(projects), 200
 
     @jwt_required()
     def delete(self):
-        raise NotImplementedError
+        ids = request.args.getlist("id")
+
+        ids = ProjectsServices.delete(ids, app)
+
+        return {
+            "id": ids
+        }, 200
