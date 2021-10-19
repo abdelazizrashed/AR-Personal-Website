@@ -6,6 +6,7 @@ from app.api.shared.helpers.services import HelperServices
 
 
 class IMGInfoServices:
+    #Todo: add upload method
     @staticmethod
     def json(img_info: IMGInfoModel, app: Flask) -> dict:
         storage = HelperServices.get_firebase_storage(app)

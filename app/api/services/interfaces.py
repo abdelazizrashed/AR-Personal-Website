@@ -3,6 +3,11 @@ from mypy_extensions import TypedDict
 from app.api.shared.interfaces import IMGInfoInterface, TechnologyInterface
 
 
+class ServiceContentInterface(TypedDict, total=False):
+    title: str
+    paragraph: str
+
+
 class ServiceInterface(TypedDict, total=False):
     name: str
     description: str
@@ -13,8 +18,3 @@ class ServiceInterface(TypedDict, total=False):
     other_services: List[Dict]
     content: List[ServiceContentInterface]
     technologies: List[TechnologyInterface]
-
-
-class ServiceContentInterface(TypedDict, total=False):
-    title: str
-    paragraph: str
