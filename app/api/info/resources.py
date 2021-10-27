@@ -65,7 +65,8 @@ class InfoResource(Resource):
     def post(self):
         data = self._info_parser.parse_args()
         files, datas = HelperServices.seperate_files_and_json_data(request, HelperServices.ALLOWED_IMG_EXTENSIONS, ["img"], ["data"])
-
+        data = datas["data"]
+        
         attrs = dict(data)
         info_object = InfoServices.create(attrs, app)
         if info_object:

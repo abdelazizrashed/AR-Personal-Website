@@ -4,6 +4,7 @@ from werkzeug.datastructures import FileStorage
 from typing import List, Tuple
 import json
 from werkzeug.security import safe_str_cmp
+import copy
 
 
 class HelperServices:
@@ -72,7 +73,8 @@ class HelperServices:
             filename.rsplit('.', 1)[1].lower() in allowed_extensions
 
     @staticmethod
-    def combine_imgs_and_dicts(imgs: List[FileStorage], imgs_dicts: List[dict]) -> List[dict]:
+    def combine_imgs_and_dicts(imgs: List[FileStorage], dicts: List[dict]) -> List[dict]:
+        imgs_dicts = copy.deepcopy(dicts)
         for img in imgs:
             for index in range(len(imgs_dicts)):
                 if safe_str_cmp(img.filename, imgs_dicts[index].get("name")):
