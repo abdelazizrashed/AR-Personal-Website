@@ -168,7 +168,7 @@ const Service = () => {
                   >
                     <Image
                       src={service.logo.src}
-                      alt={service.log.alt}
+                      alt={service.logo.alt}
                       roundedCircle
                       className="project-services-btn-logo"
                     />

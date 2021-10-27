@@ -3,10 +3,10 @@ from flask import Flask
 from app.api.shared.helpers.services import HelperServices
 from app.api.shared.models import IMGInfoModel, TechnologyModel, PlatformModel
 from app.api.shared.helpers.services import HelperServices
+from werkzeug.datastructures import FileStorage
 
 
 class IMGInfoServices:
-    #Todo: add upload method
     @staticmethod
     def json(img_info: IMGInfoModel, app: Flask) -> dict:
         storage = HelperServices.get_firebase_storage(app)
@@ -18,12 +18,23 @@ class IMGInfoServices:
         }
 
     @staticmethod
-    def from_json(json: dict) -> IMGInfoModel:
+    def from_json(json: dict, file: FileStorage = None, app: Flask = None) -> IMGInfoModel:
         img_info = IMGInfoModel()
-        img_info.cloud_path = json.get("cloudPath")
+        if file and app:
+            img_info.cloud_path = HelperServices.upload_file(file, app)
+        if file and not app:
+            raise AttributeError("If you intend to upload an image you should include the flask app")
+        else:
+            img_info.cloud_path = json.get("cloudPath")
+
         img_info.alt = json.get("alt")
         img_info.caption = json.get("caption")
         return img_info
+
+    @staticmethod
+    def upload(img: FileStorage,app:Flask) -> str:
+        cloud_path = HelperServices.upload_file(img, app)
+        return cloud_path
 
 
 class TechnologyServices:

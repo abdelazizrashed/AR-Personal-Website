@@ -1,6 +1,8 @@
-from flask import current_app as app
+from flask import current_app as app, request
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import jwt_required
+
+from app.api.shared.helpers.services import HelperServices
 from .interfaces import InfoInterface, NavbarPagesInterface
 from .models import InfoModel, NavbarPagesModel
 from .services import InfoServices, NavbarPageServices
@@ -62,6 +64,7 @@ class InfoResource(Resource):
     @jwt_required(fresh=True)
     def post(self):
         data = self._info_parser.parse_args()
+        files, datas = HelperServices.seperate_files_and_json_data(request, HelperServices.ALLOWED_IMG_EXTENSIONS, ["img"], ["data"])
 
         attrs = dict(data)
         info_object = InfoServices.create(attrs, app)

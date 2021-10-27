@@ -223,7 +223,7 @@ const ProjectsFilterBar = ({
         </DropdownButton>
         <Button
           variant="outline-primary"
-          className="filter-submit-btn"
+          className="filter-submit-btn float-right"
           onClick={onFilterSubmit}
         >
           Apply Filter
@@ -241,9 +241,9 @@ const ProjectsFilterBar = ({
             setSearchInputValue(e.target.value);
           }}
         /> */}
-        <Button variant="outline-dark" onClick={onSearchBtnClicked}>
+        {/* <Button variant="outline-dark" onClick={onSearchBtnClicked}>
           <i class="fas fa-search"></i>
-        </Button>
+        </Button> */}
       </Form>
     </div>
   );
