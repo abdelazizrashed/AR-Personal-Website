@@ -20,7 +20,7 @@ class ProjectModel:
     id_: str
     platforms_ids: List[str]
     technologies_ids: List[str]
-    img_url: str
+    img_cloud_path: str
     description: str
     github_url: str
     app_store_url: str

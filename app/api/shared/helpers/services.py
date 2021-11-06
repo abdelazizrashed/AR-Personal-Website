@@ -1,7 +1,8 @@
+from gcloud import storage
 import pyrebase
 from flask import Flask, Request
 from werkzeug.datastructures import FileStorage
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 import json
 from werkzeug.security import safe_str_cmp
 import copy
@@ -13,13 +14,21 @@ class HelperServices:
     ALLOWED_IMG_EXTENSIONS = ["png", "jpg", "jpeg"]
 
     @staticmethod
-    def get_url_from_cloud_path(cloud_path: str, firebase_storage):
+    def check_if_file_exists(cloud_path: str, app: Flask)-> bool:
+        storage = HelperServices.get_firebase_storage(app)
+        return storage.bucket.blob(cloud_path).exists()
+
+    @staticmethod
+    def get_url_from_cloud_path(cloud_path: str, firebase_storage: pyrebase.pyrebase.Storage) -> str:
         if cloud_path:
             return firebase_storage.child(cloud_path).get_url(None)
         return None
 
     @staticmethod
     def upload_file(file: FileStorage, app: Flask, cloud_path: str = None) -> str:
+        """
+        Upload file to the data base and return the cloud_path.
+        """
         storage = HelperServices.get_firebase_storage(app)
         if not cloud_path:
             db = HelperServices.get_firebase_database(app)
@@ -30,7 +39,16 @@ class HelperServices:
             return cloud_path
         storage.child(cloud_path).put(file)
         return cloud_path
+
+    @staticmethod
+    def delete_file(cloud_path: str, app: Flask) -> str:
+        storage = HelperServices.get_firebase_storage(app)
+        storage.child(cloud_path).delete()
+        return cloud_path
         
+    # @staticmethod
+    # def update_file(cloud_path: str, app: Flask) -> str:
+
 
     @staticmethod
     def get_firebase_object(app: Flask) -> pyrebase.pyrebase.Firebase:
@@ -52,7 +70,7 @@ class HelperServices:
         allowed_extensions: List[str] = ALLOWED_IMG_EXTENSIONS, 
         files_keys: List[str] = [], 
         json_keys: List[str] = []
-        ) -> Tuple[List[FileStorage], List[dict]]:
+        ) -> Tuple[Dict[str, List[FileStorage]], Dict[str, dict]]:
         files = dict()
         json_dicts = dict()
         for key in files_keys:

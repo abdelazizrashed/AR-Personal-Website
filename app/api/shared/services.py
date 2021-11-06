@@ -25,7 +25,10 @@ class IMGInfoServices:
         if file and not app:
             raise AttributeError("If you intend to upload an image you should include the flask app")
         else:
-            img_info.cloud_path = json.get("cloudPath")
+            if json.get("img"):
+                img_info.cloud_path = HelperServices.upload_file(file, app)
+            elif json.get("couldPath"):
+                img_info.cloud_path = json.get("cloudPath")
 
         img_info.alt = json.get("alt")
         img_info.caption = json.get("caption")

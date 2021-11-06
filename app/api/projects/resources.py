@@ -1,31 +1,47 @@
 from functools import partial
-from flask import current_app as app
-from flask_restful import Resource, reqparse, request
+from flask import current_app as app, request
+from flask_restful import Resource, reqparse#, request
 from flask_jwt_extended import jwt_required
 
 from typing import List
 
+from app.api.shared.helpers.services import HelperServices
+
 from .services import ProjectServices, ProjectsServices
+
+
+
+def img_parser(location: tuple=())-> reqparse.RequestParser:
+    parser = reqparse.RequestParser()
+    parser.add_argument("alt", type= str, location=location)
+    parser.add_argument("caption", type=str, location=location)
+    parser.add_argument("cloudPath", type=str, location=location)
+    return parser
 
 
 _project_parser = reqparse.RequestParser()
 _project_parser.add_argument("name", type=str)
 _project_parser.add_argument("id", type=str)
-_project_parser.add_argument("platformsIds", type=List[str])
-_project_parser.add_argument("technologiesIds", type=List[str])
-_project_parser.add_argument("imgUrl", type=str)
+_project_parser.add_argument("platformsIds", type=str, action="append")
+_project_parser.add_argument("technologiesIds", type=str, action="append")
+_project_parser.add_argument("img", type=dict)
+_img_parser = img_parser(("img",))
 _project_parser.add_argument("description", type=str)
 _project_parser.add_argument("githubUrl", type=str)
 _project_parser.add_argument("appStoreUrl", type=str)
 _project_parser.add_argument("googlePlayStoreUrl", type=str)
 _project_parser.add_argument("websiteUrl", type=str)
 _project_parser.add_argument("youtubeVid", type=dict)
-_project_parser.add_argument("servicesIds", type=List[str])
-_project_parser.add_argument("imgs", type=List[dict])
-_project_parser.add_argument("relatedProjectsIds", type=List[str])
-_project_parser.add_argument("detailedServices", type=List[dict])
-_project_parser.add_argument("detailedTechnologies", type=List[dict])
-_project_parser.add_argument("detailedPlatforms", type=List[dict])
+_project_parser.add_argument("servicesIds", type=str, action="append")
+_project_parser.add_argument("imgs", type=dict, action="append")
+_imgs_parser = img_parser(("imgs",))
+_project_parser.add_argument("relatedProjectsIds", type=str, action="append")
+_project_parser.add_argument("detailedServices", type=dict, action="append")
+_project_parser.add_argument("detailedTechnologies", type=dict, action="append")
+_project_parser.add_argument("detailedPlatforms", type=dict, action="append")
+
+def parse_child(child: reqparse.RequestParser, root_args: dict)-> dict:
+    return child.parse_args(req=root_args)
 
 
 class ProjectResources(Resource):
@@ -41,18 +57,39 @@ class ProjectResources(Resource):
             }, 404
         return ProjectServices.json(project), 200 if not partial else ProjectServices.json_partial(project), 200
 
-    @jwt_required()
     def post(self):
         data = _project_parser.parse_args()
-
-        project = ProjectServices.create(data, app)
-
-        if not project:
+        if not HelperServices.check_if_file_exists(data.get("img").get("cloudPath")):
             return {
-                "description": "Faced unknown error while creating the project",
-                "error": "unknown_error"
-            }, 520
-        return ProjectServices.json(project), 201
+                "description": "Image not found in the database. Please upload the image first using the url /shared/image, then attach the resulting cloudPath to the request.",
+                "error": "not_found"
+            }, 404
+        for img in data.get("imgs"):
+            if not HelperServices.check_if_file_exists(img.get("cloudPath")):
+                return {
+                    "description": "Image not found in the database. Please upload the image first using the url /shared/image, then attach the resulting cloudPath to the request.",
+                    "error": "not_found"
+                }, 404
+
+        # storage.child(data.get("img").get("cloudPath")).list_files
+        
+        # imgs = list()
+        # for im in data.get("imgs"):
+        #     imgs.append(parse_child(_imgs_parser, data))
+        # print(type(imgs))
+        # print(imgs)
+        # files, datas = HelperServices.seperate_files_and_json_data(request, files_keys=["img"], json_keys=["data"])
+        # data = datas["data"]
+        # imgs = files["img"]
+        # img = HelperServices.combine_imgs_and_dicts(imgs, datas["data"])
+        # project = ProjectServices.create(data, app)
+
+        # if not project:
+        #     return {
+        #         "description": "Faced unknown error while creating the project",
+        #         "error": "unknown_error"
+        #     }, 520
+        # return ProjectServices.json(project), 201
 
     @jwt_required()
     def put(self):

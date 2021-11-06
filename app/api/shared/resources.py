@@ -1,7 +1,9 @@
 from flask import current_app as app
 from flask_restful import Resource, reqparse, request
 from flask_jwt_extended import jwt_required
-from .services import TechnologiesServices, TechnologyServices, PlatformServices, PlatformsServices
+
+from app.api.shared.helpers.services import HelperServices
+from .services import IMGInfoServices, TechnologiesServices, TechnologyServices, PlatformServices, PlatformsServices
 
 
 _tech_parser = reqparse.RequestParser()
@@ -177,3 +179,50 @@ class PlatformResource(Resource):
             return PlatformServices.json_partial(platform), 200
         else:
             return PlatformServices.json_all(platform), 200
+
+
+class ImageResource(Resource):
+
+    _img_parser = reqparse.RequestParser()
+    _img_parser.add_argument("cloudPath")
+
+    @jwt_required()
+    def post(self):
+        files, datas = HelperServices.seperate_files_and_json_data(request, files_keys=["img"])
+        cloud_path = HelperServices.upload_file(files["img"][0], app)
+        return {
+            "cloudPath": cloud_path
+        }, 200
+
+
+    def get(self):
+        data = self._img_parser.parse_args()
+        if not data.get("cloudPath"):
+            return {
+                "description": "cloudPath is required",
+                "error": "not_found"
+            }, 404
+        storage = HelperServices.get_firebase_storage(app)
+        url = HelperServices.get_url_from_cloud_path(data.get("cloudPath"), storage)
+
+        return {
+            "url": url
+        }, 200
+
+    # @jwt_required()
+    # def put(self):
+    #     pass
+
+    @jwt_required()
+    def delete(self):
+        data = self._img_parser.parse_args()
+        if not data.get("cloudPath"):
+            return {
+                "description": "cloudPath is required",
+                "error": "not_found"
+            }, 404
+        cloud_path = HelperServices.delete_file(data.get("cloudPath"), app)
+        return {
+            "cloudPath": cloud_path
+        }, 200
+        
