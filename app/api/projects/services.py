@@ -125,7 +125,8 @@ class ProjectServices:
         json["platforms"] = [PlatformServices.retrieve(id_, app).name for id_ in project.platforms_ids]
         json["technologies"] = [TechnologyServices.retrieve(id_, app).name for id_ in project.technologies_ids]
         storage = HelperServices.get_firebase_storage(app)
-        json["imgUrl"] = HelperServices.get_url_from_cloud_path(project.img_cloud_path, storage)
+        json["img"] = IMGInfoServices.json(project.img)
+        # HelperServices.get_url_from_cloud_path(project.img_cloud_path, storage)
         json["description"] = project.description
         json["githubUrl"] = project.github_url
         json["appStoreUrl"] = project.app_store_url
@@ -149,7 +150,8 @@ class ProjectServices:
         json["technologies"] = [TechnologyServices.retrieve(id_, app).name for id_ in project.technologies_ids]
 
         storage = HelperServices.get_firebase_storage(app)
-        json["imgUrl"] = HelperServices.get_url_from_cloud_path(project.img_cloud_path, storage)
+        json["img"] = IMGInfoServices.json(project.img)
+        # HelperServices.get_url_from_cloud_path(project.img_cloud_path, storage)
         json["id"] = project.id_
         return json
 
@@ -160,7 +162,7 @@ class ProjectServices:
         project.id_ =json["id"]
         project.related_projects_ids =json["platformsIds"]
         project.technologies_ids =json["technologiesIds"] 
-        project.img_cloud_path =json["imgCloudPath"] 
+        project.img =IMGInfoServices.from_json(json.get("img"))
         project.description =json["description"] 
         project.github_url =json["githubUrl"] 
         project.app_store_url =json["appStoreUrl"]

@@ -19,6 +19,10 @@ class IMGInfoServices:
 
     @staticmethod
     def from_json(json: dict, file: FileStorage = None, app: Flask = None) -> IMGInfoModel:
+        """
+        The upload functionality of this method is deprecated and it will be removed.
+        """
+        #Todo: delete the upload functionality
         img_info = IMGInfoModel()
         if file and app:
             img_info.cloud_path = HelperServices.upload_file(file, app)
