@@ -2,7 +2,7 @@ from flask import current_app as app #request
 from flask_restful import Resource, reqparse, request
 from flask_jwt_extended import jwt_required
 
-from typing import List
+# from typing import List
 
 from app.api.shared.helpers.services import HelperServices
 

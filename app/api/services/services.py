@@ -83,6 +83,19 @@ class ServiceServices:
         return None
 
     @staticmethod
+    def json_partial(service: ServiceModel, app: Flask) -> dict:
+        if service:
+            return {
+                "name": service.name,
+                "description": service.description,
+                "id": service.id_,
+                "importance": service.importance,
+                "logo": IMGInfoServices.json(service.logo, app)
+            }
+        return None
+    
+
+    @staticmethod
     def from_json(json: dict) -> ServiceModel:
         service = ServiceModel()
         service.name=json.get("name"),
@@ -133,8 +146,12 @@ class ServiceServices:
 
 class ServicesServices:
     @staticmethod
-    def json(services: List[ServiceModel], app: Flask) -> list[dict]:
-        if services: return [ServiceServices.json(service) for service in services]
+    def json(services: List[ServiceModel], app: Flask) -> List[dict]:
+        if services: return [ServiceServices.json(service, app) for service in services]
+        return None
+
+    def json_partial(services: List[ServiceModel], app: Flask)-> List[dict]:
+        if services: return [ServicesServices.json_partial(service, app) for service in services]
         return None
 
     @staticmethod
