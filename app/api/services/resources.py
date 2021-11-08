@@ -3,7 +3,7 @@ from flask_jwt_extended.view_decorators import jwt_required
 from flask_restful import Resource, reqparse, request
 # from werkzeug.wrappers import request
 
-from app.api.services.services import ServiceServices
+from app.api.services.services import ServiceServices, ServicesServices
 from app.api.shared.helpers.services import HelperServices
 
 
@@ -96,6 +96,10 @@ class ServicesResources(Resource):
     def get(self):
         ids = request.args.getlist("id", type=str)
         partial = request.args.get("partial", type=bool)
+
+        services = ServicesServices.retreive(app, ids)
+
+        return ServicesServices.json_partial(services, app), 200 if partial else ServicesServices.json(services), 200
 
     @jwt_required()
     def put(self):

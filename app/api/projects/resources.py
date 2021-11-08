@@ -127,11 +127,16 @@ class ProjectsResources(Resource):
 
     @jwt_required()
     def put(self):
-        data = _project_parser.parse_args()
+        #Todo: Check if you can make this request work
+        return{
+            "description": "You are not allowed to create multiple projects at once. Create them one by one",
+            "error": "invalid_operation"
+        }, 409
+        # data = _project_parser.parse_args()
 
-        projects = ProjectsServices.update(data, app)
+        # projects = ProjectsServices.update(data, app)
 
-        return ProjectsServices.json(projects), 200
+        # return ProjectsServices.json(projects), 200
 
     @jwt_required()
     def delete(self):
