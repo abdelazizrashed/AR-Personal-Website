@@ -232,13 +232,10 @@ class TechnologiesServices:
         res = {"result": []}
         is_success = False
         for id_ in ids:
-            status_code = TechnologyServices.delete(id_, app)
-            if status_code == 200:
-                res["result"].append({"message": "Succeeded", "id": id_})
-                is_success = True
-            else:
-                res["result"].append({"message": "Failed", "id": id_})
-        sc = 200 if is_success else status_code
+            TechnologyServices.delete(id_, app)
+            res["result"].append({"message": "Succeeded", "id": id_})
+            is_success = True
+        sc = 200 if is_success else 520
         return res, sc
 
 
