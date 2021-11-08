@@ -147,11 +147,11 @@ class ServiceServices:
 class ServicesServices:
     @staticmethod
     def json(services: List[ServiceModel], app: Flask) -> List[dict]:
-        if services: return [ServiceServices.json(service, app) for service in services]
+        if services: return [ServiceServices.json(service, app) for service in services if service]
         return None
 
     def json_partial(services: List[ServiceModel], app: Flask)-> List[dict]:
-        if services: return [ServicesServices.json_partial(service, app) for service in services]
+        if services: return [ServicesServices.json_partial(service, app) for service in services if service]
         return None
 
     @staticmethod

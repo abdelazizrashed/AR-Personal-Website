@@ -87,10 +87,15 @@ class ServicesResources(Resource):
 
     @jwt_required()
     def post(self):
-        pass
+        #Todo: Check if you can make this request work
+        return{
+            "description": "You are not allowed to create multiple projects at once. Create them one by one",
+            "error": "invalid_operation"
+        }, 409
 
     def get(self):
-        pass
+        ids = request.args.getlist("id", type=str)
+        partial = request.args.get("partial", type=bool)
 
     @jwt_required()
     def put(self):
