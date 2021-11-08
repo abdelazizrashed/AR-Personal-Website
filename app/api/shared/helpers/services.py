@@ -11,6 +11,9 @@ from distutils.util import strtobool
 def any2bool(sm) -> bool:
     return bool(strtobool(sm))
 
+def rm_none_from_dict(d: dict) -> dict:
+    return {key:  value for key, value in d.items() if value}
+
 
 class HelperServices:
 
@@ -49,9 +52,6 @@ class HelperServices:
         storage = HelperServices.get_firebase_storage(app)
         storage.child(cloud_path).delete()
         return cloud_path
-        
-    # @staticmethod
-    # def update_file(cloud_path: str, app: Flask) -> str:
 
 
     @staticmethod

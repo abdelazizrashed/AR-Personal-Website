@@ -1,6 +1,6 @@
 from typing import List
 from flask import Flask
-from app.api.shared.helpers.services import HelperServices
+from app.api.shared.helpers.services import HelperServices, rm_none_from_dict
 from app.api.shared.models import IMGInfoModel, TechnologyModel, PlatformModel
 from app.api.shared.helpers.services import HelperServices
 from werkzeug.datastructures import FileStorage
@@ -84,6 +84,7 @@ class TechnologyServices:
     @staticmethod
     def update(updates: dict, id_: str, app: Flask) -> TechnologyModel:
         db = HelperServices.get_firebase_database(app)
+        updates  = rm_none_from_dict(updates)
         attrs = db.child("technologies").child(id_).update(updates)
         if attrs == None:
             return None
@@ -146,6 +147,7 @@ class PlatformServices:
     @staticmethod
     def update(updates: dict, id_: str, app: Flask) -> PlatformModel:
         db = HelperServices.get_firebase_database(app)
+        updates  = rm_none_from_dict(updates)
         attrs = db.child("platforms").child(id_).update(updates)
         if attrs == None:
             return None
@@ -208,6 +210,7 @@ class TechnologiesServices:
         techs = []
         for tech in updates["technologies"]:
             id_ = tech.pop("id")
+            tech  = rm_none_from_dict(tech)
             techs.append(TechnologyServices.update(tech, id_, app))
 
         return techs
@@ -279,6 +282,7 @@ class PlatformsServices:
         platforms = []
         for platform in updates["platforms"]:
             id_ = platform.pop("id")
+            platform  = rm_none_from_dict(platform)
             platforms.append(PlatformServices.update(platform, id_, app))
         return platforms
 

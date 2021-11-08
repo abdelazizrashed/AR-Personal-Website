@@ -5,7 +5,7 @@ from app.api.services.interfaces import ServiceContentInterface
 # from app.api.shared.interfaces import IMGInfoInterface, TechnologyInterface
 # from app.api.services.interfaces import ServiceContentInterface
 from .models import ServiceModel, ServiceContentModel, ServiceTechnologyModel
-from app.api.shared.helpers.services import HelperServices
+from app.api.shared.helpers.services import HelperServices, rm_none_from_dict
 from app.api.shared.services import IMGInfoServices
 
 
@@ -139,6 +139,7 @@ class ServiceServices:
     @staticmethod
     def update(updates: dict, id_: str, app: Flask) -> ServiceModel:
         db = HelperServices.get_firebase_database(app)
+        updates  = rm_none_from_dict(updates)
         attrs = db.child("services").child(id_).update(updates)
         if attrs == None:
             return None
@@ -199,7 +200,7 @@ class ServicesServices:
 
     @staticmethod
     def update(updates: dict, app: Flask) -> List[ServiceModel]:
-        return [ServiceServices.update(update, update["id"],  app) for update in updates]
+        return [ServiceServices.update(rm_none_from_dict(update), update["id"],  app) for update in updates]
 
     @staticmethod
     def delete(ids: List[str], app: Flask) -> List[int]:

@@ -4,7 +4,7 @@ from flask.app import Flask
 from werkzeug.exceptions import NotFound
 from .models import YouTubeVidModel, DetailModel, ProjectModel
 from app.api.shared.services import IMGInfoServices, PlatformServices, TechnologyServices
-from app.api.shared.helpers.services import HelperServices
+from app.api.shared.helpers.services import HelperServices, rm_none_from_dict
 
 
 #Todo: Images upload is faulted as well as technologies and platforms have a second look on how you would change it. I commented them so you won't forget
@@ -189,6 +189,7 @@ class ProjectServices:
     @staticmethod
     def update(updates: dict, id_: str, app: Flask) -> ProjectModel:
         db = HelperServices.get_firebase_database(app)
+        updates  = rm_none_from_dict(updates)
         attrs = db.child("projects").child(id_).update(updates)
         if attrs == None:
             return None
@@ -251,7 +252,7 @@ class ProjectsServices:
 
     @staticmethod
     def update(updates: dict, app: Flask) -> List[ProjectModel]:
-        return [ProjectServices.update(update, update["id"], app) for update in updates["projects"]]
+        return [ProjectServices.update(rm_none_from_dict(update), update["id"], app) for update in updates["projects"]]
 
     @staticmethod
     def delete(ids: List[str], app: Flask) -> List[int]:

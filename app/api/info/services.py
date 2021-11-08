@@ -1,7 +1,7 @@
 from flask import Flask
 from .models import InfoModel, NavbarPagesModel, IMGInfoModel
 from .interfaces import InfoInterface
-from app.api.shared.helpers.services import HelperServices
+from app.api.shared.helpers.services import HelperServices, rm_none_from_dict
 from app.api.shared.services import IMGInfoServices
 
 
@@ -109,6 +109,7 @@ class InfoServices:
     @staticmethod
     def update(updates: dict, app: Flask) -> InfoModel:
         db = HelperServices.get_firebase_database(app)
+        updates = rm_none_from_dict(updates)
         attrs = db.child("Info").update(dict(updates))
         if attrs == None:
             return None
