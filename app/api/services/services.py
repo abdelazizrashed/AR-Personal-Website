@@ -125,7 +125,7 @@ class ServiceServices:
         return ServiceServices.from_json(attrs)
 
     @staticmethod
-    def delete(id_: str, app: Flask) -> ServiceModel:
+    def delete(id_: str, app: Flask) -> int:
         db = HelperServices.get_firebase_database(app)
         res = db.child("services").child(id_).remove()
         return res.status_code
@@ -158,6 +158,7 @@ class ServicesServices:
             if ids and not service.id_ in ids:
                 #id filter
                 services.remove(service)
+            #*Leave them if you want to implement other filters
             # if service_id and not service_id in project.services_ids:
             #     #service filter
             #     projects.remove(project)
@@ -171,17 +172,10 @@ class ServicesServices:
         return services
 
     @staticmethod
-    def update(updates: dict, id_: str, app: Flask) -> ServiceModel:
-        db = HelperServices.get_firebase_database(app)
-        attrs = db.child("services").child(id_).update(updates)
-        if attrs == None:
-            return None
-        attrs["id"] = id_
-        return ServiceServices.from_json(attrs)
+    def update(updates: dict, app: Flask) -> List[ServiceModel]:
+        return [ServiceServices.update(update, update["id"],  app) for update in updates]
 
     @staticmethod
-    def delete(id_: str, app: Flask) -> ServiceModel:
-        db = HelperServices.get_firebase_database(app)
-        res = db.child("services").child(id_).remove()
-        return res.status_code
+    def delete(ids: List[str], app: Flask) -> List[int]:
+        return [ServiceServices.delete(id_, app) for id_ in ids]
 

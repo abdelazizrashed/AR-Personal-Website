@@ -1,6 +1,5 @@
-from functools import partial
-from flask import current_app as app, request
-from flask_restful import Resource, reqparse#, request
+from flask import current_app as app #request
+from flask_restful import Resource, reqparse, request
 from flask_jwt_extended import jwt_required
 
 from typing import List
@@ -11,12 +10,12 @@ from .services import ProjectServices, ProjectsServices
 
 
 
-def img_parser(location: tuple=())-> reqparse.RequestParser:
-    parser = reqparse.RequestParser()
-    parser.add_argument("alt", type= str, location=location)
-    parser.add_argument("caption", type=str, location=location)
-    parser.add_argument("cloudPath", type=str, location=location)
-    return parser
+# def img_parser(location: tuple=())-> reqparse.RequestParser:
+#     parser = reqparse.RequestParser()
+#     parser.add_argument("alt", type= str, location=location)
+#     parser.add_argument("caption", type=str, location=location)
+#     parser.add_argument("cloudPath", type=str, location=location)
+#     return parser
 
 
 _project_parser = reqparse.RequestParser()
@@ -25,7 +24,7 @@ _project_parser.add_argument("id", type=str)
 _project_parser.add_argument("platformsIds", type=str, action="append")
 _project_parser.add_argument("technologiesIds", type=str, action="append")
 _project_parser.add_argument("img", type=dict)
-_img_parser = img_parser(("img",))
+# _img_parser = img_parser(("img",))
 _project_parser.add_argument("description", type=str)
 _project_parser.add_argument("githubUrl", type=str)
 _project_parser.add_argument("appStoreUrl", type=str)
@@ -34,14 +33,14 @@ _project_parser.add_argument("websiteUrl", type=str)
 _project_parser.add_argument("youtubeVid", type=dict)
 _project_parser.add_argument("servicesIds", type=str, action="append")
 _project_parser.add_argument("imgs", type=dict, action="append")
-_imgs_parser = img_parser(("imgs",))
+# _imgs_parser = img_parser(("imgs",))
 _project_parser.add_argument("relatedProjectsIds", type=str, action="append")
 _project_parser.add_argument("detailedServices", type=dict, action="append")
 _project_parser.add_argument("detailedTechnologies", type=dict, action="append")
 _project_parser.add_argument("detailedPlatforms", type=dict, action="append")
 
-def parse_child(child: reqparse.RequestParser, root_args: dict)-> dict:
-    return child.parse_args(req=root_args)
+# def parse_child(child: reqparse.RequestParser, root_args: dict)-> dict:
+#     return child.parse_args(req=root_args)
 
 
 class ProjectResources(Resource):

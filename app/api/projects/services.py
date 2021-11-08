@@ -190,7 +190,7 @@ class ProjectServices:
         return ProjectServices.from_json(attrs)
 
     @staticmethod
-    def delete(id_: str, app: Flask) -> str:
+    def delete(id_: str, app: Flask) -> int:
         db = HelperServices.get_firebase_database(app)
         res = db.child("projects").child(id_).remove()
         return res.status_code
@@ -247,5 +247,5 @@ class ProjectsServices:
         return [ProjectServices.update(update, update["id"], app) for update in updates["projects"]]
 
     @staticmethod
-    def delete(ids: List[str], app: Flask) -> List[str]:
+    def delete(ids: List[str], app: Flask) -> List[int]:
         return [ProjectServices.delete(id_, app) for id_ in ids]
