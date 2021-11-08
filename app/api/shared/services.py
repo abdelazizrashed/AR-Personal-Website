@@ -9,6 +9,7 @@ from werkzeug.datastructures import FileStorage
 class IMGInfoServices:
     @staticmethod
     def json(img_info: IMGInfoModel, app: Flask) -> dict:
+        if not img_info: return 
         storage = HelperServices.get_firebase_storage(app)
 
         return {
@@ -47,6 +48,8 @@ class IMGInfoServices:
 class TechnologyServices:
     @staticmethod
     def json(technology: TechnologyModel) -> dict:
+        if not technology: return 
+        if not technology: return None
         return {
             "name": technology.name,
             "description": technology.description,
@@ -55,6 +58,7 @@ class TechnologyServices:
 
     @staticmethod
     def json_partial(technology: TechnologyModel) -> dict:
+        if not technology: return 
         return {
             "name": technology.name,
             "id": technology.id_,
@@ -90,6 +94,8 @@ class TechnologyServices:
     def retrieve(id_: str, app: Flask) -> TechnologyModel:
         db = HelperServices.get_firebase_database(app)
         result = db.child("technologies").child(id_).get()
+        if not result.val() or not result.key():
+            return None
         attrs = dict(result.val())
         attrs["id"] = result.key()
         if attrs == None:
@@ -104,7 +110,8 @@ class TechnologyServices:
 
 class PlatformServices:
     @staticmethod
-    def json_all(platform: PlatformModel, app: Flask) -> dict:
+    def json_all(platform: PlatformModel) -> dict:
+        if not platform: return  
         return {
             "name": platform.name,
             "description": platform.description,
@@ -112,7 +119,8 @@ class PlatformServices:
         }
 
     @staticmethod
-    def json_partial(platform: PlatformModel, app: Flask) -> dict:
+    def json_partial(platform: PlatformModel) -> dict:
+        if not platform: return
         return {
             "name": platform.name,
             "id": platform.id_,
@@ -164,6 +172,7 @@ class TechnologiesServices:
 
     @staticmethod
     def json_all(technologies: List[TechnologyModel]) -> dict:
+        if not technologies: return []
         techs_key = "technologies"
         technologies_dict = {techs_key: []}
         for tech in technologies:
@@ -172,6 +181,7 @@ class TechnologiesServices:
 
     @staticmethod
     def json_partial(technologies: List[TechnologyModel]) -> dict:
+        if not technologies: return []
         techs_key = "technologies"
         technologies_dict = {techs_key: []}
         for tech in technologies:
@@ -229,6 +239,7 @@ class PlatformsServices:
 
     @staticmethod
     def json_all(platforms: List[PlatformModel]) -> dict:
+        if  not platforms: return []
         plat_key = "platforms"
         plat_dict = {plat_key: []}
         for platform in platforms:
@@ -237,6 +248,7 @@ class PlatformsServices:
 
     @staticmethod
     def json_partial(platforms: List[PlatformModel]) -> dict:
+        if not platforms: return []
         plat_key = "platforms"
         plat_dict = {plat_key: []}
         for platform in platforms:

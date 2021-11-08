@@ -8,14 +8,7 @@ from app.api.shared.services import IMGInfoServices
 class InfoServices:
     @staticmethod
     def json(info: InfoModel, app: Flask) -> dict:
-        storage = HelperServices.get_firebase_storage(app)
-        # print(str(info.home_laptop_img_info))
-        # print(info.home_laptop_img_info.cloud_path)
-        # print(info.home_laptop_img_info.alt)
-        # print(info.home_tablet_img_info.cloud_path)
-        # print(info.home_tablet_img_info.alt)
-        # print(info.home_phone_img_info.cloud_path)
-        # print(info.home_phone_img_info.alt)
+        if not info: return None
         if info:
             return_info = dict()
             if info.navbar_pages :
@@ -135,6 +128,7 @@ class InfoServices:
 class NavbarPageServices:
     @staticmethod
     def json(navbar_pages: NavbarPagesModel) -> dict:
+        if not navbar_pages: return None
         if navbar_pages:
             return {
                 "home": True,

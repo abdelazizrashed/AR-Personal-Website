@@ -13,6 +13,7 @@ class YouTubeVidServices:
 
     @staticmethod 
     def json(vid: YouTubeVidModel) -> dict:
+        if not vid: return None
         return {
             "src": vid.src,
             "title": vid.title
@@ -31,7 +32,7 @@ class DetailServices:
 
     @staticmethod
     def json(detail: DetailModel) -> dict:
-        
+        if not detail: return None
         return {
             "name": detail.name,
             "description": detail.description
@@ -51,11 +52,10 @@ class YouTubeVidsServices:
 
     @staticmethod 
     def json(vids: List[YouTubeVidModel]) -> dict:
-        
         vids_lbl = "vids"
 
         return_dict = {vids_lbl: []}
-
+        if not vids:  return return_dict
         for vid in vids:
             return_dict[vids_lbl].append(YouTubeVidServices.json(vid))
         
@@ -80,6 +80,8 @@ class DetailsServices:
 
         json = {details_lbl: []}
 
+        if not details: return json
+
         for detail in details:
             json[details_lbl].append(DetailServices.json(detail))
 
@@ -100,6 +102,7 @@ class ProjectServices:
 
     @staticmethod 
     def json(project: ProjectModel, app: Flask) -> dict:
+        if not project: return None
         json = dict()
         
         json["name"] = project.name
@@ -126,6 +129,7 @@ class ProjectServices:
 
     @staticmethod
     def json_partial(project: ProjectModel, app: Flask) -> dict:
+        if not project: return None
         json = dict()
         json["name"] = project.name
         json["platforms"] = [PlatformServices.retrieve(id_, app).name for id_ in project.platforms_ids]
@@ -201,11 +205,13 @@ class ProjectsServices:
 
     @staticmethod 
     def json(projects: List[ProjectModel], app: Flask) -> dict:
+        if not projects: return {"projects": []}
         return {"projects": [ProjectServices.json(project, app) for project in projects]}
 
 
     @staticmethod
     def json_partial(projects: List[ProjectModel], app: Flask) -> dict:
+        if not projects: return {"projects": []}
         return {"projects": [ProjectServices.json_partial(project, app) for project in projects]}
 
     @staticmethod

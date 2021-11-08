@@ -13,6 +13,7 @@ class ServiceContentServices:
 
     @staticmethod
     def json(content: ServiceContentModel) -> dict:
+        if not content: return None
         if content:
             return {
                 "title": content.title,
@@ -32,6 +33,7 @@ class ServiceTechnologyServices:
 
     @staticmethod
     def json(tech: ServiceTechnologyModel) -> dict:
+        if not tech: return None
         json_dict = dict()
         json_dict["name"] = tech.name
         json_dict["description"] = tech.description
@@ -49,6 +51,7 @@ class ServiceContentsServices:
 
     @staticmethod
     def json(contents: List[ServiceContentModel]) -> List[dict]:
+        if not contents: return  []
         return [ServiceContentServices.json(content) for content in contents]
 
     @staticmethod
@@ -59,6 +62,7 @@ class ServiceTechnologiesServices:
 
     @staticmethod
     def json(techs: List[ServiceTechnologyModel]) -> List[dict]:
+        if not techs: return []
         return [ServiceTechnologyServices.json(tech) for tech in  techs]
 
     @staticmethod
@@ -68,6 +72,7 @@ class ServiceTechnologiesServices:
 class ServiceServices:
     @staticmethod
     def json(service: ServiceModel, app: Flask) -> Dict:
+        if not service: return None
         if service:
             return {
                 "name": service.name,
@@ -84,6 +89,7 @@ class ServiceServices:
 
     @staticmethod
     def json_partial(service: ServiceModel, app: Flask) -> dict:
+        if not service: return
         if service:
             return {
                 "name": service.name,
@@ -148,10 +154,12 @@ class ServiceServices:
 class ServicesServices:
     @staticmethod
     def json(services: List[ServiceModel], app: Flask) -> List[dict]:
+        if not services: return []
         if services: return [ServiceServices.json(service, app) for service in services if service]
         return None
 
     def json_partial(services: List[ServiceModel], app: Flask)-> List[dict]:
+        if not services: return []
         if services: return [ServicesServices.json_partial(service, app) for service in services if service]
         return None
 

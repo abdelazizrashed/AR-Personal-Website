@@ -10,6 +10,7 @@ from app.api.shared.helpers.services import HelperServices
 class UserServices:
     @staticmethod
     def json(user: UserModel) -> dict:
+        if not user:  return None
         return {
             "userID": user.user_id,
             "username": user.username,
