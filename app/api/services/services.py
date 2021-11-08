@@ -75,8 +75,8 @@ class ServiceServices:
                 "id": service.id_,
                 "importance": service.importance,
                 "logo": IMGInfoServices.json(service.logo, app),
-                "projects": service.projects,
-                "otherServices": service.other_services,
+                "projectsIds": service.projects_ids,
+                "otherServicesIds": service.other_services_ids,
                 "content": [ServiceContentServices.json(x) for x in service.content],
                 "technologies": ServiceTechnologiesServices.json(service.technologies)
             }
@@ -90,8 +90,8 @@ class ServiceServices:
         service.id_=json.get("id"),
         service.importance=json.get("importance"),
         service.logo=IMGInfoServices.from_json(json.get("logo")),
-        service.projects=json.getlist("projects"),
-        service.other_services=json.getlist("otherServices"),
+        service.projects_ids=json.getlist("projectsIds"),
+        service.other_services_ids=json.getlist("otherServicesIds"),
         service.content=[
             ServiceContentServices.from_json(x) for x in json.getlist("content")
         ],

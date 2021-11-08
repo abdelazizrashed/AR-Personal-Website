@@ -24,12 +24,12 @@ class ServiceModel:
     id_: str
     importance: int
     logo: IMGInfoInterface
-    projects: List[Dict]
-    other_services: List[Dict]
+    projects_ids: List[str]
+    other_services_ids: List[str]
     content: List[ServiceContentModel]
     technologies: List[ServiceTechnologyModel]
 
-    def update(self, changes: ServiceInterface):
-        for key, value in changes.items():
-            setattr(self, key, value)
-        return self
+    # def update(self, changes: ServiceInterface):
+    #     for key, value in changes.items():
+    #         setattr(self, key, value)
+    #     return self
