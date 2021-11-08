@@ -134,7 +134,6 @@ class PlatformsResource(Resource):
         return res
 
     def get(self):
-        ids = request
         ids = request.args.getlist("id")
         partial = request.args.get("partial", type=any2bool)
         platforms = PlatformsServices.retrieve(app, ids=ids)

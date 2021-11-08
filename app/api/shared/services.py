@@ -215,10 +215,17 @@ class TechnologiesServices:
 
     @staticmethod
     def retrieve(app: Flask, ids: List[str] = None) -> List[TechnologyModel]:
-        techs = []
-        for id_ in ids:
-            techs.append(TechnologyServices.retrieve(id_, app))
-        return techs
+        
+        db =  HelperServices.get_firebase_database(app)
+        results = db.child("technologies").get()
+        technologies = []
+        for result in results.each():
+            if ids and not result.key() in ids:
+                continue
+            attrs = result.val()
+            attrs["id"] = result.key()
+            technologies.append(TechnologyServices.from_json(attrs))
+        return technologies
 
     @staticmethod
     def delete(ids: List[str], app: Flask) -> dict:
@@ -263,23 +270,6 @@ class PlatformsServices:
 
         return plats
 
-    # Todo: impelement the CRUD methods
-    @staticmethod
-    def create(attrs: dict, app: Flask) -> List[PlatformModel]:
-        raise NotImplementedError
-
-    @staticmethod
-    def update(updates: dict, ids:List[str], app: Flask) -> List[PlatformModel]:
-        raise NotImplementedError
-
-    @staticmethod
-    def retrieve(app: Flask, ids: List[str] = None) -> List[PlatformModel]:
-        raise NotImplementedError
-
-    @staticmethod
-    def delete(ids: List[str], app: Flask) -> dict:
-        raise NotImplementedError
-
     @staticmethod
     def create(attrs: dict, app: Flask) -> List[PlatformModel]:
         platforms = []
@@ -298,7 +288,19 @@ class PlatformsServices:
 
     @staticmethod
     def retrieve(app: Flask, ids: List[str] = None) -> List[PlatformModel]:
-        return [PlatformServices.retrieve(id_, app) for id_ in ids]
+        # if ids:
+        #     return [PlatformServices.retrieve(id_, app) for id_ in ids]
+        # else:
+        db =  HelperServices.get_firebase_database(app)
+        results = db.child("platforms").get()
+        platforms = []
+        for result in results.each():
+            if ids and not result.key() in ids:
+                continue
+            attrs = result.val()
+            attrs["id"] = result.key()
+            platforms.append(PlatformServices.from_json(attrs))
+        return platforms
 
     @staticmethod
     def delete(ids: List[str], app: Flask) -> dict:
