@@ -167,7 +167,7 @@ class TechnologiesServices:
         techs_key = "technologies"
         technologies_dict = {techs_key: []}
         for tech in technologies:
-            technologies_dict[techs_key].append(TechnologyServices.json_all(tech))
+            technologies_dict[techs_key].append(TechnologyServices.json(tech))
         return technologies_dict
 
     @staticmethod

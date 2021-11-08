@@ -74,7 +74,7 @@ class TechnologyResource(Resource):
         id_ = request.args.get("id", type=str)
         data = _tech_parser.parse_args()
         technology = TechnologyServices.update(data, id_, app)
-        return TechnologyServices.json_all(technology), 200
+        return TechnologyServices.json(technology), 200
 
     @jwt_required()
     def delete(self):
