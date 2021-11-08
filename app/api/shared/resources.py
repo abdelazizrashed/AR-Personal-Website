@@ -130,8 +130,7 @@ class PlatformsResource(Resource):
                 "description": "You should include a list of platforms' id's to delete",
                 "error": "missing_info"
             }, 400
-        res = PlatformsServices.delete(ids, app)
-        return res
+        return PlatformsServices.delete(ids, app), 200
 
     def get(self):
         ids = request.args.getlist("id")
@@ -161,17 +160,7 @@ class PlatformResource(Resource):
     @jwt_required()
     def delete(self):
         id_ = request.args.get("id", type=str)
-        status_code = PlatformServices.delete(id_, app)
-        if status_code == 200:
-            return{
-                "message": "Deleted platform object successfully",
-                "id": id_
-            }, 200
-        else:
-            return {
-                "message": "Failed",
-                "id": id_
-            }, status_code
+        return PlatformServices.delete(id_, app), 200
 
     def get(self):
         id_ = request.args.get("id", type=str)
