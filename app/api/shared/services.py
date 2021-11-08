@@ -89,7 +89,7 @@ class TechnologyServices:
     @staticmethod
     def retrieve(id_: str, app: Flask) -> TechnologyModel:
         db = HelperServices.get_firebase_database(app)
-        attrs = db.child("technologies").child(id_).get()
+        attrs = dict(db.child("technologies").child(id_).get().val())
         if attrs == None:
             return None
         return TechnologyServices.from_json(attrs)
@@ -146,7 +146,7 @@ class PlatformServices:
     @staticmethod
     def retrieve(id_: str, app: Flask) -> PlatformModel:
         db = HelperServices.get_firebase_database(app)
-        attrs = db.child("platforms").child(id_).get()
+        attrs = dict(db.child("platforms").child(id_).get().va())
         if attrs == None:
             return None
         return PlatformServices.from_json(attrs)

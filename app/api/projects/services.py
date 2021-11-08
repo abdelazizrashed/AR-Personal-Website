@@ -175,7 +175,7 @@ class ProjectServices:
     @staticmethod
     def retrieve(id_: dict, app: Flask) -> ProjectModel:
         db = HelperServices.get_firebase_database(app)
-        attrs = db.child("projects").child(id_).get()
+        attrs = dict(db.child("projects").child(id_).get().val())
         if attrs == None:
             return None
         return ProjectServices.from_json(attrs)
@@ -220,10 +220,10 @@ class ProjectsServices:
     def retrieve(app: Flask, ids: List[str] = None, service_id: str = None, platform_id: str = None, technology_id: str = None) -> List[ProjectModel]:
         projects: List[ProjectModel] = []
         db = HelperServices.get_firebase_database(app)
-        attrs: dict = db.child("projects").get()
-        for key, value in attrs.items():
-            p_attrs = value
-            p_attrs["id"] = key
+        results = db.child("projects").get()
+        for result in results.each():
+            p_attrs = dict(result.val())
+            p_attrs["id"] = result.key()
             projects.append(ProjectServices.from_json(p_attrs))
         for project in projects:
             if ids and not project.id_ in ids:
