@@ -66,7 +66,7 @@ class TechnologyResource(Resource):
     def post(self):
         data = _tech_parser.parse_args()
         technology = TechnologyServices.create(data, app)
-        return TechnologyServices.json_all(technology), 200
+        return TechnologyServices.json(technology), 200
 
     @jwt_required()
     def put(self):
@@ -98,7 +98,7 @@ class TechnologyResource(Resource):
             return TechnologyServices.json_partial(tech), 200
 
         else:
-            return TechnologyServices.json_all(tech), 200
+            return TechnologyServices.json(tech), 200
 
 
 class PlatformsResource(Resource):

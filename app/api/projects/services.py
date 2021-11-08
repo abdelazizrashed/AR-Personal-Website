@@ -175,7 +175,9 @@ class ProjectServices:
     @staticmethod
     def retrieve(id_: dict, app: Flask) -> ProjectModel:
         db = HelperServices.get_firebase_database(app)
-        attrs = dict(db.child("projects").child(id_).get().val())
+        result = db.child("projects").child(id_).get()
+        attrs = dict(result.val())
+        attrs["id"] = result.key()
         if attrs == None:
             return None
         return ProjectServices.from_json(attrs)

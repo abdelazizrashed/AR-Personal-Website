@@ -123,7 +123,9 @@ class ServiceServices:
     @staticmethod
     def retreive(id_: str, app: Flask) -> ServiceModel:
         db = HelperServices.get_firebase_database(app)
-        attrs = dict(db.child("services").child(id_).get().val())
+        result = db.child("services").child(id_).get()
+        attrs = dict(result.val())
+        attrs["id"] = result.key()
         if attrs == None:
             return None
         return ServiceServices.from_json(attrs)
@@ -166,7 +168,7 @@ class ServicesServices:
     def retreive(app: Flask, ids: List[str] = None,) -> List[ServiceModel]:
         services: List[ServiceModel] = []
         db = HelperServices.get_firebase_database(app)
-        results = dict(db.child("services").get().val())
+        results = db.child("services").get()
         for result in results.each():
             s_attrs = result.val()
             s_attrs["id"] = result.key()

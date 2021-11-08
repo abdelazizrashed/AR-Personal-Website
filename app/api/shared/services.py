@@ -46,7 +46,7 @@ class IMGInfoServices:
 
 class TechnologyServices:
     @staticmethod
-    def json_all(technology: TechnologyModel) -> dict:
+    def json(technology: TechnologyModel) -> dict:
         return {
             "name": technology.name,
             "description": technology.description,
@@ -89,7 +89,9 @@ class TechnologyServices:
     @staticmethod
     def retrieve(id_: str, app: Flask) -> TechnologyModel:
         db = HelperServices.get_firebase_database(app)
-        attrs = dict(db.child("technologies").child(id_).get().val())
+        result = db.child("technologies").child(id_).get()
+        attrs = dict(result.val())
+        attrs["id"] = result.key()
         if attrs == None:
             return None
         return TechnologyServices.from_json(attrs)
@@ -146,7 +148,9 @@ class PlatformServices:
     @staticmethod
     def retrieve(id_: str, app: Flask) -> PlatformModel:
         db = HelperServices.get_firebase_database(app)
-        attrs = dict(db.child("platforms").child(id_).get().va())
+        result = db.child("platforms").child(id_).get()
+        attrs = dict(result.val())
+        attrs["id"] = result.key()
         if attrs == None:
             return None
         return PlatformServices.from_json(attrs)
