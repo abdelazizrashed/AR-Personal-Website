@@ -6,6 +6,10 @@ from typing import List, Tuple, Dict
 import json
 from werkzeug.security import safe_str_cmp
 import copy
+from distutils.util import strtobool
+
+def any2bool(sm) -> bool:
+    return bool(strtobool(sm))
 
 
 class HelperServices:

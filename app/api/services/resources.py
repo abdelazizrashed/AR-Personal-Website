@@ -45,7 +45,7 @@ class ServiceResources(Resource):
 
     def get(self):
         id_ = request.args.get("id", type=str)
-        partial = request.args.get("partial", type=bool)
+        partial = request.args.get("partial", type=any2bool)
         service = ServiceServices.retreive(id_, app)
         if not service:
             return {
@@ -94,7 +94,7 @@ class ServicesResources(Resource):
 
     def get(self):
         ids = request.args.getlist("id", type=str)
-        partial = request.args.get("partial", type=bool)
+        partial = request.args.get("partial", type=any2bool)
 
         services = ServicesServices.retreive(app, ids)
 

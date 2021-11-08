@@ -4,7 +4,7 @@ from flask_jwt_extended import jwt_required
 
 # from typing import List
 
-from app.api.shared.helpers.services import HelperServices
+from app.api.shared.helpers.services import HelperServices, any2bool
 
 from .services import ProjectServices, ProjectsServices
 
@@ -34,7 +34,7 @@ class ProjectResources(Resource):
     
     def get(self):
         id_ = request.args.get("id", type=str)
-        partial = request.args.get("partial", type=bool)
+        partial = request.args.get("partial", type=any2bool)
         project = ProjectServices.retrieve(id_, app)
         if not project:
             return {
@@ -108,7 +108,7 @@ class ProjectsResources(Resource):
     
     def get(self):
         ids = request.args.getlist("id")
-        partial = request.args.get("partial", type=bool)
+        partial = request.args.get("partial", type=any2bool)
         service = request.args.get("service", type=str)
         platform = request.args.get("platform", type=str)
         technology = request.args.get("technology", type=str)

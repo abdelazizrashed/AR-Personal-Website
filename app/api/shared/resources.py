@@ -2,7 +2,7 @@ from flask import current_app as app
 from flask_restful import Resource, reqparse, request
 from flask_jwt_extended import jwt_required
 
-from app.api.shared.helpers.services import HelperServices
+from app.api.shared.helpers.services import HelperServices, any2bool
 from .services import IMGInfoServices, TechnologiesServices, TechnologyServices, PlatformServices, PlatformsServices
 
 
@@ -51,7 +51,7 @@ class TechnologiesResource(Resource):
     def get(self):
         ids = request
         ids = request.args.getlist("id")
-        partial = request.args.get("partial", type=bool)
+        partial = request.args.get("partial", type=any2bool)
         techs = TechnologiesServices.retrieve(app, ids=ids)
         if partial:
             return TechnologiesServices.json_partial(techs), 200
@@ -92,7 +92,9 @@ class TechnologyResource(Resource):
 
     def get(self):
         id_ = request.args.get("id", type=str)
-        partial = request.args.get("partial", type=bool)
+        partial = request.args.get("partial", type=any2bool)
+        print(type(partial))
+        print(partial)
         tech = TechnologyServices.retrieve(id_, app)
         if partial:
             return TechnologyServices.json_partial(tech), 200
@@ -133,7 +135,7 @@ class PlatformsResource(Resource):
     def get(self):
         ids = request
         ids = request.args.getlist("id")
-        partial = request.args.get("partial", type=bool)
+        partial = request.args.get("partial", type=any2bool)
         platforms = PlatformsServices.retrieve(app, ids=ids)
         if partial:
             return PlatformsServices.json_partial(platforms), 200
@@ -173,7 +175,7 @@ class PlatformResource(Resource):
 
     def get(self):
         id_ = request.args.get("id", type=str)
-        partial = request.args.get("partial", type=bool)
+        partial = request.args.get("partial", type=any2bool)
         platform = PlatformServices.retrieve(id_, app)
         if partial:
             return PlatformServices.json_partial(platform), 200
