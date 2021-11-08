@@ -23,7 +23,6 @@ class ServiceResources(Resource):
     @jwt_required()
     def post(self):
         data = _service_parser.parse_args()
-        service = ServiceServices.create(data, app)
         
         if not data.get("logo") or not data.get("logo").get("cloudPath"):
             return {
@@ -37,6 +36,7 @@ class ServiceResources(Resource):
                 "error": "not_found"
             }, 404
 
+        service = ServiceServices.create(data, app)
         if not service:
             return {
                 "description": "Faced unknown error while creating the service",
@@ -60,11 +60,27 @@ class ServiceResources(Resource):
     def put(self):
         id_ = request.args.get("id", type=str)
         data = _service_parser.parse_args()
+        
+        if data.get("logo") and not data.get("logo").get("cloudPath"):
+            return {
+                "description": "If you are going to update the logo you need to upload the new logo to the database via /shared/image post request then add the cloudPath to the logo",
+                "error": "missing_info"
+            }, 400
+        
+        if not HelperServices.check_if_file_exists(data.get("logo").get("cloudPath"), app):
+            return {
+                "description": "Image not found in the database. Please upload the image first using the url /shared/image, then attach the resulting cloudPath to the request.",
+                "error": "not_found"
+            }, 404
+        service = ServiceServices.update(data, id_, app)
+        return ServiceServices.json(service, app), 204
 
 
     @jwt_required()
     def delete(self):
-        pass
+        id_ = request.args.get("id", type=str)
+
+        
 
 
 class ServicesResources(Resource):

@@ -101,14 +101,7 @@ class ProjectResources(Resource):
     def delete(self):
         id_ = request.args.get("id", type=str)
 
-        del_id = ProjectServices.delete(id_, app)
-
-        if not del_id:
-            return {
-                "description": "Faced unknown error while deleting the project",
-                "error": "unknown_error"
-            }, 520
-        return 200
+        return ProjectServices.delete(id_, app)
 
 
 class ProjectsResources(Resource):
@@ -144,6 +137,6 @@ class ProjectsResources(Resource):
     def delete(self):
         ids = request.args.getlist("id")
 
-        ids = ProjectsServices.delete(ids, app)
+        status_codes = ProjectsServices.delete(ids, app)
 
-        return 200
+        return status_codes, 200
