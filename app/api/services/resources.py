@@ -80,7 +80,7 @@ class ServiceResources(Resource):
     def delete(self):
         id_ = request.args.get("id", type=str)
 
-        
+        return ServiceServices.delete(id_, app)
 
 
 class ServicesResources(Resource):
