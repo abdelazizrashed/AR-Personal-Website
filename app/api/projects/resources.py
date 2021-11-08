@@ -144,4 +144,7 @@ class ProjectsResources(Resource):
 
         status_codes = ProjectsServices.delete(ids, app)
 
-        return status_codes, 200
+        return {
+            "description": "Projects deleted",
+            "statusCodes": status_codes
+        }, 200
