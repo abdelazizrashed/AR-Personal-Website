@@ -132,5 +132,56 @@ class ServiceServices:
 
 
 class ServicesServices:
+    @staticmethod
+    def json(services: List[ServiceModel], app: Flask) -> list[dict]:
+        if services: return [ServiceServices.json(service) for service in services]
+        return None
 
-    
+    @staticmethod
+    def from_json(json: List[dict]) -> list[ServiceModel]:
+        return [ServiceServices.from_json(j) for j in json]
+
+    @staticmethod
+    def create(attrs: List[dict], app: Flask) -> List[ServiceModel]:
+        return [ServiceServices.create(attr, app) for attr in attrs]
+
+    @staticmethod
+    def retreive(app: Flask, ids: List[str] = None,) -> List[ServiceModel]:
+        services: List[ServiceModel] = []
+        db = HelperServices.get_firebase_database(app)
+        attrs: dict = db.child("services").get()
+        for key, value in attrs.items():
+            s_attrs = value
+            s_attrs["id"] = key
+            services.append(ServiceServices.from_json(s_attrs))
+        for service in services:
+            if ids and not service.id_ in ids:
+                #id filter
+                services.remove(service)
+            # if service_id and not service_id in project.services_ids:
+            #     #service filter
+            #     projects.remove(project)
+            # if platform_id and not platform_id in project.platforms_ids:
+            #     #platform filter
+            #     projects.remove(project)
+            # if technology_id and not technology_id in project.technologies_ids:
+            #     #technology filter
+            #     projects.remove(project)
+
+        return services
+
+    @staticmethod
+    def update(updates: dict, id_: str, app: Flask) -> ServiceModel:
+        db = HelperServices.get_firebase_database(app)
+        attrs = db.child("services").child(id_).update(updates)
+        if attrs == None:
+            return None
+        attrs["id"] = id_
+        return ServiceServices.from_json(attrs)
+
+    @staticmethod
+    def delete(id_: str, app: Flask) -> ServiceModel:
+        db = HelperServices.get_firebase_database(app)
+        res = db.child("services").child(id_).remove()
+        return res.status_code
+

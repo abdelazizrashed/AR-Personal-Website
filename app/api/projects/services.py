@@ -98,24 +98,6 @@ class DetailsServices:
 
 class ProjectServices:
 
-    # name: str
-    # id_: str
-    # platforms_ids: List[str]
-    # technologies_ids: List[str]
-    # img_url: str
-    # description: str
-    # github_url: str
-    # app_store_url: str
-    # google_play_store_url: str
-    # website_url: str
-    # youtube_vid: YouTubeVidModel
-    # services_ids: List[str]
-    # imgs: List[IMGInfoModel]
-    # related_projects_ids: List[str]
-    # detailed_services: List[DetailModel]
-    # detailed_technologies: List[DetailModel]
-    # detailed_platforms: List[DetailModel]
-
     @staticmethod 
     def json(project: ProjectModel, app: Flask) -> dict:
         json = dict()
@@ -237,21 +219,24 @@ class ProjectsServices:
     @staticmethod
     def retrieve(app: Flask, ids: List[str] = None, service_id: str = None, platform_id: str = None, technology_id: str = None) -> List[ProjectModel]:
         projects: List[ProjectModel] = []
-        if ids:
-            projects = [ProjectServices.retrieve(id_) for id_ in ids]
-        else:
-            db = HelperServices.get_firebase_database(app)
-            attrs: dict = db.child("projects").get()
-            for key, value in attrs.items():
-                p_attrs = value
-                p_attrs["id"] = key
-                projects.append(ProjectServices.from_json(p_attrs))
+        db = HelperServices.get_firebase_database(app)
+        attrs: dict = db.child("projects").get()
+        for key, value in attrs.items():
+            p_attrs = value
+            p_attrs["id"] = key
+            projects.append(ProjectServices.from_json(p_attrs))
         for project in projects:
+            if ids and not project.id_ in ids:
+                #id filter
+                projects.remove(project)
             if service_id and not service_id in project.services_ids:
+                #service filter
                 projects.remove(project)
             if platform_id and not platform_id in project.platforms_ids:
+                #platform filter
                 projects.remove(project)
             if technology_id and not technology_id in project.technologies_ids:
+                #technology filter
                 projects.remove(project)
 
         return projects
