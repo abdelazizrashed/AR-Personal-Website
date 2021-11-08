@@ -32,11 +32,16 @@ class TechnologiesResource(Resource):
 
     @jwt_required()
     def put(self):
-        data = request.get_json()
-        techs = TechnologiesServices.update(data, app)
+        #Todo: Check if you can make this request work
         return{
-            "technologies": TechnologiesServices.json_all(techs)
-        }, 200
+            "description": "You are not allowed to update multiple technologies at once. Update them one by one",
+            "error": "invalid_operation"
+        }, 409
+        # data = request.get_json()
+        # techs = TechnologiesServices.update(data, app)
+        # return{
+        #     "technologies": TechnologiesServices.json_all(techs)
+        # }, 200
 
     @jwt_required()
     def delete(self):
@@ -100,17 +105,22 @@ class PlatformsResource(Resource):
     def post(self):
         #Todo: Check if you can make this request work
         return{
-            "description": "You are not allowed to create multiple technologies at once. Create them one by one",
+            "description": "You are not allowed to create multiple platforms at once. Create them one by one",
             "error": "invalid_operation"
         }, 409
 
     @jwt_required()
     def put(self):
-        data = request.get_json()
-        platforms = PlatformsServices.update(data, app)
+        #Todo: Check if you can make this request work
         return{
-            "platforms": PlatformsServices.json_all(platforms)
-        }, 200
+            "description": "You are not allowed to update multiple platforms at once. Update them one by one",
+            "error": "invalid_operation"
+        }, 409
+        # data = request.get_json()
+        # platforms = PlatformsServices.update(data, app)
+        # return{
+        #     "platforms": PlatformsServices.json_all(platforms)
+        # }, 200
 
     @jwt_required()
     def delete(self):
