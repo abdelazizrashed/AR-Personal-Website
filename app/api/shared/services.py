@@ -100,8 +100,7 @@ class TechnologyServices:
     @staticmethod
     def delete(id_: str, app: Flask) -> int:
         db = HelperServices.get_firebase_database(app)
-        res = db.child("technologies").child(id_).remove()
-        return res.status_code
+        return db.child("technologies").child(id_).remove()
 
 class PlatformServices:
     @staticmethod
@@ -159,9 +158,7 @@ class PlatformServices:
     @staticmethod
     def delete(id_: str, app: Flask) -> int:
         db = HelperServices.get_firebase_database(app)
-        res = db.child("platforms").child(id_).remove()
-        return res.status_code
-
+        return db.child("platforms").child(id_).remove()
 
 class TechnologiesServices:
 
@@ -284,27 +281,13 @@ class PlatformsServices:
         for platform in updates["platforms"]:
             id_ = platform.pop("id")
             platforms.append(PlatformServices.update(platform, id_, app))
-
         return platforms
 
 
     @staticmethod
     def retrieve(app: Flask, ids: List[str] = None) -> List[PlatformModel]:
-        platforms = []
-        for id_ in ids:
-            platforms.append(PlatformServices.retrieve(id_, app))
-        return platforms
+        return [PlatformServices.retrieve(id_, app) for id_ in ids]
 
     @staticmethod
     def delete(ids: List[str], app: Flask) -> dict:
-        res = {"result": []}
-        is_success = False
-        for id_ in ids:
-            status_code = PlatformServices.delete(id_, app)
-            if status_code == 200:
-                res["result"].append({"message": "Succeeded", "id": id_})
-                is_success = True
-            else:
-                res["result"].append({"message": "Failed", "id": id_})
-        sc = 200 if is_success else status_code
-        return res, sc
+        return [PlatformServices.delete(id_, app) for id_ in ids]

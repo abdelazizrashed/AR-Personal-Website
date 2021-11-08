@@ -3,7 +3,7 @@ from flask_jwt_extended.view_decorators import jwt_required
 from flask_restful import Resource, reqparse, request
 
 from app.api.services.services import ServiceServices, ServicesServices
-from app.api.shared.helpers.services import HelperServices
+from app.api.shared.helpers.services import HelperServices, any2bool
 
 
 _service_parser = reqparse.RequestParser()
@@ -79,7 +79,7 @@ class ServiceResources(Resource):
     def delete(self):
         id_ = request.args.get("id", type=str)
 
-        return ServiceServices.delete(id_, app)
+        return ServiceServices.delete(id_, app), 200
 
 
 class ServicesResources(Resource):
@@ -112,11 +112,10 @@ class ServicesResources(Resource):
     def delete(self):
         ids = request.args.getlist("id")
 
-        status_codes = ServicesServices.delete(ids, app)
+        ServicesServices.delete(ids, app)
 
         
         return {
-            "description": "Services deleted",
-            "statusCodes": status_codes
+            "description": "Services deleted"
         }, 200
 

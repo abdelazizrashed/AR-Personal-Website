@@ -142,8 +142,7 @@ class ServiceServices:
     @staticmethod
     def delete(id_: str, app: Flask) -> int:
         db = HelperServices.get_firebase_database(app)
-        res = db.child("services").child(id_).remove()
-        return res.status_code
+        return db.child("services").child(id_).remove()
 
 
 class ServicesServices:

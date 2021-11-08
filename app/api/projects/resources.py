@@ -101,7 +101,7 @@ class ProjectResources(Resource):
     def delete(self):
         id_ = request.args.get("id", type=str)
 
-        return ProjectServices.delete(id_, app)
+        return ProjectServices.delete(id_, app), 200
 
 
 class ProjectsResources(Resource):

@@ -1,4 +1,5 @@
 from flask import current_app as app
+from flask.wrappers import Response
 from flask_restful import Resource, reqparse, request
 from flask_jwt_extended import jwt_required
 
@@ -78,17 +79,7 @@ class TechnologyResource(Resource):
     @jwt_required()
     def delete(self):
         id_ = request.args.get("id", type=str)
-        status_code = TechnologyServices.delete(id_, app)
-        if status_code == 200:
-            return{
-                "message": "Succeeded",
-                "id": id_
-            }, 200
-        else:
-            return {
-                "message": "Failed",
-                "id": id_
-            }, status_code
+        return TechnologyServices.delete(id_, app), 200
 
     def get(self):
         id_ = request.args.get("id", type=str)
