@@ -129,7 +129,7 @@ class ProjectsResources(Resource):
     def put(self):
         #Todo: Check if you can make this request work
         return{
-            "description": "You are not allowed to create multiple projects at once. Create them one by one",
+            "description": "You are not allowed to create multiple projects at once. Update them one by one",
             "error": "invalid_operation"
         }, 409
         # data = _project_parser.parse_args()

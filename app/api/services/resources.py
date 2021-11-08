@@ -1,7 +1,6 @@
 from flask import current_app as app
 from flask_jwt_extended.view_decorators import jwt_required
 from flask_restful import Resource, reqparse, request
-# from werkzeug.wrappers import request
 
 from app.api.services.services import ServiceServices, ServicesServices
 from app.api.shared.helpers.services import HelperServices
@@ -103,9 +102,21 @@ class ServicesResources(Resource):
 
     @jwt_required()
     def put(self):
-        pass
+        #Todo: Check if you can make this request work
+        return{
+            "description": "You are not allowed to create multiple projects at once. Update them one by one",
+            "error": "invalid_operation"
+        }, 409
 
     @jwt_required()
     def delete(self):
-        pass
+        ids = request.args.getlist("id")
+
+        status_codes = ServicesServices.delete(ids, app)
+
+        
+        return {
+            "description": "Services deleted",
+            "statusCodes": status_codes
+        }, 200
 
