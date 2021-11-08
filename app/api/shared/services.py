@@ -22,17 +22,17 @@ class IMGInfoServices:
         """
         The upload functionality of this method is deprecated and it will be removed.
         """
-        #Todo: delete the upload functionality
         img_info = IMGInfoModel()
-        if file and app:
-            img_info.cloud_path = HelperServices.upload_file(file, app)
-        if file and not app:
-            raise AttributeError("If you intend to upload an image you should include the flask app")
-        else:
-            if json.get("img"):
-                img_info.cloud_path = HelperServices.upload_file(file, app)
-            elif json.get("couldPath"):
-                img_info.cloud_path = json.get("cloudPath")
+        #Todo: delete the upload functionality
+        # if file and app:
+        #     img_info.cloud_path = HelperServices.upload_file(file, app)
+        # if file and not app:
+        #     raise AttributeError("If you intend to upload an image you should include the flask app")
+        # else:
+        #     if json.get("img"):
+        #         img_info.cloud_path = HelperServices.upload_file(file, app)
+        #     elif json.get("couldPath"):
+        img_info.cloud_path = json.get("cloudPath")
 
         img_info.alt = json.get("alt")
         img_info.caption = json.get("caption")
