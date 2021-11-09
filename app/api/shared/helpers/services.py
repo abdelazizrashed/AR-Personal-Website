@@ -32,19 +32,19 @@ class HelperServices:
         return None
 
     @staticmethod
-    def upload_file(file: FileStorage, app: Flask, cloud_path: str = None) -> str:
+    def upload_file(file: FileStorage, app: Flask, cloud_path: str = None, content_type=None) -> str:
         """
         Upload file to the data base and return the cloud_path.
         """
         storage = HelperServices.get_firebase_storage(app)
         if not cloud_path:
             db = HelperServices.get_firebase_database(app)
-            cloud_path = "images/"
             img_key = db.generate_key()
-            cloud_path = f"images/{img_key}.jpg"
-            storage.child(cloud_path).put(file)
+            cloud_path = f"images/{img_key}.{HelperServices.file_ext(file.filename)}"
+            storage.child(cloud_path).put(file, content_type=content_type)
             return cloud_path
-        storage.child(cloud_path).put(file)
+        print(content_type)
+        storage.child(cloud_path).put(file, content_type=content_type)
         return cloud_path
 
     @staticmethod
@@ -93,6 +93,10 @@ class HelperServices:
     def allowed_file(filename: str, allowed_extensions: List[str]):
         return '.' in filename and \
             filename.rsplit('.', 1)[1].lower() in allowed_extensions
+
+    @staticmethod
+    def file_ext(filename: str) ->str:
+        return filename.rsplit('.', 1)[1].lower()
 
     @staticmethod
     def combine_imgs_and_dicts(imgs: List[FileStorage], dicts: List[dict]) -> List[dict]:

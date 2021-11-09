@@ -179,11 +179,17 @@ class ImageResource(Resource):
 
     @jwt_required()
     def post(self):
-        files, datas = HelperServices.seperate_files_and_json_data(request, files_keys=["img"])
-        cloud_path = HelperServices.upload_file(files["img"][0], app)
+        file =  request.files.get("img")
+        if HelperServices.allowed_file(file.filename,  HelperServices.ALLOWED_IMG_EXTENSIONS):
+            cloud_path = HelperServices.upload_file(file, app, content_type=file.content_type)
+            return {
+                "cloudPath": cloud_path
+            }, 200
+
         return {
-            "cloudPath": cloud_path
-        }, 200
+            "description": f"Supported image extensions {HelperServices.ALLOWED_IMG_EXTENSIONS}",
+            "error": "unsupported_media_type"
+        }, 419
 
 
     def get(self):
