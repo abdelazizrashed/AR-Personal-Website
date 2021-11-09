@@ -3,5 +3,6 @@ Flask==2.0.2
 Flask-RESTful==0.3.9
 Flask-SQLAlchemy==2.5.1
 Flask-JWT-Extended==4.3.1
-Pyrebase4==4.5.0
+# Pyrebase4==4.5.0
+git+https://github.com/abdelazizrashed/Pyrebase4.git@469ae9fa4ae369746681c41d3d74cf0fa434edb3 #modified pyrebase4 package
 mypy_extensions==0.4.3
