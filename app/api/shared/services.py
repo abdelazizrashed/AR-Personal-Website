@@ -67,6 +67,7 @@ class TechnologyServices:
 
     @staticmethod
     def from_json(json: dict) -> TechnologyModel:
+        if not json: return
         technology = TechnologyModel()
         technology.name = json.get("name")
         technology.description = json.get("description")
@@ -130,6 +131,7 @@ class PlatformServices:
 
     @staticmethod
     def from_json(json: dict) -> PlatformModel:
+        if not json: return
         platform = PlatformModel()
         platform.name = json.get("name")
         platform.description = json.get("description")
@@ -193,6 +195,7 @@ class TechnologiesServices:
 
     @staticmethod
     def from_json(json: dict) -> List[TechnologyModel]:
+        if not json: return
         techs = []
         for json_dict in json["technologies"]:
             techs.append(TechnologyServices.from_json(json_dict))
@@ -265,6 +268,7 @@ class PlatformsServices:
 
     @staticmethod
     def from_json(json: dict) -> List[PlatformModel]:
+        if not json: return
         plats = []
         for plat_json in json["platforms"]:
             plats.append(PlatformServices.from_json(plat_json))

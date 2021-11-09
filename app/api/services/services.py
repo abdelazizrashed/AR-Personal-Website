@@ -23,6 +23,7 @@ class ServiceContentServices:
 
     @staticmethod
     def from_json(json: dict) -> ServiceContentModel:
+        if not json: return
         attr = dict(title=json.get("title"), paragraph=json.get("paragraph"))
 
         content = ServiceContentModel()
@@ -42,6 +43,7 @@ class ServiceTechnologyServices:
 
     @staticmethod
     def from_json(attrs: dict) -> ServiceTechnologyModel:
+        if not attrs: return
         tech = ServiceTechnologyModel()
         tech.name = attrs.get("name")
         tech.description = attrs.get("description")
@@ -104,14 +106,15 @@ class ServiceServices:
     
 
     @staticmethod
-    def from_json(json: dict) -> ServiceModel:
+    def from_json(json: dict, app: Flask) -> ServiceModel:
+        if not json: return
         service = ServiceModel()
         service.id_ = json.get('id')
         service.name=json.get("name")
         service.description=json.get("description")
         service.id_=json.get("id")
         service.importance=json.get("importance")
-        service.logo=IMGInfoServices.from_json(json.get("logo"))
+        service.logo=IMGInfoServices.from_json(json.get("logo"), app)
         service.projects_ids=json.get("projectsIds")
         service.other_services_ids=json.get("otherServicesIds")
         service.content=ServiceContentsServices.from_json(json.get("content")) 
@@ -125,7 +128,7 @@ class ServiceServices:
         db = HelperServices.get_firebase_database(app)
         id_ = db.child("services").push(attrs)["name"]
         attrs["id"] = id_
-        service = ServiceServices.from_json(attrs)
+        service = ServiceServices.from_json(attrs, app)
         return service
 
     @staticmethod
@@ -137,7 +140,7 @@ class ServiceServices:
         if attrs == None:
             return None
         # print(attrs)
-        return ServiceServices.from_json(attrs)
+        return ServiceServices.from_json(attrs, app)
 
     @staticmethod
     def update(updates: dict, id_: str, app: Flask) -> ServiceModel:
@@ -165,8 +168,9 @@ class ServicesServices:
         return None
 
     @staticmethod
-    def from_json(json: List[dict]) -> list[ServiceModel]:
-        return [ServiceServices.from_json(j) for j in json]
+    def from_json(json: List[dict], app) -> list[ServiceModel]:
+        if not json: return
+        return [ServiceServices.from_json(j,  app) for j in json]
 
     @staticmethod
     def create(attrs: List[dict], app: Flask) -> List[ServiceModel]:
@@ -180,7 +184,7 @@ class ServicesServices:
         for result in results.each():
             s_attrs = result.val()
             s_attrs["id"] = result.key()
-            services.append(ServiceServices.from_json(s_attrs))
+            services.append(ServiceServices.from_json(s_attrs, app))
         for service in services:
             if ids and not service.id_ in ids:
                 #id filter

@@ -21,9 +21,10 @@ class YouTubeVidServices:
 
     @staticmethod
     def from_json(json: dict) -> YouTubeVidModel:
+        if not json: return 
         vid = YouTubeVidModel()
-        vid.src = json["src"]
-        vid.title = json["title"]
+        vid.src = json.get("src")
+        vid.title = json.get("title")
 
         return vid
 
@@ -40,11 +41,12 @@ class DetailServices:
 
     @staticmethod
     def from_json(json: dict) ->DetailModel:
+        if not json: return
         
         detail = DetailModel()
 
-        detail.name = json["name"]
-        detail.description = json["description"]
+        detail.name = json.get("name")
+        detail.description = json.get("description")
 
         return detail
 
@@ -63,9 +65,10 @@ class YouTubeVidsServices:
 
     @staticmethod
     def from_json(json: dict) -> List[YouTubeVidModel]:
+        if not json: return
         vids = []
 
-        for vid_json in json["vids"]:
+        for vid_json in json.get("vids"):
             vids.append(YouTubeVidServices.from_json(vid_json))
 
         return vids
@@ -89,6 +92,7 @@ class DetailsServices:
 
     @staticmethod
     def from_json(json: dict) ->List[DetailModel]:
+        if not json: return
         
         details = []
 
@@ -107,10 +111,10 @@ class ProjectServices:
         
         json["name"] = project.name
         json["id"] = project.id_
-        json["platforms"] = [PlatformServices.retrieve(id_, app).name for id_ in project.platforms_ids]
-        json["technologies"] = [TechnologyServices.retrieve(id_, app).name for id_ in project.technologies_ids]
-        storage = HelperServices.get_firebase_storage(app)
-        json["img"] = IMGInfoServices.json(project.img)
+        if project.platforms_ids: json["platforms"] = [PlatformServices.retrieve(id_, app).name for id_ in project.platforms_ids]
+        if project.technologies_ids:json["technologies"] = [TechnologyServices.retrieve(id_, app).name for id_ in project.technologies_ids]
+        # storage = HelperServices.get_firebase_storage(app)
+        json["img"] = IMGInfoServices.json(project.img, app)
         # HelperServices.get_url_from_cloud_path(project.img_cloud_path, storage)
         json["description"] = project.description
         json["githubUrl"] = project.github_url
@@ -120,7 +124,8 @@ class ProjectServices:
         json["youtubeVid"] = YouTubeVidServices.json(project.youtube_vid)
         json["servicesIds"] = project.services_ids
         json["imgs"] = [IMGInfoServices.json(img, app) for img in project.imgs]
-        json["relatedProjects"] = ProjectsServices.json_partial(ProjectsServices.retrieve(app, ids = project.related_projects_ids)) 
+        if project.related_projects_ids:
+            json["relatedProjects"] = ProjectsServices.json_partial(ProjectsServices.retrieve(app, ids = project.related_projects_ids), app)
         json["detailedServices"] = DetailsServices.json(project.detailed_services)
         json["detailedTechnologies"] = DetailsServices.json(project.detailed_technologies)
         json["detailedPlatforms"] = DetailsServices.json(project.detailed_platforms)
@@ -136,33 +141,38 @@ class ProjectServices:
         json["technologies"] = [TechnologyServices.retrieve(id_, app).name for id_ in project.technologies_ids]
 
         storage = HelperServices.get_firebase_storage(app)
-        json["img"] = IMGInfoServices.json(project.img)
+        json["img"] = IMGInfoServices.json(project.img, app)
         # HelperServices.get_url_from_cloud_path(project.img_cloud_path, storage)
         json["id"] = project.id_
         return json
 
     @staticmethod
-    def from_json(json: dict) -> ProjectModel:
+    def from_json(json: dict, app: Flask) -> ProjectModel:
+        if not json: return
         project = ProjectModel()
-        project.name =json["name"] 
-        project.id_ =json["id"]
-        project.related_projects_ids =json["platformsIds"]
-        project.technologies_ids =json["technologiesIds"] 
-        project.img =IMGInfoServices.from_json(json.get("img"))
-        project.description =json["description"] 
-        project.github_url =json["githubUrl"] 
-        project.app_store_url =json["appStoreUrl"]
-        project.google_play_store_url =json["googlePlayStoreUrl"] 
-        project.website_url =json["websiteUrl"] 
-        project.youtube_vid =YouTubeVidServices.from_json(json["youtubeVid"])
-        project.services_ids =json["servicesIds"] 
+        json  = rm_none_from_dict(json)
+        project.name =json.get("name")
+        project.id_ =json.get("id")
+        project.platforms_ids =json.get("platformsIds")
+        project.technologies_ids =json.get("technologiesIds") 
+        project.img =IMGInfoServices.from_json(json.get("img"),  app)
+        project.description =json.get("description") 
+        project.github_url =json.get("githubUrl") 
+        project.app_store_url =json.get("appStoreUrl")
+        project.google_play_store_url =json.get("googlePlayStoreUrl") 
+        project.website_url =json.get("websiteUrl") 
+        project.youtube_vid =YouTubeVidServices.from_json(json.get("youtubeVid"))
+        project.services_ids =json.get("servicesIds") 
         
-        project.imgs =[IMGInfoServices.from_json(img_json) for img_json in json["imgs"]]
-        project.related_projects_ids =json["relatedProjectsIds"]
-        project.detailed_services =[DetailServices.from_json(j) for j in json["detailedServices"]]
-        project.detailed_technologies =[DetailServices.from_json(j) for j in json["detailedTechnologies"]]
-        project.detailed_platforms =[DetailServices.from_json(j) for j in json["detailedPlatforms"]]
-
+        if  json.get("imgs"): project.imgs =[IMGInfoServices.from_json(img_json, app) for img_json in json.get("imgs")]
+        else: project.imgs = []
+        project.related_projects_ids =json.get("relatedProjectsIds")
+        if json.get("deltailedServices"):project.detailed_services =[DetailServices.from_json(j) for j in json.get("detailedServices") ]
+        else: project.detailed_services = []
+        if json.get("detailedTechnologies"):project.detailed_technologies =[DetailServices.from_json(j) for j in json.get("detailedTechnologies") ]
+        else:  project.detailed_technologies = []
+        if json.get("detailedPlatforms"):project.detailed_platforms =[DetailServices.from_json(j) for j in json.get("detailedPlatforms") ]
+        else:  project.detailed_platforms = []
         return project
 
 
@@ -173,7 +183,7 @@ class ProjectServices:
         db = HelperServices.get_firebase_database(app)
         id_ = db.child("projects").push(attr)["name"]
         attr["id"] = id_
-        project = ProjectServices.from_json(attr)
+        project = ProjectServices.from_json(attr, app)
         return project
 
     @staticmethod
@@ -184,17 +194,14 @@ class ProjectServices:
         attrs["id"] = result.key()
         if attrs == None:
             return None
-        return ProjectServices.from_json(attrs)
+        return ProjectServices.from_json(attrs, app)
 
     @staticmethod
     def update(updates: dict, id_: str, app: Flask) -> ProjectModel:
         db = HelperServices.get_firebase_database(app)
         updates  = rm_none_from_dict(updates)
-        attrs = db.child("projects").child(id_).update(updates)
-        if attrs == None:
-            return None
-        attrs["id"] = id_
-        return ProjectServices.from_json(attrs)
+        db.child("projects").child(id_).update(updates)
+        return ProjectServices.retrieve(id_, app)
 
     @staticmethod
     def delete(id_: str, app: Flask) -> int:
@@ -216,8 +223,9 @@ class ProjectsServices:
         return {"projects": [ProjectServices.json_partial(project, app) for project in projects]}
 
     @staticmethod
-    def from_json(json: dict) -> List[ProjectModel]:
-        return [ProjectServices.from_json(p_json) for p_json in json["projects"]]
+    def from_json(json: dict, app) -> List[ProjectModel]:
+        if not json: return
+        return [ProjectServices.from_json(p_json, app) for p_json in json["projects"]]
 
     #CRUD methods
     @staticmethod
@@ -232,7 +240,7 @@ class ProjectsServices:
         for result in results.each():
             p_attrs = dict(result.val())
             p_attrs["id"] = result.key()
-            projects.append(ProjectServices.from_json(p_attrs))
+            projects.append(ProjectServices.from_json(p_attrs, app))
         for project in projects:
             if ids and not project.id_ in ids:
                 #id filter

@@ -55,6 +55,7 @@ class InfoServices:
         """
         This method is used to change the data which is in a dictionary format to an InfoModel object and return it.
         """
+        if not json: return
         # print(json)
         info_attr = dict()
         if json.get("navbarPages"):
@@ -144,6 +145,7 @@ class NavbarPageServices:
 
     @staticmethod
     def from_json(json: dict) -> NavbarPagesModel:
+        if not json: return
         attrs = {
             "home": True,
             "projects": True,

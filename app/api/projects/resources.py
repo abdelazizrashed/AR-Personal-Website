@@ -41,61 +41,77 @@ class ProjectResources(Resource):
                 "description": f"Project with id:<{id_}> couldn't be found",
                 "error": "not_found"
             }, 404
-        return ProjectServices.json(project), 200 if not partial else ProjectServices.json_partial(project), 200
+        j =  ProjectServices.json(project, app) if not partial else ProjectServices.json_partial(project, app)
+        return j,  200
 
+    @jwt_required()
     def post(self):
+        import time
+        print("project post request")
+        t0 =  time.time()
         data = _project_parser.parse_args()
         if not HelperServices.check_if_file_exists(data.get("img").get("cloudPath"), app):
+            cp = data.get("img").get("cloudPath")
             return {
-                "description": "Image not found in the database. Please upload the image first using the url /shared/image, then attach the resulting cloudPath to the request.",
+                "description": f"Image {cp} not found in the database. Please upload the image first using the url /shared/image, then attach the resulting cloudPath to the request.",
                 "error": "not_found"
             }, 404
         for img in data.get("imgs"):
             if not HelperServices.check_if_file_exists(img.get("cloudPath"), app):
+                cp = img.get("cloudPath")
                 return {
-                    "description": "Image not found in the database. Please upload the image first using the url /shared/image, then attach the resulting cloudPath to the request.",
+                    "description": f"Image {cp} not found in the database. Please upload the image first using the url /shared/image, then attach the resulting cloudPath to the request.",
                     "error": "not_found"
                 }, 404
         project = ProjectServices.create(data, app)
+        t1  = time.time()
+        print(f"got project from db after {t1-t0}s")
 
         if not project:
             return {
                 "description": "Faced unknown error while creating the project",
                 "error": "unknown_error"
             }, 520
-        return ProjectServices.json(project), 201
+        j =  ProjectServices.json(project, app), 201
+        t2= time.time()
+        print(f"jsoned the project after {t2-t1}s")
+        return j
 
     @jwt_required()
     def put(self):
         #*Data Validation
         data = _project_parser.parse_args()
-        if data.get("img") and data.get("img").get("cloud_path") and not HelperServices.check_if_file_exists(data.get("img").get("cloudPath"), app):
+        id_ = request.args.get("id", type=str)
+        if data.get("img") and data.get("img").get("cloudPath") and not HelperServices.check_if_file_exists(data.get("img").get("cloudPath"), app):
+            cp = data.get('img').get("cloudPath")
             return {
-                "description": "Image not found in the database. Please upload the image first using the url /shared/image, then attach the resulting cloudPath to the request.",
+                "description": f"Image {cp} not found in the database. Please upload the image first using the url /shared/image, then attach the resulting cloudPath to the request.",
                 "error": "not_found"
             }, 404
         if data.get("imgs"):
             if isinstance(data.get("imgs"), list):
                 for img in data.get("imgs"):
                     if not HelperServices.check_if_file_exists(img.get("cloudPath"), app):
+                        cp = img.get('cloudPath')
                         return {
-                            "description": "Image not found in the database. Please upload the image first using the url /shared/image, then attach the resulting cloudPath to the request.",
+                            "description": f"Image {cp} not found in the database. Please upload the image first using the url /shared/image, then attach the resulting cloudPath to the request.",
                             "error": "not_found"
                         }, 404
             elif HelperServices.check_if_file_exists(data.get("imgs").get("cloudPath"), app):
+                cp = data.get("imgs").get("cloudPath")
                 return {
-                    "description": "Image not found in the database. Please upload the image first using the url /shared/image, then attach the resulting cloudPath to the request.",
+                    "description": f"Image {cp} not found in the database. Please upload the image first using the url /shared/image, then attach the resulting cloudPath to the request.",
                     "error": "not_found"
                 }, 404
 
-        project = ProjectServices.update(data, app)
+        project = ProjectServices.update(data, id_, app)
 
         if not project:
             return {
                 "description": "Faced unknown error while updating the project",
                 "error": "unknown_error"
             }, 520
-        return ProjectServices.json(project), 200
+        return ProjectServices.json(project, app), 200
 
     @jwt_required()
     def delete(self):
@@ -114,8 +130,9 @@ class ProjectsResources(Resource):
         technology = request.args.get("technology", type=str)
 
         projects = ProjectsServices.retrieve(app, ids, service, platform, technology)
-
-        return ProjectsServices.json_partial(projects), 200 if partial else ProjectsServices.json(projects), 200
+        j = ProjectsServices.json_partial(projects, app) if partial else ProjectsServices.json(projects, app)
+        print(j)
+        return j, 200
 
     @jwt_required()
     def post(self):

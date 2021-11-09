@@ -19,6 +19,7 @@ class UserServices:
 
     @staticmethod
     def from_json(json: dict) -> UserModel:
+        if not json: return
         attrs = dict(
             user_id=json.get("userID"),
             username=json.get("username"),
