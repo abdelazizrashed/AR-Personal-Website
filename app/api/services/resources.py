@@ -66,13 +66,13 @@ class ServiceResources(Resource):
                 "error": "missing_info"
             }, 400
         
-        if not HelperServices.check_if_file_exists(data.get("logo").get("cloudPath"), app):
+        if data.get("logo") and not HelperServices.check_if_file_exists(data.get("logo").get("cloudPath"), app):
             return {
                 "description": "Image not found in the database. Please upload the image first using the url /shared/image, then attach the resulting cloudPath to the request.",
                 "error": "not_found"
             }, 404
         service = ServiceServices.update(data, id_, app)
-        return ServiceServices.json(service, app), 204
+        return ServiceServices.json(service, app)
 
 
     @jwt_required()
@@ -98,7 +98,10 @@ class ServicesResources(Resource):
 
         services = ServicesServices.retreive(app, ids)
 
-        return ServicesServices.json_partial(services, app), 200 if partial else ServicesServices.json(services), 200
+        return {
+            "services": ServicesServices.json_partial(services, app)if partial else ServicesServices.json(services, app)
+        }, 200
+        
 
     @jwt_required()
     def put(self):

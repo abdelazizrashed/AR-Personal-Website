@@ -52,11 +52,11 @@ class ServiceContentsServices:
     @staticmethod
     def json(contents: List[ServiceContentModel]) -> List[dict]:
         if not contents: return  []
-        print(len(contents))
         return [ServiceContentServices.json(content) for content in contents if  contents ]
 
     @staticmethod
     def from_json(attrs: List[dict]) -> List[ServiceContentModel]:
+        if not attrs: return []
         return [ServiceContentServices.from_json(attr) for attr in attrs if attrs]
 
 class ServiceTechnologiesServices:
@@ -68,6 +68,7 @@ class ServiceTechnologiesServices:
 
     @staticmethod
     def from_json(attrs: List[dict]) -> List[ServiceTechnologyModel]:
+        if not attrs: return []
         return [ServiceTechnologyServices.from_json(attr) for attr in attrs  if attrs]
 
 class ServiceServices:
@@ -135,17 +136,15 @@ class ServiceServices:
         attrs["id"] = result.key()
         if attrs == None:
             return None
+        # print(attrs)
         return ServiceServices.from_json(attrs)
 
     @staticmethod
     def update(updates: dict, id_: str, app: Flask) -> ServiceModel:
         db = HelperServices.get_firebase_database(app)
         updates  = rm_none_from_dict(updates)
-        attrs = db.child("services").child(id_).update(updates)
-        if attrs == None:
-            return None
-        attrs["id"] = id_
-        return ServiceServices.from_json(attrs)
+        db.child("services").child(id_).update(updates)
+        return ServiceServices.retreive(id_,  app)
 
     @staticmethod
     def delete(id_: str, app: Flask) -> int:
@@ -162,7 +161,7 @@ class ServicesServices:
 
     def json_partial(services: List[ServiceModel], app: Flask)-> List[dict]:
         if not services: return []
-        if services: return [ServicesServices.json_partial(service, app) for service in services if service]
+        if services: return [ServiceServices.json_partial(service, app) for service in services if service]
         return None
 
     @staticmethod
@@ -196,7 +195,6 @@ class ServicesServices:
             # if technology_id and not technology_id in project.technologies_ids:
             #     #technology filter
             #     projects.remove(project)
-
         return services
 
     @staticmethod
