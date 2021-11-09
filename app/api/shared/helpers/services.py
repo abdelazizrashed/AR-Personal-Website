@@ -43,7 +43,6 @@ class HelperServices:
             cloud_path = f"images/{img_key}.{HelperServices.file_ext(file.filename)}"
             storage.child(cloud_path).put(file, content_type=content_type)
             return cloud_path
-        print(content_type)
         storage.child(cloud_path).put(file, content_type=content_type)
         return cloud_path
 

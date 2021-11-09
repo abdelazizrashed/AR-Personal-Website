@@ -23,6 +23,7 @@ class IMGInfoServices:
         """
         The upload functionality of this method is deprecated and it will be removed.
         """
+        if not json: return
         img_info = IMGInfoModel()
         #Todo: delete the upload functionality
         # if file and app:

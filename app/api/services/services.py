@@ -52,22 +52,23 @@ class ServiceContentsServices:
     @staticmethod
     def json(contents: List[ServiceContentModel]) -> List[dict]:
         if not contents: return  []
-        return [ServiceContentServices.json(content) for content in contents]
+        print(len(contents))
+        return [ServiceContentServices.json(content) for content in contents if  contents ]
 
     @staticmethod
     def from_json(attrs: List[dict]) -> List[ServiceContentModel]:
-        return [ServiceContentServices.from_json(attr) for attr in attrs]
+        return [ServiceContentServices.from_json(attr) for attr in attrs if attrs]
 
 class ServiceTechnologiesServices:
 
     @staticmethod
     def json(techs: List[ServiceTechnologyModel]) -> List[dict]:
         if not techs: return []
-        return [ServiceTechnologyServices.json(tech) for tech in  techs]
+        return [ServiceTechnologyServices.json(tech) for tech in  techs if techs]
 
     @staticmethod
     def from_json(attrs: List[dict]) -> List[ServiceTechnologyModel]:
-        return [ServiceTechnologyServices.from_json(attr) for attr in attrs]
+        return [ServiceTechnologyServices.from_json(attr) for attr in attrs  if attrs]
 
 class ServiceServices:
     @staticmethod
@@ -82,7 +83,7 @@ class ServiceServices:
                 "logo": IMGInfoServices.json(service.logo, app),
                 "projectsIds": service.projects_ids,
                 "otherServicesIds": service.other_services_ids,
-                "content": [ServiceContentServices.json(x) for x in service.content],
+                "content": ServiceContentsServices.json(service.content),
                 "technologies": ServiceTechnologiesServices.json(service.technologies)
             }
         return None
@@ -104,17 +105,17 @@ class ServiceServices:
     @staticmethod
     def from_json(json: dict) -> ServiceModel:
         service = ServiceModel()
-        service.name=json.get("name"),
-        service.description=json.get("description"),
-        service.id_=json.get("id"),
-        service.importance=json.get("importance"),
-        service.logo=IMGInfoServices.from_json(json.get("logo")),
-        service.projects_ids=json.getlist("projectsIds"),
-        service.other_services_ids=json.getlist("otherServicesIds"),
-        service.content=[
-            ServiceContentServices.from_json(x) for x in json.getlist("content")
-        ],
-        service.technologies= ServiceTechnologiesServices.from_json(json.getlist("technologies"))
+        service.id_ = json.get('id')
+        service.name=json.get("name")
+        service.description=json.get("description")
+        service.id_=json.get("id")
+        service.importance=json.get("importance")
+        service.logo=IMGInfoServices.from_json(json.get("logo"))
+        service.projects_ids=json.get("projectsIds")
+        service.other_services_ids=json.get("otherServicesIds")
+        service.content=ServiceContentsServices.from_json(json.get("content")) 
+        
+        service.technologies= ServiceTechnologiesServices.from_json(json.get("technologies"))
 
         return service
 

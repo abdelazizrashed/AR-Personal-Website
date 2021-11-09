@@ -20,7 +20,6 @@ def record_params(setup_state):
 
     firebase_config = config.get("FIREBASE_CONFIG")
 
-    # print(firebase_config)
 
     firebase = pyrebase.initialize_app(firebase_config)
 

@@ -89,8 +89,6 @@ class TechnologyResource(Resource):
     def get(self):
         id_ = request.args.get("id", type=str)
         partial = request.args.get("partial", type=any2bool)
-        print(type(partial))
-        print(partial)
         tech = TechnologyServices.retrieve(id_, app)
         if partial:
             return TechnologyServices.json_partial(tech), 200

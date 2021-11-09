@@ -10,6 +10,7 @@ _service_parser = reqparse.RequestParser()
 _service_parser.add_argument("id", type=str)
 _service_parser.add_argument("name", type=str)
 _service_parser.add_argument("description", type=str)
+_service_parser.add_argument("logo", type=dict)
 _service_parser.add_argument("projectsIds", type=str, action="append")
 _service_parser.add_argument("otherServicesIds", type=str, action="append")
 
@@ -22,7 +23,6 @@ class ServiceResources(Resource):
     @jwt_required()
     def post(self):
         data = _service_parser.parse_args()
-        
         if not data.get("logo") or not data.get("logo").get("cloudPath"):
             return {
                 "description": "The logo of the service is required as well as it's cloudPath",
