@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import "./styles/App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 //* Components import
 import NavBar from "./components/partials/NavBar";
 import Footer from "./components/partials/Footer";
@@ -14,35 +14,13 @@ import Resume from "./components/pages/Resume";
 import Project from "./components/pages/Project";
 import Service from "./components/pages/Service";
 import Certificate from "./components/pages/Certificate";
-import psPC from "./img/ps-pc.png";
-import psIpad from "./img/ps-phone.png";
 
 function App() {
-  // UseState hook variables
-  var imgsInfo;
-  if (!window.info || window.info === "") {
-    imgsInfo = {
-      mac: {
-        url: psPC,
-        alt: "Abdelaziz Rashed Personal website screenshot in laptop resolution",
-      },
-      ipad: {
-        url: psIpad,
-        alt: "Abdelaziz Rashed Personal website screenshot in tablet resolution",
-      },
-      phone: {
-        url: null,
-        alt: "Abdelaziz Rashed Personal website screenshot in phone resolution",
-      },
-    };
-  } else {
-    imgsInfo = {
-      mac: window.info.homeLaptopImgInfo,
-      ipad: window.info.homeTabletImgInfo,
-      phone: window.info.homePhoneImgInfo,
-    };
-  }
-  const [websiteIMGs, setWebsiteIMGs] = useState(imgsInfo);
+
+  var domainName =  window.location.href
+  window.apiUrl = "http://127.0.0.1:5000/api/";
+  // window.apiUrl = "api/";
+
 
   var nav;
   if (!window.navItems || window.navItems === "") {
@@ -89,17 +67,20 @@ function App() {
 
   //Function variables
   useEffect(() => {
-    var height =
-      window.innerHeight -
-      (document.getElementById("1").clientHeight +
-        document.getElementById("2").clientHeight +
-        document.getElementById("4").clientHeight);
-    if (height < 0) {
-      height = 0;
+    function handleResize(){
+      var height =
+        window.innerHeight -
+        (document.getElementById("1").clientHeight +
+          document.getElementById("4").clientHeight);
+      if (height < 0) {
+        height = 0;
+      }
+      setFillerStyle({
+        minHeight: height,
+      });
     }
-    setFillerStyle({
-      height: height,
-    });
+    window.addEventListener("resize", handleResize);
+    handleResize();
   }, []);
 
   const onNavLinkClicked = (navItem) => {
@@ -115,20 +96,20 @@ function App() {
     }
     switch (url) {
       case "/":
-        return <Home homeIntro={homeIntro} websiteIMGs={websiteIMGs} />;
+        return <Home homeIntro={homeIntro} /*websiteIMGs={websiteIMGs} */domainName={domainName}/>;
 
       case "/projects":
-        return <Projects />;
+        return <Projects domainName={domainName}/>;
       case "/services":
-        return <Services />;
+        return <Services domainName={domainName}/>;
       case "/certificates":
-        return <Certificates />;
+        return <Certificates domainName={domainName}/>;
       case "/resume":
-        return <Resume />;
+        return <Resume domainName={domainName}/>;
       case "/contact":
-        return <Contact />;
+        return <Contact domainName={domainName}/>;
       case "/about":
-        return <About />;
+        return <About domainName={domainName}/>;
 
       default:
         break;
@@ -145,14 +126,16 @@ function App() {
       );
     }
   };
+  // console.log(window.location.href)
   return (
     <div>
       <NavBar navItems={navItems} onNavLinkClicked={onNavLinkClicked} />
-      <div className="page-content" id="2">
+      <div className="page-content" id="2" style={fillerStyle}>
         {renderSwitch()}
       </div>
-      <div id="3" style={fillerStyle}></div>
       <Footer />
+      {/* <div className="footer-container">
+      </div> */}
     </div>
   );
 }

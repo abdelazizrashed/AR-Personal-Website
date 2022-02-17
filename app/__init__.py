@@ -14,7 +14,7 @@ def create_app(domain=""):
     app = DispatcherMiddleware(
         frontend_app,
         {
-            "/api-v1": api_app,
+            "/api": api_app,
         },
     )
 

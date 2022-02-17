@@ -33,6 +33,7 @@ class UserServices:
     def retrieve_by_user_id(user_id: int, app: Flask) -> UserModel:
         db = HelperServices.get_firebase_database(app)
         results = db.child("Users").get()
+        if not results.each: return None
         for result in results.each():
             if result.val().get("userID") == user_id:
                 return UserServices.from_json(result.val())
@@ -43,6 +44,7 @@ class UserServices:
     def retrieve_by_username(username: str, app: Flask) -> UserModel:
         db = HelperServices.get_firebase_database(app)
         results = db.child("Users").get()
+        if  not results.each(): return None
         for result in results.each():
             if result.val().get("username") == username:
                 return UserServices.from_json(result.val())
@@ -53,6 +55,7 @@ class UserServices:
     def retrieve_by_email(email: str, app: Flask) -> UserModel:
         db = HelperServices.get_firebase_database(app)
         results = db.child("Users").get()
+        if  not results.each(): return None
         for result in results.each():
             if result.val().get("email") == email:
                 return UserServices.from_json(result.val())
@@ -64,6 +67,7 @@ class UserServices:
         db = HelperServices.get_firebase_database(app)
         results = db.child("Users").get()
         users: List[UserModel] = []
+        if not results.each(): return None
         for result in results.each():
             attrs = dict(result.val())
             user = UserServices.from_json(attrs)

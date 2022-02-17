@@ -60,6 +60,7 @@ def home():
         nav=json.dumps(nav),
         title="Abdelaziz Rashed Personal Website",
         current_url="/",
+        apiUrl=request.url.removesuffix(request.path) + "/api-v1",
         description="Abdelaziz Rashed is a software developer with wide skill set and experience in Web Development, Cross-platform App Development and Game Development.",
         info=json.dumps(info),
     )

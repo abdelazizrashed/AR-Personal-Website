@@ -13,6 +13,10 @@
   display: block;
 }
 
+.home-page-img{
+  width: 80%;
+}
+
 .website-inside-mac {
   width: 30%;
   /* height: 30%; */

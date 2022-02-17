@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <footer
-      class="navbar-n-footer-color padding-5-lr footer position-sticky"
+      class="navbar-n-footer-color padding-5-lr footer"
       id="4"
     >
       <div class="container">
@@ -20,7 +20,7 @@ const Footer = () => {
         <a href="https://github.com/abdelazizrashed">
           <i class="fab fa-github footer-icons"></i>
         </a>
-        <p>© Copyright 2021 Abdelaziz Rashed. Egypt based Software Developer</p>
+        <p>© Copyright 2022 Abdelaziz Rashed. Egypt based Software Developer</p>
       </div>
     </footer>
   );

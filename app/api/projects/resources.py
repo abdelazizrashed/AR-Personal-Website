@@ -41,7 +41,8 @@ class ProjectResources(Resource):
                 "description": f"Project with id:<{id_}> couldn't be found",
                 "error": "not_found"
             }, 404
-        j =  ProjectServices.json(project, app) if not partial else ProjectServices.json_partial(project, app)
+        storage = HelperServices.get_firebase_storage(app)
+        j =  ProjectServices.json(project, app, storage) if not partial else ProjectServices.json_partial(project, app, storage)
         return j,  200
 
     @jwt_required()
@@ -72,7 +73,8 @@ class ProjectResources(Resource):
                 "description": "Faced unknown error while creating the project",
                 "error": "unknown_error"
             }, 520
-        j =  ProjectServices.json(project, app), 201
+        storage = HelperServices.get_firebase_storage(app)
+        j =  ProjectServices.json(project, app, storage), 201
         t2= time.time()
         print(f"jsoned the project after {t2-t1}s")
         return j
@@ -111,7 +113,8 @@ class ProjectResources(Resource):
                 "description": "Faced unknown error while updating the project",
                 "error": "unknown_error"
             }, 520
-        return ProjectServices.json(project, app), 200
+        storage = HelperServices.get_firebase_storage(app)
+        return ProjectServices.json(project, app, storage), 200
 
     @jwt_required()
     def delete(self):
@@ -123,15 +126,21 @@ class ProjectResources(Resource):
 class ProjectsResources(Resource):
     
     def get(self):
+        print("recieved get request at /projects")
         ids = request.args.getlist("id")
         partial = request.args.get("partial", type=any2bool)
         service = request.args.get("service", type=str)
         platform = request.args.get("platform", type=str)
         technology = request.args.get("technology", type=str)
-
+        from time import time
+        t0 = time()
         projects = ProjectsServices.retrieve(app, ids, service, platform, technology)
+        t1 = time()
+        print(f"retrieved data in {t1-t0} seconds")
         j = ProjectsServices.json_partial(projects, app) if partial else ProjectsServices.json(projects, app)
-        print(j)
+        t3 = time()
+        print(f"jsonified data in {t3-t1} seconds")
+        # print(j)
         return j, 200
 
     @jwt_required()

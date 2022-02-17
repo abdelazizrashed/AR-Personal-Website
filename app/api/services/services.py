@@ -75,7 +75,8 @@ class ServiceTechnologiesServices:
 
 class ServiceServices:
     @staticmethod
-    def json(service: ServiceModel, app: Flask) -> Dict:
+    def json(service: ServiceModel, storage) -> Dict:
+        print("json got  called")
         if not service: return None
         if service:
             return {
@@ -83,7 +84,7 @@ class ServiceServices:
                 "description": service.description,
                 "id": service.id_,
                 "importance": service.importance,
-                "logo": IMGInfoServices.json(service.logo, app),
+                "logo": IMGInfoServices.json(service.logo, storage),
                 "projectsIds": service.projects_ids,
                 "otherServicesIds": service.other_services_ids,
                 "content": ServiceContentsServices.json(service.content),
@@ -92,15 +93,16 @@ class ServiceServices:
         return None
 
     @staticmethod
-    def json_partial(service: ServiceModel, app: Flask) -> dict:
+    def json_partial(service: ServiceModel,storage) -> dict:
         if not service: return
+        print("json  partial got  called")
         if service:
             return {
                 "name": service.name,
                 "description": service.description,
                 "id": service.id_,
                 "importance": service.importance,
-                "logo": IMGInfoServices.json(service.logo, app)
+                "logo": IMGInfoServices.json(service.logo, storage)
             }
         return None
     
@@ -135,6 +137,7 @@ class ServiceServices:
     def retreive(id_: str, app: Flask) -> ServiceModel:
         db = HelperServices.get_firebase_database(app)
         result = db.child("services").child(id_).get()
+        if not result.val(): return None
         attrs = dict(result.val())
         attrs["id"] = result.key()
         if attrs == None:
@@ -159,12 +162,14 @@ class ServicesServices:
     @staticmethod
     def json(services: List[ServiceModel], app: Flask) -> List[dict]:
         if not services: return []
-        if services: return [ServiceServices.json(service, app) for service in services if service]
+        storage = HelperServices.get_firebase_storage(app)
+        if services: return [ServiceServices.json(service, storage) for service in services if service]
         return None
 
     def json_partial(services: List[ServiceModel], app: Flask)-> List[dict]:
         if not services: return []
-        if services: return [ServiceServices.json_partial(service, app) for service in services if service]
+        storage = HelperServices.get_firebase_storage(app)
+        if services: return [ServiceServices.json_partial(service, storage) for service in services if service]
         return None
 
     @staticmethod
@@ -181,6 +186,7 @@ class ServicesServices:
         services: List[ServiceModel] = []
         db = HelperServices.get_firebase_database(app)
         results = db.child("services").get()
+        if not results.each():return None
         for result in results.each():
             s_attrs = result.val()
             s_attrs["id"] = result.key()

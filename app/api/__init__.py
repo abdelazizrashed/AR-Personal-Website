@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restful import Api
+from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask.json import jsonify
 from app.api.shared.db_man.services import db
@@ -14,6 +15,7 @@ def create_app(domain=""):
     from .blueprints import attach_blueprints
 
     app = Flask(__name__)
+    CORS(app)
     app.config.from_pyfile(os.path.join(os.path.dirname(__file__), "config/dev.config"))
     try:
         app.config.from_envvar("APPLICATION_CONFIG_FILE")

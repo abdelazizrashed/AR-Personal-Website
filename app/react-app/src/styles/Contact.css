@@ -1,0 +1,31 @@
+.contact-email-container,
+.contact-socail-container {
+  width: 100%;
+  padding: 10px;
+  margin: 10px;
+  background-color: #dddddd;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.form-control {
+  margin-left: 0!important;
+}
+
+.contact-socail-container {
+  padding: 1rem;
+  text-align: center;
+}
+.social-btns {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+.social-icons {
+  margin: 5%;
+  font-size: 2rem;
+  color: black;
+}

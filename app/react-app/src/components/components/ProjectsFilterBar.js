@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import {
   Form,
-  FormControl,
   Button,
   Dropdown,
   DropdownButton,
@@ -10,89 +10,34 @@ import {
 const ProjectsFilterBar = ({
   filterOptions,
   setFilterOptions,
-  onFilterSubmit,
-  setSearchInputValue,
-  onSearchBtnClicked,
+  onFilterSubmit
 }) => {
   //Todo: send request to the back end api to fetch all data
-  const serviceOptions = [
-    {
-      name: "IOS app development",
-      key: "312",
-    },
-    {
-      name: "Android app development",
-      key: "3889",
-    },
-    {
-      name: "Cross-Platform Desktop app development",
-      key: "984",
-    },
-    {
-      name: "Front-end web development",
-      key: "4378",
-    },
-    {
-      name: "Back-end web development",
-      key: "4983",
-    },
-    {
-      name: "Game development",
-      key: "1328",
-    },
-  ];
-  const platformOptions = [
-    {
-      name: "iOS",
-      key: "3453",
-    },
-    {
-      name: "Android",
-      key: "3498",
-    },
-    {
-      name: "Windows",
-      key: "4938",
-    },
-    {
-      name: "macOS",
-      key: "3498e",
-    },
-    {
-      name: "Linux",
-      key: "23r34",
-    },
-    {
-      name: "Web",
-      key: "4etr434",
-    },
-  ];
-  const technologyOptions = [
-    {
-      name: "Python Flask",
-      key: "eoiwu323",
-    },
-    {
-      name: "Flutter",
-      key: "34532re3",
-    },
-    {
-      name: "ReactJS",
-      key: "ieuwouie90",
-    },
-    {
-      name: "Node.JS",
-      key: "434r34r34",
-    },
-    {
-      name: "Unity 3D",
-      key: "4983",
-    },
-    {
-      name: "jQuery",
-      key: "34534r34",
-    },
-  ];
+  
+  const [serviceOptions, setServiceOptions] = useState();
+  const [platformOptions, setPlatformOptions] = useState();
+  const [technologyOptions, setTechnologyOptions] =  useState();
+
+  useEffect(() => {
+    fetch(window.apiUrl + "services/services?partial=true")
+      .then((res) => res.json())
+      .then((result) => {
+        setServiceOptions(result.services);
+      })
+      .catch((error) => console.log(error));
+    fetch(window.apiUrl + "shared/technologies?partial=true")
+      .then((res) => res.json())
+      .then((result) => {
+        setTechnologyOptions(result.technologies)
+      })
+      .catch((error) => console.log(error));
+    fetch(window.apiUrl + "shared/platforms?partial=true")
+      .then((res) => res.json())
+      .then((result) => {
+        setPlatformOptions(result.platforms)
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <div className="filter-bar">
@@ -102,6 +47,7 @@ const ProjectsFilterBar = ({
           key="Service"
           id="dropdown-variants-Service"
           variant="outline-dark"
+          // style={{ maxHeight: "28px" }}
           title={<p>{filterOptions.Service.name}</p>}
           onSelect={(value) => {
             const copyOfFilterOptions = { ...filterOptions };
@@ -113,24 +59,24 @@ const ProjectsFilterBar = ({
                   value === "0"
                     ? "Select Service"
                     : serviceOptions.filter((option) => {
-                        return option.key === value ? option.name : null;
+                        return option.id === value ? option.name : null;
                       })[0].name,
-                key: value,
+                id: value,
               },
             });
           }}
         >
           <Dropdown.Item
             eventKey="0"
-            active={filterOptions.Service.key === "0" ? true : false}
+            active={filterOptions.Service.id === "0"}
           >
             Select Service
           </Dropdown.Item>
-          {serviceOptions.map((option) => {
+          {serviceOptions  == null? null: serviceOptions.map((option) => {
             return (
               <Dropdown.Item
-                eventKey={option.key}
-                active={filterOptions.Service.key === option.key ? true : false}
+                eventKey={option.id}
+                active={filterOptions.Service.id === option.id}
               >
                 {option.name}
               </Dropdown.Item>
@@ -153,25 +99,26 @@ const ProjectsFilterBar = ({
                   value === "0"
                     ? "Select Platform"
                     : platformOptions.filter((option) => {
-                        return option.key === value ? option.name : null;
+                      console.log(value);
+                        return option.id === value ? option.name : null;
                       })[0].name,
-                key: value,
+                id: value,
               },
             });
           }}
         >
           <Dropdown.Item
             eventKey="0"
-            active={filterOptions.Platform.key === "0" ? true : false}
+            active={filterOptions.Platform.id === "0" }
           >
             Select Platform
           </Dropdown.Item>
-          {platformOptions.map((option) => {
+          {platformOptions == null? null: platformOptions.map((option) => {
             return (
               <Dropdown.Item
-                eventKey={option.key}
+                eventKey={option.id}
                 active={
-                  filterOptions.Platform.key === option.key ? true : false
+                  filterOptions.Platform.id === option.id 
                 }
               >
                 {option.name}
@@ -184,6 +131,7 @@ const ProjectsFilterBar = ({
           key="Technology"
           id="dropdown-variants-Technology"
           variant="outline-dark"
+          size="10"
           title={<p>{filterOptions.Technology.name}</p>}
           onSelect={(value) => {
             const copyOfFilterOptions = { ...filterOptions };
@@ -195,25 +143,25 @@ const ProjectsFilterBar = ({
                   value === "0"
                     ? "Select Technology"
                     : technologyOptions.filter((option) => {
-                        return option.key === value ? option.name : null;
+                        return option.id === value ? option.name : null;
                       })[0].name,
-                key: value,
+                id: value,
               },
             });
           }}
         >
           <Dropdown.Item
             eventKey="0"
-            active={filterOptions.Technology.key === "0" ? true : false}
+            active={filterOptions.Technology.id === "0" }
           >
             Select Techology
           </Dropdown.Item>
-          {technologyOptions.map((option) => {
+          {technologyOptions  == null? null: technologyOptions.map((option) => {
             return (
               <Dropdown.Item
-                eventKey={option.key}
+                eventKey={option.id}
                 active={
-                  filterOptions.Technology.key === option.key ? true : false
+                  filterOptions.Technology.id === option.id
                 }
               >
                 {option.name}
@@ -222,8 +170,9 @@ const ProjectsFilterBar = ({
           })}
         </DropdownButton>
         <Button
+          as={ButtonGroup}
           variant="outline-primary"
-          className="filter-submit-btn float-right"
+          className="filter-submit-btn"
           onClick={onFilterSubmit}
         >
           Apply Filter

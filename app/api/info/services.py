@@ -16,23 +16,23 @@ class InfoServices:
                 
             if info.home_page_intro:
                 return_info["homePageIntro"] =  info.home_page_intro,
-                
+            storage = HelperServices.get_firebase_storage(app)
             if info.home_laptop_img_info :
                 return_info["homeLaptopImgInfo"] = IMGInfoServices.json(
-                    info.home_laptop_img_info, app
+                    info.home_laptop_img_info,  storage
                 ),
                 
             if info.home_tablet_img_info :
                 return_info["homeTabletImgInfo"] = IMGInfoServices.json(
-                    info.home_tablet_img_info, app
+                    info.home_tablet_img_info, storage
                 ),
                 
             if info.home_phone_img_info :
-                return_info["homePhoneImgInfo"] = IMGInfoServices.json(info.home_phone_img_info, app),
+                return_info["homePhoneImgInfo"] = IMGInfoServices.json(info.home_phone_img_info, storage),
                 
             if info.ar_about_pic_info :
                 return_info["A_RashedAboutPicInfo"] = IMGInfoServices.json(
-                    info.ar_about_pic_info, app
+                    info.ar_about_pic_info, storage
                 ),
                 
             if info.ar_about_long_parag :
@@ -103,6 +103,7 @@ class InfoServices:
     def retrieve(app: Flask) -> InfoModel:
         db = HelperServices.get_firebase_database(app)
         results = db.child("Info").get()
+        if not results.val(): return None
         attrs = dict(results.val())
         info = InfoServices.from_json(attrs)
         return info

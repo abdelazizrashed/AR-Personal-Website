@@ -8,10 +8,8 @@ from werkzeug.datastructures import FileStorage
 
 class IMGInfoServices:
     @staticmethod
-    def json(img_info: IMGInfoModel, app: Flask) -> dict:
+    def json(img_info: IMGInfoModel, storage) -> dict:
         if not img_info: return 
-        storage = HelperServices.get_firebase_storage(app)
-
         return {
             "src": HelperServices.get_url_from_cloud_path(img_info.cloud_path, storage),
             "alt": img_info.alt,
@@ -161,6 +159,7 @@ class PlatformServices:
     def retrieve(id_: str, app: Flask) -> PlatformModel:
         db = HelperServices.get_firebase_database(app)
         result = db.child("platforms").child(id_).get()
+        if not result.val(): return None
         attrs = dict(result.val())
         attrs["id"] = result.key()
         if attrs == None:
@@ -226,6 +225,7 @@ class TechnologiesServices:
         db =  HelperServices.get_firebase_database(app)
         results = db.child("technologies").get()
         technologies = []
+        if not results.each(): return None
         for result in results.each():
             if ids and not result.key() in ids:
                 continue
@@ -300,6 +300,7 @@ class PlatformsServices:
         db =  HelperServices.get_firebase_database(app)
         results = db.child("platforms").get()
         platforms = []
+        if not results.each(): return None
         for result in results.each():
             if ids and not result.key() in ids:
                 continue

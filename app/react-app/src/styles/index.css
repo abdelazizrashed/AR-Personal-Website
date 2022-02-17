@@ -75,9 +75,12 @@ hr {
   width: 100%;
 
   /* position: absolute;
-  left: 0;
-  bottom: 0;
-  right: 0; */
+  /* height: 50px; */
+  /* background-color: red; */
+  /* bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin-bottom: 0px;  */
 }
 
 .footer-icons {

@@ -41,7 +41,8 @@ class ServiceResources(Resource):
                 "description": "Faced unknown error while creating the service",
                 "error": "unknown_error"
             }, 520
-        return ServiceServices.json(service, app), 201
+        storage = HelperServices.get_firebase_storage(app)
+        return ServiceServices.json(service, storage), 201
 
     def get(self):
         id_ = request.args.get("id", type=str)
@@ -52,7 +53,14 @@ class ServiceResources(Resource):
                 "description": f"Service with id:<{id_}> couldn't be found",
                 "error": "not_found"
             }, 404
-        return ServiceServices.json_partial(service, app), 200 if partial else ServiceServices.json(service, app)
+        storage = HelperServices.get_firebase_storage(app)
+        print(f"partial  =   {partial}")
+        if partial:
+            res = ServiceServices.json_partial(service, storage)
+        else: 
+            res =  ServiceServices.json(service, storage)
+        # print(res)
+        return res, 200
 
 
     @jwt_required()
@@ -72,7 +80,8 @@ class ServiceResources(Resource):
                 "error": "not_found"
             }, 404
         service = ServiceServices.update(data, id_, app)
-        return ServiceServices.json(service, app)
+        storage = HelperServices.get_firebase_storage(app)
+        return ServiceServices.json(service, storage)
 
 
     @jwt_required()

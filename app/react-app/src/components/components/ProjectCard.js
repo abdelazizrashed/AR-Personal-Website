@@ -1,10 +1,10 @@
 import { Card, Button } from "react-bootstrap";
 
-const ProjectCard = ({ project, onGoToProjectClicked }) => {
+const ProjectCard = ({ project}) => {
   return (
     <Card className="project-card">
       <div className="project-img">
-        <Card.Img variant="top" src={project.imgURL} />
+        <Card.Img variant="top" src={project.img.src} alt={project.img.alt} caption={project.img.caption}/>
       </div>
       <Card.Body>
         <Card.Title className="project-title">{project.name}</Card.Title>
@@ -25,7 +25,7 @@ const ProjectCard = ({ project, onGoToProjectClicked }) => {
         <Button
           variant="outline-dark"
           className="go-to-project-btn"
-          onClick={() => onGoToProjectClicked(project)}
+          // onClick={() => onGoToProjectClicked(project)}
           //   /project?id=1&name=new-project
           href={"/project?id=" + project.id + "&name=" + project.name}
         >

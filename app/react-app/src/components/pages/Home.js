@@ -3,6 +3,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import MacImg from "../components/MacImg";
 import IpadImg from "../components/IpadImg";
 import PhoneImg from "../components/PhoneImg";
+import HomeImg from "../components/HomeImg"
 
 const Home = ({ homeIntro, websiteIMGs }) => {
   return (
@@ -14,9 +15,10 @@ const Home = ({ homeIntro, websiteIMGs }) => {
       <Container className="home-central-container">
         <Row className="home-central-info-row">
           <Col lg={9} className="home-central-info-col">
-            <MacImg websiteIMG={websiteIMGs.mac} />
+            {/* <MacImg websiteIMG={websiteIMGs.mac} />
             <IpadImg websiteIMG={websiteIMGs.ipad} />
-            <PhoneImg websiteIMG={websiteIMGs.phone} />
+            <PhoneImg websiteIMG={websiteIMGs.phone} /> */}
+            <HomeImg/>
           </Col>
           <Col lg={3} className="home-central-info-col">
             <p className="home-central-text">
