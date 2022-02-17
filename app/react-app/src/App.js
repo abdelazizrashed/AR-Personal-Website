@@ -18,45 +18,37 @@ import Certificate from "./components/pages/Certificate";
 function App() {
 
   var domainName =  window.location.href
-  window.apiUrl = "http://127.0.0.1:5000/api/";
-  // window.apiUrl = "api/";
+  // window.apiUrl = "http://127.0.0.1:5000/api/";
+  window.apiUrl = "api/";
 
 
-  var nav;
-  if (!window.navItems || window.navItems === "") {
-    nav = [
-      {
-        name: "Home",
-        url: "/",
-      },
-      {
-        name: "Projects",
-        url: "/projects",
-      },
-      {
-        name: "Services",
-        url: "/services",
-      },
-      {
-        name: "Contact",
-        url: "/contact",
-      },
-      {
-        name: "Resume",
-        url: "/resume",
-      },
-      {
-        name: "Certificates",
-        url: "/certificates",
-      },
-      {
-        name: "About",
-        url: "/about",
-      },
-    ];
-  } else {
-    nav = window.navItems;
-  }
+  var nav = [
+    {
+      name: "Home",
+      url: "/",
+    },
+    {
+      name: "Projects",
+      url: "/projects",
+    },
+    {
+      name: "Services",
+      url: "/services",
+    },
+    {
+      name: "Contact",
+      url: "/contact",
+    },
+    {
+      name: "About",
+      url: "/about",
+    }
+  ];
+  // if (!window.navItems || window.navItems === "") {
+  //   nav = 
+  // } else {
+  //   nav = window.navItems;
+  // }
   const [navItems, setNavItems] = useState(nav);
 
   const [homeIntro, setHomeIntro] = useState(
