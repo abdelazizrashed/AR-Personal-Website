@@ -19,7 +19,8 @@ function App() {
 
   var domainName =  window.location.href
   // window.apiUrl = "http://127.0.0.1:5000/api/";
-  window.apiUrl = "api/";
+  // window.apiUrl = "api/";
+  window.apiUrl = "http://www.abdelazizrashed.com/api/";
 
 
   var nav = [

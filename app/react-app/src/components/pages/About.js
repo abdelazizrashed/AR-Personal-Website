@@ -12,7 +12,7 @@ const About = () => {
     <div>
       <Row>
         <Col lg={8}>
-          <div className="contact-email-container" style={{ padding: "10px 60px 10px 30px" }}>
+          <div className="contact-email-container" style={{ padding: "10px 30px 10px 30px" }}>
             <h1>Hello, my name is Abdelaziz Rashed</h1>
             <p style={{ fontSize: "1.5rem" }}>
               I am a software developer from Egypt. I am a senior student at the

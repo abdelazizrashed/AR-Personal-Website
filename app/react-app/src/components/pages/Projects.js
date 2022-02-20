@@ -29,9 +29,6 @@ const Projects = () => {
       .then((result) => {
         setIsLoading(false);
         var pjs = result.projects;
-        // for(let i=0;i<5;i++){
-        //   pjs.push(...result.projects)
-        // }
         setProjects(pjs);
       })
       .catch((error) => console.log(error));
@@ -110,7 +107,7 @@ const Projects = () => {
 
 
   return (
-    <div>
+    <>
       {/* <ProjectsFilterBar
         filterOptions={filterOptions}
         setFilterOptions={setFilterOptions}
@@ -129,7 +126,7 @@ const Projects = () => {
         <Row className="projects-row">
           {projects.slice(startEndIndex[0], startEndIndex[1]).map((project) => {
             return (
-              <Col xl={4} lg={6} sm={12}>
+              <Col xl={4} lg={6} md={6} xs={12} style={{margin:"20px auto"}}>
                 <ProjectCard
                   project={project}
                   // onGoToProjectClicked={onGoToProjectClicked}
@@ -167,7 +164,7 @@ const Projects = () => {
           )}
         </Row>
       )}
-    </div>
+    </>
   );
 };
 
