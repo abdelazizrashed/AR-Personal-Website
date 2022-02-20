@@ -1,8 +1,5 @@
 import "../../styles/Home.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import MacImg from "../components/MacImg";
-import IpadImg from "../components/IpadImg";
-import PhoneImg from "../components/PhoneImg";
 import HomeImg from "../components/HomeImg"
 
 const Home = ({ homeIntro, websiteIMGs }) => {

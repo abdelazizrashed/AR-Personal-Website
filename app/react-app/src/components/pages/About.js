@@ -24,7 +24,7 @@ const About = () => {
               applications. My strongest characteristic is how fast I can learn
               and adapt. In the past 2 years, I've learned and worked with a lot
               of technologies. Today, I can take on any project no matter what
-              scale it is, and I will finish in a remarkably small time.
+              scale it is, and I will finish it in a remarkably short time.
             </p>
           </div>
         </Col>

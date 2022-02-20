@@ -1,10 +1,16 @@
 import { Card, Button } from "react-bootstrap";
 
-const ProjectCard = ({ project}) => {
+const ProjectCard = ({ project }) => {
   return (
     <Card className="project-card">
       <div className="project-img">
-        <Card.Img variant="top" src={project.img.src} alt={project.img.alt} caption={project.img.caption}/>
+        <Card.Img
+          variant="top"
+          src={project.img.src}
+          alt={project.img.alt}
+          caption={project.img.caption}
+          style={{ height: "100%", objectFit: "contain" }}
+        />
       </div>
       <Card.Body>
         <Card.Title className="project-title">{project.name}</Card.Title>

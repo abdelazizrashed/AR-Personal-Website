@@ -111,11 +111,11 @@ const Projects = () => {
 
   return (
     <div>
-      <ProjectsFilterBar
+      {/* <ProjectsFilterBar
         filterOptions={filterOptions}
         setFilterOptions={setFilterOptions}
         onFilterSubmit={onFilterSubmit}
-      />
+      /> */}
 
       <Loading isLoading={isLoading} />
 

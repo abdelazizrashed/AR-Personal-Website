@@ -1,8 +1,7 @@
 import { Row, Col, Carousel, Button, Image } from "react-bootstrap";
-import "../../styles/Project.css";
-import psPC from "../../img/ps-pc.png";
 import { useState, useEffect } from "react";
 import Loading from "../components/Loading";
+import "../../styles/Project.css";
 
 const Project = ({ name }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -46,6 +45,10 @@ const Project = ({ name }) => {
                           className="d-block w-100"
                           src={img.src}
                           alt={img.alt}
+                          style={{
+                            height: "500px",
+                            objectFit: "contain"
+                          }}
                         />
                         <Carousel.Caption>
                           <h3>{img.caption}</h3>
